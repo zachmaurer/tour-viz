@@ -1,15 +1,40 @@
 #!/usr/bin/python3
 
 import sys
+import time
+
 import requests
 from pymongo import MongoClient
 
+from key import API_KEY
 
+
+#Rate limiting from http://blog.gregburek.com/2011/12/05/Rate-limiting-with-decorators/
+def RateLimited(maxPerSecond):
+    minInterval = 1.0 / float(maxPerSecond)
+    def decorate(func):
+        lastTimeCalled = [0.0]
+        def rateLimitedFunction(*args,**kargs):
+            elapsed = time.clock() - lastTimeCalled[0]
+            leftToWait = minInterval - elapsed
+            if leftToWait>0:
+                time.sleep(leftToWait)
+            ret = func(*args,**kargs)
+            lastTimeCalled[0] = time.clock()
+            return ret
+        return rateLimitedFunction
+    return decorate
+
+@RateLimited(0.1)  # 1 per 10 seconds
+def requestArtist(artist_name):
+    print(num)
 
 
 
 def getArtistIDs(artists):
-  ids = list()
+  for a in artists:
+    PrintNumber(a)
+
 
 
 
@@ -32,10 +57,10 @@ def checkArgs():
 def main():
   checkArgs()
   client = MongoClient()
-  artistsDB = client.artists
-  eventsDB = client.events
-  artists = readArtistsFromFile()
-  artist_ids = getArtistIDs(artists)
+  db = client.da_flow
+  events = db.events
+  artists = db.artists
+  artist_ids = getArtistIDs(readArtistsFromFile())
 
 
 
