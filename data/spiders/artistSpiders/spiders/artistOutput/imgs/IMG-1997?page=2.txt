@@ -1,0 +1,17 @@
+http://www.billboard.com/files/styles/width_140/public/artists/u/1008180.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/w/1005180.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/f/863780.jpg
+/sites/all/themes/bb/images/default/no-artist.png
+http://www.billboard.com/files/styles/width_140/public/artists/m/1791690.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/t/1822990.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/m/660480.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/b/453020.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/m/1148660.jpg
+/sites/all/themes/bb/images/default/no-artist.png
+http://www.billboard.com/files/styles/width_140/public/artists/b/923260.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/u/530630.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/s/972180.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/m/1817410.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/d/2176280.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/s/637590.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/w/2272900.jpg

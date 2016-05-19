@@ -1,0 +1,85 @@
+1) ARTIST SEARCH ENDPOINT
+
+ Returns JSON in the following form
+ {'resultsPage': 
+       {'page': 1,
+        'perPage': 50,
+        'results': {
+         'artist': 
+         	[
+         		{'displayName': 'Bruce Springsteen',
+         		'id': 227030,
+        		'identifier': [{'eventsHref': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f/calendar.json',
+	             'href': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f.json',
+	             'mbid': '70248960-cb53-4ea4-943a-edb18f7d336f',
+	             'setlistsHref': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f/setlists.json'}],
+	             'onTourUntil': '2016-09-14',
+	             'uri': 'http://www.songkick.com/artists/227030-bruce-springsteen?utm_source=40602&utm_medium=partner'},
+	             ...
+             ],
+         'status': 'ok',
+         'totalEntries': 10}}    
+
+2) GIGOGRAPHY SEARCH ENDPOINT
+
+{'resultsPage': 
+	{'page': 1,
+	'perPage': 50,
+	'results': 
+		{'event': [{'ageRestriction': None,
+	    'displayName': 'Earth and Bruce '
+	                   'Springsteen at Off '
+	                   'Broad Street Coffee '
+	                   'House (August 16, '
+	                   '1968)',
+	    'id': 12695148,
+	    'location': 
+	    	{'city': 'Red Bank, NJ, US',
+             'lat': 40.3475,
+             'lng': -74.0671},
+	    'performance': [{'artist': {'displayName': 'Earth',
+	                                'id': 542102,
+	                                'identifier': [{'href': 'http://api.songkick.com/api/3.0/artists/mbid:946a3be7-bd99-47ac-8414-515c85811f40.json',
+	                                                'mbid': '946a3be7-bd99-47ac-8414-515c85811f40'},
+	                                               {'href': 'http://api.songkick.com/api/3.0/artists/mbid:e7220fad-efdc-46af-a95b-338b46a901c9.json',
+	                                                'mbid': 'e7220fad-efdc-46af-a95b-338b46a901c9'},
+	                                               {'href': 'http://api.songkick.com/api/3.0/artists/mbid:0f77d4e2-e716-4315-a1c0-e95ee9fd724e.json',
+	                                                'mbid': '0f77d4e2-e716-4315-a1c0-e95ee9fd724e'},
+	                                               {'href': 'http://api.songkick.com/api/3.0/artists/mbid:60dd41cf-8f9d-46d8-bc19-dc7e5acb24c8.json',
+	                                                'mbid': '60dd41cf-8f9d-46d8-bc19-dc7e5acb24c8'}],
+	                                'uri': 'http://www.songkick.com/artists/542102-earth?utm_source=40602&utm_medium=partner'},
+	                     'billing': 'headline',
+	                     'billingIndex': 1,
+	                     'displayName': 'Earth',
+	                     'id': 24772768},
+	                    {'artist': {'displayName': 'Bruce '
+	                                               'Springsteen',
+	                                'id': 227030,
+	                                'identifier': [{'href': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f.json',
+	                                                'mbid': '70248960-cb53-4ea4-943a-edb18f7d336f'}],
+	                                'uri': 'http://www.songkick.com/artists/227030-bruce-springsteen?utm_source=40602&utm_medium=partner'},
+	                     'billing': 'headline',
+	                     'billingIndex': 2,
+	                     'displayName': 'Bruce '
+	                                    'Springsteen',
+	                     'id': 24772773}],
+	    'popularity': 0.292458,
+	    'start': {'date': '1968-08-16',
+	              'datetime': None,
+	              'time': None},
+	    'status': 'ok',
+	    'type': 'Concert',
+	    'uri': 'http://www.songkick.com/concerts/12695148-earth-at-off-broad-street-coffee-house?utm_source=40602&utm_medium=partner',
+	    'venue': {'displayName': 'Off Broad '
+	                             'Street '
+	                             'Coffee House',
+	              'id': 1852768,
+	              'lat': None,
+	              'lng': None,
+	              'metroArea': {'country': {'displayName': 'US'},
+	                            'displayName': 'New '
+	                                           'York',
+	                            'id': 7644,
+	                            'state': {'displayName': 'NY'},
+	                            'uri': 'http://www.songkick.com/metro_areas/7644-us-new-york?utm_source=40602&utm_medium=partner'},
+	              'uri': 'http://www.songkick.com/venues/1852 
