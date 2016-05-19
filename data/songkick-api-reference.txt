@@ -5,16 +5,18 @@
        {'page': 1,
         'perPage': 50,
         'results': {
-         'artist': [{'displayName': 'Bruce Springsteen',
-         'id': 227030,
-        'identifier': [{'eventsHref': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f/calendar.json',
-                         'href': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f.json',
-                         'mbid': '70248960-cb53-4ea4-943a-edb18f7d336f',
-                         'setlistsHref': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f/setlists.json'}],
-                         'onTourUntil': '2016-09-14',
-                         'uri': 'http://www.songkick.com/artists/227030-bruce-springsteen?utm_source=40602&utm_medium=partner'},
-                         ...
-                       ],
+         'artist': 
+         	[
+         		{'displayName': 'Bruce Springsteen',
+         		'id': 227030,
+        		'identifier': [{'eventsHref': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f/calendar.json',
+	             'href': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f.json',
+	             'mbid': '70248960-cb53-4ea4-943a-edb18f7d336f',
+	             'setlistsHref': 'http://api.songkick.com/api/3.0/artists/mbid:70248960-cb53-4ea4-943a-edb18f7d336f/setlists.json'}],
+	             'onTourUntil': '2016-09-14',
+	             'uri': 'http://www.songkick.com/artists/227030-bruce-springsteen?utm_source=40602&utm_medium=partner'},
+	             ...
+             ],
          'status': 'ok',
          'totalEntries': 10}}    
 
