@@ -1,0 +1,16 @@
+/sites/all/themes/bb/images/default/no-artist.png
+http://www.billboard.com/files/styles/width_140/public/artists/f/460180.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/f/455910.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/m/841330.jpg
+/sites/all/themes/bb/images/default/no-artist.png
+/sites/all/themes/bb/images/default/no-artist.png
+/sites/all/themes/bb/images/default/no-artist.png
+/sites/all/themes/bb/images/default/no-artist.png
+/sites/all/themes/bb/images/default/no-artist.png
+/sites/all/themes/bb/images/default/no-artist.png
+http://www.billboard.com/files/styles/width_140/public/artists/n/437300.jpg
+http://www.billboard.com/files/styles/width_140/public/artists/b/482160.jpg
+/sites/all/themes/bb/images/default/no-artist.png
+http://www.billboard.com/files/styles/width_140/public/artists/r/668910.jpg
+/sites/all/themes/bb/images/default/no-artist.png
+http://www.billboard.com/files/styles/width_140/public/artists/t/500630.jpg
