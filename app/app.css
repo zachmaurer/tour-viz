@@ -28,3 +28,24 @@
   content: "";
   padding: 0;
 }
+
+
+path.state-boundary {
+    fill: transparent;
+    stroke: gainsboro;
+  }
+
+path.us-boundary {
+    stroke: black;
+    fill: transparent;
+}
+
+.venue {
+  fill: #B0171F;
+  r: 4;
+}
+
+.route {
+    fill: transparent;
+    stroke: goldenrod;
+}

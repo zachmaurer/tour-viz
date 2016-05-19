@@ -1,3 +1,14 @@
+# TODO
+
+- get map
+- plot tours
+- draw line between tours
+-- figure out a way to show direction/progress
+- hover over tour for specific node info 
+- clean up components and unused directives 
+- decide if I want different modules for every controller 
+
+
 
 # angular-seed — the seed for AngularJS apps
 
