@@ -2,13 +2,15 @@
 
 import sys
 import time
+import datetime
 import json
+import logging
 from pprint import pprint 
 import requests
 from pymongo import MongoClient
+import pymongo
 from key import API_KEY
 from ratelimit import RateLimited
-#from awesome_print import ap
 
 ARTIST_SEARCH_URL = "http://api.songkick.com/api/3.0/search/artists.json"
 GIGOGRAPHY_SEARCH_URL = "http://api.songkick.com/api/3.0/artists/{artist_id}/gigography.json?"
@@ -16,38 +18,57 @@ REQUESTS = 1.0
 SECONDS = 10.0
 RATE = REQUESTS/SECONDS
 
+DEBUG = False
+LOGGER = logging.getLogger(__name__)
+
 #Function: saveArtist
 # Saves a Songkick API artist document as is
 def saveArtist(db, data):
   data["_id"] = data["id"]
   artists = db.artists
-  print("Saving artist with id:", data["id"])
-  artists.insert_one(data)
+  try:
+    LOGGER.info("Attempting to save artist with id: %s", data["id"])
+    if not DEBUG:
+      artists.insert_one(data)
+      LOGGER.info("Successfully saved artist with id: %s", data["id"])
+    else:
+      LOGGER.info("DEBUG: Bypassed saving artist with id: %s", data["id"])
+  except pymongo.errors.DuplicateKeyError as e:
+    LOGGER.error("DuplicateKeyError when saving aritst with id: %s", data["id"])
+
+  
 
 #Function: saveEvent
 # Saves a Songkick API event document as is
 def saveEvent(db, data):
   data["_id"] = data["id"]
   events = db.events
-  print("Saving event with id:", data["id"])
-  events.insert_one(data)
+  try:
+    LOGGER.info("Attempting to save event with id: %s", data["id"])
+    if not DEBUG:
+      events.insert_one(data)
+      LOGGER.info("Successfully saved event with id: %s", data["id"])
+    else:
+      LOGGER.info("DEBUG: Bypassed saving event with id: %s", data["id"])
+  except pymongo.errors.DuplicateKeyError as e:
+    LOGGER.error("DuplicateKeyError when saving event with id: %s", data["id"])
+    
 
 #Function: requestArtist 
 # Performs an artist search to return id and related fields.
 # Returns false if empty search result
 @RateLimited(RATE)
 def requestArtist(name):
-    print("Requesting Artist for:", name)
+    LOGGER.info("Requesting Artist for: %s", name)
     payload = {"apikey": API_KEY, "query": name}
     r = requests.get(ARTIST_SEARCH_URL, params=payload)
     j = r.json()
-    # status = j['resultsPage']['status']
-    # if status is not 'ok':
-    #   print("Returned not ok:", status, '\n',j)
-    #   return False
     if j['resultsPage']['results']:
+      LOGGER.info("Successfully received Artist data for: %s", name)
       return j['resultsPage']['results']['artist'][0]
     else:
+      LOGGER.error("Did not successfully receive artist data for: %s", name)
+      LOGGER.error("JSON dump: %s", j)
       return False
 
 #Function: requestArtist 
@@ -55,18 +76,17 @@ def requestArtist(name):
 # Returns false if reached last page
 @RateLimited(RATE)
 def requestGigography(id, page):
-    print("Requesting Gigography for:", id, "with Page:", page)
+    LOGGER.info("Requesting Gigography for: %s with Page: %s", id, page)
     payload = {"apikey": API_KEY, "page": page}
     target = GIGOGRAPHY_SEARCH_URL.format(artist_id=id)
     r = requests.get(target, params=payload)
     j = r.json()
-    # status = j['resultsPage']['status']
-    # if status is not "ok":
-    #   print("Returned not ok:", status, '\n',j)
-    #   return False
     if j['resultsPage']['results']:
+      LOGGER.info("Successfully received Gigography for: %s with Page: %s", id, page)
       return j['resultsPage']['results']['event']
     else:
+      LOGGER.error("Did not successfully receive Gigography data for: %s page %s", id, page)
+      LOGGER.error("JSON dump: %s", j)
       return False
 
 #Function: getAllArtists
@@ -75,8 +95,10 @@ def getAllArtists(db, artists):
   ids = list()
   for x in artists:
     data = requestArtist(x)
-    ids.append(data['id'])
-    saveArtist(db, data)
+    if data:
+      ids.append(data['id'])
+      saveArtist(db, data)
+  LOGGER.info("Finished getting all artist profiles from Songkick Search API.")
   return ids
 
 #Function: getAllGigographies
@@ -93,6 +115,7 @@ def getAllGigographies(db, artist_ids):
         saveEvent(db, e)
         event_ids.append(e['id'])
       page += 1
+  LOGGER.info("Finished getting all gigographies from Songkick Events API.")
   return event_ids
 
 #Function: readArtistsFromFile
@@ -113,9 +136,26 @@ def checkArgs():
   if len(sys.argv) < 2:
     print("Error: missing artsts.txt")
     sys.exit()
+  if len(sys.argv) is 3:
+    global DEBUG 
+    DEBUG = True
+    print("DEBUG MODE ENABLED")
+
+def initLogger():
+  global LOGGER
+  LOGGER.setLevel(logging.DEBUG)
+  stamp = str(int(time.time()))
+  filename = 'log/SONGKICK_API_{}.log'
+  handler = logging.FileHandler(filename.format(stamp))
+  handler.setLevel(logging.DEBUG)
+  formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+  handler.setFormatter(formatter)
+  LOGGER.addHandler(handler)
+
 
 def main():
   checkArgs()
+  initLogger()
   client = MongoClient()
   db = client.concert_viz
   names = readArtistsFromFile()
