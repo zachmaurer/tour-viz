@@ -98,7 +98,7 @@ def getAllArtists(db, artists):
     if data:
       ids.append(data['id'])
       saveArtist(db, data)
-  LOGGER.info("Finished getting all artist names from Songkick Search API.")
+  LOGGER.info("Finished getting all artist profiles from Songkick Search API.")
   return ids
 
 #Function: getAllGigographies
