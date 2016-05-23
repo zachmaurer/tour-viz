@@ -1,4 +1,6 @@
-<p>This is the partial for view 1.</p>
+
+<h2>{{current_venue || 'hover over nodes'}}</h2>
 <div class="map-container">
-	<div ng-if='routes && map' d3-map events='events' routes='routes' map='map' on-click="showDetailPanel(item)"></div>
+    <div ng-if='routes && map' d3-map events='decade_events' routes='routes' map='map' on-mouse-over="showDetailPanel(item)"></div>
 </div>
+<uib-pagination total-items="totalItems" ng-model="item" ng-change="setNewDecade()" page-label='getDecadeName($page)'></uib-pagination>

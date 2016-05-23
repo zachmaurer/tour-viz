@@ -49,3 +49,5 @@ path.us-boundary {
     fill: transparent;
     stroke: goldenrod;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

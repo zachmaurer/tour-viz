@@ -7,7 +7,7 @@ angular.module('myApp.directives', ['d3'])
                 routes: '=', // bi-directional data-binding
                 map: '=', // bi-directional data-binding
 
-                onClick: '&', // parent execution binding
+                onMouseOver: '&', // parent execution binding
                 // label: "@"
             },
             link: function(scope, element, attrs) {
@@ -45,29 +45,34 @@ angular.module('myApp.directives', ['d3'])
                     // data can be passed by the controller
                     // useful for user input 
                     var renderNodes = function(data, projection, path) {
+                        // exit all points
+                        var nodes = svg.selectAll("circle")
+                            .data(data);
 
-                        svg.selectAll("circle")
-                            .data(data)
-                            .enter()
-                            .append("circle")
+                        nodes.enter().append("circle")
                             .attr("cx", function(d, i) {
-                                console.log(projection([d.venue.lng, d.venue.lat]));
-                                return projection([d.venue.lng, d.location.lat])[0];
+                                return projection([d.venue.lng, d.venue.lat])[0];
                             })
                             .attr("cy", function(d, i) {
-                                return projection([d.venue.lng, d.location.lat])[1];
+                                return projection([d.venue.lng, d.venue.lat])[1];
                             })
-                            .attr("class", 'venue');
+                            .attr("class", 'venue')
+                            .on('mouseover',  function(d, i){return scope.onMouseOver({item: d});})
+
+                        nodes.exit().remove();
                     };
 
 
                     var renderRoutes = function(data, projection, path) {
-                        routes.selectAll('path')
-                            .data(data)
-                            .enter()
+                        var paths = routes.selectAll('path')
+                            .data(data);
+
+                        paths.enter()
                             .append('path')
                             .attr("d", path)
                             .attr('class', 'route');
+
+                        paths.exit().remove();
                     };
 
 
@@ -104,7 +109,7 @@ angular.module('myApp.directives', ['d3'])
                     });
 
                     // watch for data changes and re-render
-                    scope.$watch('data', function(newVals, oldVals) {
+                    scope.$watch('events', function(newVals, oldVals) {
                         scope.render(newVals);
                         return;
                     }, true);

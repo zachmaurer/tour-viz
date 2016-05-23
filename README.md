@@ -1,10 +1,15 @@
 # TODO
 
-- get map
-- plot tours
-- draw line between tours
--- figure out a way to show direction/progress
-- hover over tour for specific node info 
+Top Priority:
+- how to heatmap here? 
+- heatmap = for decade view 
+--- build filter by decade (date of event)
+
+If Possible:
+- hover over tour for specific node info -> possibly show multiple nodes here 
+
+Later: 
+- figure out a way to show direction/progress
 - clean up components and unused directives 
 - decide if I want different modules for every controller 
 
