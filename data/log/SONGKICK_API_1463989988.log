@@ -1,0 +1,77 @@
+2016-05-23 00:53:08,069 - __main__ - INFO - Retrieved artist Doja Cat with id 8030683 from database.
+2016-05-23 00:53:08,069 - __main__ - INFO - Retrieved artist Lolawolf with id 7436004 from database.
+2016-05-23 00:53:08,069 - __main__ - INFO - Finished getting all artist profiles from Database.
+2016-05-23 00:53:17,902 - __main__ - INFO - Requesting Gigography for: 8030683 with Page: 1
+2016-05-23 00:53:18,285 - __main__ - INFO - Successfully received Gigography for: 8030683 with Page: 1
+2016-05-23 00:53:18,285 - __main__ - INFO - Attempting to save event with id: 20208573
+2016-05-23 00:53:18,285 - __main__ - INFO - DEBUG: Bypassed saving event with id: 20208573
+2016-05-23 00:53:18,285 - __main__ - INFO - Attempting to save event with id: 19723969
+2016-05-23 00:53:18,285 - __main__ - INFO - DEBUG: Bypassed saving event with id: 19723969
+2016-05-23 00:53:18,285 - __main__ - INFO - Attempting to save event with id: 20783713
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 20783713
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 20543438
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 20543438
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 20461853
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 20461853
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 20988033
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 20988033
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 20423403
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 20423403
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 21173288
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21173288
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 21132718
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21132718
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 20957943
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 20957943
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 21042373
+2016-05-23 00:53:18,286 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21042373
+2016-05-23 00:53:18,286 - __main__ - INFO - Attempting to save event with id: 21535603
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21535603
+2016-05-23 00:53:18,287 - __main__ - INFO - Attempting to save event with id: 21421993
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21421993
+2016-05-23 00:53:18,287 - __main__ - INFO - Attempting to save event with id: 21750828
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21750828
+2016-05-23 00:53:18,287 - __main__ - INFO - Attempting to save event with id: 21764208
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21764208
+2016-05-23 00:53:18,287 - __main__ - INFO - Attempting to save event with id: 21870668
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21870668
+2016-05-23 00:53:18,287 - __main__ - INFO - Attempting to save event with id: 22151168
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22151168
+2016-05-23 00:53:18,287 - __main__ - INFO - Attempting to save event with id: 22151173
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22151173
+2016-05-23 00:53:18,287 - __main__ - INFO - Attempting to save event with id: 21875553
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 21875553
+2016-05-23 00:53:18,287 - __main__ - INFO - Attempting to save event with id: 22026458
+2016-05-23 00:53:18,287 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22026458
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22217633
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22217633
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22441483
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22441483
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22439233
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22439233
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22439253
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22439253
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22491693
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22491693
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22438908
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22438908
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22437003
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22437003
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22381043
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22381043
+2016-05-23 00:53:18,288 - __main__ - INFO - Attempting to save event with id: 22441758
+2016-05-23 00:53:18,288 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22441758
+2016-05-23 00:53:18,289 - __main__ - INFO - Attempting to save event with id: 22436838
+2016-05-23 00:53:18,289 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22436838
+2016-05-23 00:53:18,289 - __main__ - INFO - Attempting to save event with id: 22441768
+2016-05-23 00:53:18,289 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22441768
+2016-05-23 00:53:18,289 - __main__ - INFO - Attempting to save event with id: 22438958
+2016-05-23 00:53:18,289 - __main__ - INFO - DEBUG: Bypassed saving event with id: 22438958
+2016-05-23 00:53:18,289 - __main__ - INFO - Attempting to save event with id: 24750699
+2016-05-23 00:53:18,289 - __main__ - INFO - DEBUG: Bypassed saving event with id: 24750699
+2016-05-23 00:53:18,289 - __main__ - INFO - Attempting to save event with id: 24738309
+2016-05-23 00:53:18,289 - __main__ - INFO - DEBUG: Bypassed saving event with id: 24738309
+2016-05-23 00:53:18,289 - __main__ - INFO - Saved event data for Doja Cat (id: 8030683) with page 1, [1/2 artists]
+2016-05-23 00:53:28,286 - __main__ - INFO - Requesting Gigography for: 8030683 with Page: 2
+2016-05-23 00:53:28,598 - __main__ - ERROR - Did not successfully receive Gigography data for: 8030683 page 2
+2016-05-23 00:53:28,598 - __main__ - ERROR - JSON dump: {'resultsPage': {'totalEntries': 34, 'results': {}, 'perPage': 50, 'status': 'ok', 'page': 2}}
