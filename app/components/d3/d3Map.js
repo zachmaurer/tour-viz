@@ -6,9 +6,9 @@ angular.module('myApp.directives', ['d3'])
                 events: '=', // bi-directional data-binding
                 routes: '=', // bi-directional data-binding
                 map: '=', // bi-directional data-binding
-
-                onMouseOver: '&', // parent execution binding
-                // label: "@"
+                cities: '=',
+                onMouseOver: '&' // parent execution binding
+                    // label: "@"
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
@@ -20,25 +20,31 @@ angular.module('myApp.directives', ['d3'])
                     var svg = d3.select(".map-container").append("svg")
                         .attr("width", width)
                         .attr("height", height);
-                    var routes = svg.append('g').attr('id', 'routes');
 
 
+                    // playing around to make sure nodes get mouseover
+                    var nodes_svg = svg.append('g').attr('id', 'nodes');
+
+                    var map_svg = svg.append('g').attr('id', 'map');
+                    var routes_svg = svg.append('g').attr('id', 'routes');
+
+                    var projection = d3.geo.albers()
+                        .rotate([96, 0])
+                        .center([-.6, 38.7])
+                        .parallels([29.5, 45.5])
+                        .scale(1070)
+                        .translate([width / 2, height / 2])
+                        .precision(.1);
+
+                    var path = d3.geo.path().projection(projection);
+                    
 
                     // custom d3 code
-                    scope.render = function(data) {
-                        var projection = d3.geo.albers()
-                            .rotate([96, 0])
-                            .center([-.6, 38.7])
-                            .parallels([29.5, 45.5])
-                            .scale(1070)
-                            .translate([width / 2, height / 2])
-                            .precision(.1);
-
-                        var path = d3.geo.path().projection(projection);
-
-                        renderMap(scope.map, projection, path);
+                    scope.render = function() {
                         renderNodes(scope.events, projection, path);
+                        // renderCityNodes(scope.cities, projection, path);                        
                         renderRoutes(scope.routes, projection, path);
+
                         // d3.select(self.frameElement).style("height", height + "px");
                     };
 
@@ -46,7 +52,7 @@ angular.module('myApp.directives', ['d3'])
                     // useful for user input 
                     var renderNodes = function(data, projection, path) {
                         // exit all points
-                        var nodes = svg.selectAll("circle")
+                        var nodes = nodes_svg.selectAll("circle")
                             .data(data);
 
                         nodes.enter().append("circle")
@@ -57,14 +63,36 @@ angular.module('myApp.directives', ['d3'])
                                 return projection([d.venue.lng, d.venue.lat])[1];
                             })
                             .attr("class", 'venue')
-                            .on('mouseover',  function(d, i){return scope.onMouseOver({item: d});})
+                            .on('mouseover', function(d, i) {
+                                return scope.onMouseOver({ item: d });
+                            })
+
+                        nodes.exit().remove();
+                    };
+
+                    var renderCityNodes = function(data, projection, path) {
+                        // exit all points
+                        var nodes = nodes_svg.selectAll("circle")
+                            .data(data);
+
+                        nodes.enter().append("circle")
+                            .attr("cx", function(d, i) {
+                                return projection([d.venue.lng, d.venue.lat])[0];
+                            })
+                            .attr("cy", function(d, i) {
+                                return projection([d.venue.lng, d.venue.lat])[1];
+                            })
+                            .attr("class", 'venue')
+                            .on('mouseover', function(d, i) {
+                                return scope.onMouseOver({ item: d });
+                            })
 
                         nodes.exit().remove();
                     };
 
 
                     var renderRoutes = function(data, projection, path) {
-                        var paths = routes.selectAll('path')
+                        var paths = svg.selectAll('path')
                             .data(data);
 
                         paths.enter()
@@ -83,7 +111,10 @@ angular.module('myApp.directives', ['d3'])
                                 return a !== b;
                             }))
                             .attr("d", path)
-                            .attr("class", "state-boundary");
+                            .attr("class", "state-boundary")
+                            .on('mouseover', function() {
+                                console.log('fuckme');
+                            });
 
                         // exterior boundaries
                         svg.append("path")
@@ -91,10 +122,13 @@ angular.module('myApp.directives', ['d3'])
                                 return a === b;
                             }))
                             .attr("d", path)
-                            .attr("class", "us-boundary");
+                            .attr("class", "us-boundary")
+                            .on('mouseover', function() {
+                                console.log('fuckme1');
+                            });
                     };
 
-
+                    renderMap(scope.map, projection, path);
 
                     // Browser onresize event
                     window.onresize = function() {
@@ -105,7 +139,7 @@ angular.module('myApp.directives', ['d3'])
                     scope.$watch(function() {
                         return angular.element($window)[0].innerWidth;
                     }, function() {
-                        scope.render(scope.data);
+                        scope.render();
                     });
 
                     // watch for data changes and re-render
