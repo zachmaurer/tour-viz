@@ -1,0 +1,4 @@
+2016-05-23 00:26:45,445 - __main__ - INFO - Finished getting all artist profiles from Songkick Search API.
+2016-05-23 00:26:55,210 - __main__ - INFO - Requesting Gigography for: ('Doja Cat', 8030683) with Page: 1
+2016-05-23 00:26:56,355 - __main__ - ERROR - Did not successfully receive Gigography data for: ('Doja Cat', 8030683) page 1
+2016-05-23 00:26:56,355 - __main__ - ERROR - JSON dump: {'resultsPage': {'perPage': 50, 'totalEntries': 0, 'status': 'ok', 'page': 1, 'results': {}}}
