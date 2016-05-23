@@ -78,9 +78,12 @@ def getAllArtists(db, artists):
   ids = list()
   for x in artists:
     record = db.artists.find_one({"displayName": x})
-    artist_id = record['id']
-    ids.append((x, artist_id))
-    LOGGER.info("Retrieved artist %s with id %s from database.", x, artist_id)
+    if record is not None:
+      artist_id = record['id']
+      ids.append((x, artist_id))
+      LOGGER.info("Retrieved artist %s with id %s from database.", x, artist_id)
+    else:
+      LOGGER.info("No artist record found for %s with id %s from database.", x, artist_id)
   LOGGER.info("Finished getting all artist profiles from Database.")
   return ids
 
