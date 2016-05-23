@@ -1,0 +1,3 @@
+2016-05-23 00:34:42,800 - __main__ - INFO - Retrieved artist Doja Cat with id 8030683 from database.
+2016-05-23 00:34:42,800 - __main__ - INFO - Retrieved artist Lolawolf with id 7436004 from database.
+2016-05-23 00:34:42,801 - __main__ - INFO - Finished getting all artist profiles from Database.
