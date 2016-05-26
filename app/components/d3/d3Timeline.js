@@ -12,45 +12,45 @@ angular.module('myApp.directives', ['d3'])
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
-                    var timeBegin = "2012-01-01";
+                    var timeBegin = "2013-11-02";
                     var timeEnd = "2014-08-13";
-                    var indices = 6;
+                    var indices = 7;
                     var items = [{"billingIndex": 1, "startDate": "2013-11-02", "id": "Reputante", "isSubject": 0},
                                 {"billingIndex": 2, "startDate": "2013-11-02", "id": "Clementine & the Galaxy", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2013-11-02", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 3, "startDate": "2013-11-02", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 4, "startDate": "2013-11-02", "id": "Jen Turner", "isSubject": 0},
                                 {"billingIndex": 1, "startDate": "2013-11-07", "id": "The Chain Gang of 1974", "isSubject": 0},
                                 {"billingIndex": 2, "startDate": "2013-11-07", "id": "Reputante", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2013-11-07", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 3, "startDate": "2013-11-07", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 1, "startDate": "2013-11-13", "id": "Reputante", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2013-11-13", "id": "Lolawolf", "isSubject": 0},
-                                {"billingIndex": 1, "startDate": "2014-01-30", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 2, "startDate": "2013-11-13", "id": "Lolawolf", "isSubject": 1},
+                                {"billingIndex": 1, "startDate": "2014-01-30", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 2, "startDate": "2014-01-30", "id": "Reputante", "isSubject": 0},
                                 {"billingIndex": 3, "startDate": "2014-01-30", "id": "Conway", "isSubject": 0},
                                 {"billingIndex": 1, "startDate": "2014-02-06", "id": "Wet", "isSubject": 0},
                                 {"billingIndex": 2, "startDate": "2014-02-06", "id": "Noah Breakfast", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2014-02-06", "id": "Lolawolf", "isSubject": 0},
-                                {"billingIndex": 1, "startDate": "2014-02-07", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 3, "startDate": "2014-02-06", "id": "Lolawolf", "isSubject": 1},
+                                {"billingIndex": 1, "startDate": "2014-02-07", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 2, "startDate": "2014-02-07", "id": "Reputante", "isSubject": 0},
-                                {"billingIndex": 1, "startDate": "2014-02-11", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 1, "startDate": "2014-02-11", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 1, "startDate": "2014-02-22", "id": "Lawrence Rothman", "isSubject": 0},
                                 {"billingIndex": 2, "startDate": "2014-02-22", "id": "Mas Ysa", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2014-02-22", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 3, "startDate": "2014-02-22", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 1, "startDate": "2014-03-08", "id": "Baby In Vain", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-03-08", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 2, "startDate": "2014-03-08", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 3, "startDate": "2014-03-08", "id": "Boytoy", "isSubject": 0},
                                 {"billingIndex": 4, "startDate": "2014-03-08", "id": "Threats", "isSubject": 0},
                                 {"billingIndex": 5, "startDate": "2014-03-08", "id": "Organs", "isSubject": 0},
                                 {"billingIndex": 1, "startDate": "2014-04-14", "id": "Mosco Rosco", "isSubject": 0},
                                 {"billingIndex": 2, "startDate": "2014-04-14", "id": "$2 Tap Beers", "isSubject": 0},
                                 {"billingIndex": 3, "startDate": "2014-04-14", "id": "$2 Drink Specials", "isSubject": 0},
-                                {"billingIndex": 4, "startDate": "2014-04-14", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 4, "startDate": "2014-04-14", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 5, "startDate": "2014-04-14", "id": "Y LUV", "isSubject": 0},
                                 {"billingIndex": 6, "startDate": "2014-04-14", "id": "Bones Muhroni", "isSubject": 0},
                                 {"billingIndex": 1, "startDate": "2014-05-10", "id": "Tennis", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-05-10", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 2, "startDate": "2014-05-10", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 1, "startDate": "2014-05-13", "id": "The Bots", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-05-13", "id": "Lolawolf", "isSubject": 0},
+                                {"billingIndex": 2, "startDate": "2014-05-13", "id": "Lolawolf", "isSubject": 1},
                                 {"billingIndex": 3, "startDate": "2014-05-13", "id": "Lewis Lazar", "isSubject": 0},
                                 {"billingIndex": 4, "startDate": "2014-05-13", "id": "Jordan Bratton", "isSubject": 0}];
 
@@ -64,7 +64,7 @@ angular.module('myApp.directives', ['d3'])
                     var timeScale = d3.time.scale()
                             .domain([new Date(timeBegin), new Date(timeEnd)])
                             .range([0, w]);
-                    var x1 = d3.scale.linear()
+                    var brushScale = d3.scale.linear()
                             .range([0, w]);
                     var y1 = d3.scale.linear()
                             .domain([0, indices])
@@ -112,9 +112,9 @@ angular.module('myApp.directives', ['d3'])
                         //     .attr("stroke", "lightgray")
 
                         // main.append("g").selectAll(".laneText")
-                        //     .data(lanes)
+                        //     .data(items)
                         //     .enter().append("text")
-                        //     .text(function(d) {return d;})
+                        //     .text(function(d) {return d.id;})
                         //     .attr("x", -m[1])
                         //     .attr("y", function(d, i) {return y1(i + .5);})
                         //     .attr("dy", ".5ex")
@@ -147,20 +147,20 @@ angular.module('myApp.directives', ['d3'])
                         mini.append("g").selectAll("miniItems")
                             .data(items)
                             .enter().append("rect")
-                            .attr("class", function(d) {return "miniItem" + d.billingIndex;})
+                            .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
                             .attr("x", function(d) {return timeScale(new Date(d.startDate));})
                             .attr("y", function(d) {return miniHeightScale(d.billingIndex + .5) - 5;})
                             .attr("width", function(d) {return 10;})
                             .attr("height", 10);
 
                         //mini labels
-                        mini.append("g").selectAll(".miniLabels")
-                            .data(items)
-                            .enter().append("text")
-                            .text(function(d) {return d.id;})
-                            .attr("x", function(d) {return timeScale(new Date(d.startDate));})
-                            .attr("y", function(d) {return miniHeightScale(d.billingIndex + .5);})
-                            .attr("dy", ".5ex");
+                        // mini.append("g").selectAll(".miniLabels")
+                        //     .data(items)
+                        //     .enter().append("text")
+                        //     .text(function(d) {return d.id;})
+                        //     .attr("x", function(d) {return timeScale(new Date(d.startDate));})
+                        //     .attr("y", function(d) {return miniHeightScale(d.billingIndex + .5);})
+                        //     .attr("dy", ".5ex");
 
                         //brush
                         var brush = d3.svg.brush()
@@ -180,24 +180,24 @@ angular.module('myApp.directives', ['d3'])
                             var rects, labels,
                                 minExtent = brush.extent()[0],
                                 maxExtent = brush.extent()[1],
-                                visItems = items.filter(function(d) {return d.start < maxExtent && d.end > minExtent;});
+                                visItems = items.filter(function(d) {return new Date(d.startDate) < maxExtent && new Date(d.startDate) > minExtent;});
 
                             mini.select(".brush")
                                 .call(brush.extent([minExtent, maxExtent]));
 
-                            x1.domain([minExtent, maxExtent]);
+                            brushScale.domain([minExtent, maxExtent]);
 
                             //update main item rects
                             rects = itemRects.selectAll("rect")
                                     .data(visItems, function(d) { return d.id; })
-                                .attr("x", function(d) {return x1(d.start);})
-                                .attr("width", function(d) {return x1(d.end) - x1(d.start);});
+                                .attr("x", function(d) {return brushScale(new Date(d.startDate));})
+                                .attr("width", function(d) {return 50;});
                             
                             rects.enter().append("rect")
-                                .attr("class", function(d) {return "miniItem" + d.billingIndex;})
-                                .attr("x", function(d) {return x1(d.start);})
+                                .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
+                                .attr("x", function(d) {return brushScale(new Date(d.startDate));})
                                 .attr("y", function(d) {return y1(d.billingIndex) + 10;})
-                                .attr("width", function(d) {return x1(d.end) - x1(d.start);})
+                                .attr("width", function(d) {return 50;})
                                 .attr("height", function(d) {return .8 * y1(1);});
 
                             rects.exit().remove();
@@ -205,11 +205,11 @@ angular.module('myApp.directives', ['d3'])
                             //update the item labels
                             labels = itemRects.selectAll("text")
                                 .data(visItems, function (d) { return d.id; })
-                                .attr("x", function(d) {return x1(Math.max(d.start, minExtent) + 2);});
+                                .attr("x", function(d) { return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))+5;});
 
                             labels.enter().append("text")
                                 .text(function(d) {return d.id;})
-                                .attr("x", function(d) {return x1(Math.max(d.start, minExtent));})
+                                .attr("x", function(d) {return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))+5;})
                                 .attr("y", function(d) {return y1(d.billingIndex + .5);})
                                 .attr("text-anchor", "start");
 

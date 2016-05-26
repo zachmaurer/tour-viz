@@ -4,4 +4,7 @@ angular.module('myApp.factories', [])
     })
     .factory('mapInfo', function($http) {
         return $http.get('us-states.json');
+    })
+    .factory('timelineInfo', function($http) {
+        return $http.get('client_data/lolawolf.json');
     });
