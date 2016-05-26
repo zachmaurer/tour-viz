@@ -4,59 +4,56 @@ angular.module('myApp.directives', ['d3'])
             restrict: 'EA',
             scope: {
                 events: '=', // bi-directional data-binding
-                routes: '=', // bi-directional data-binding
-                map: '=', // bi-directional data-binding
-
-                onMouseOver: '&', // parent execution binding
                 // label: "@"
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
                     var timeBegin = "2013-11-02";
-                    var timeEnd = "2014-08-13";
-                    var indices = 7;
-                    var items = [{"billingIndex": 1, "startDate": "2013-11-02", "id": "Reputante", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2013-11-02", "id": "Clementine & the Galaxy", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2013-11-02", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 4, "startDate": "2013-11-02", "id": "Jen Turner", "isSubject": 0},
-                                {"billingIndex": 1, "startDate": "2013-11-07", "id": "The Chain Gang of 1974", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2013-11-07", "id": "Reputante", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2013-11-07", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 1, "startDate": "2013-11-13", "id": "Reputante", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2013-11-13", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 1, "startDate": "2014-01-30", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 2, "startDate": "2014-01-30", "id": "Reputante", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2014-01-30", "id": "Conway", "isSubject": 0},
-                                {"billingIndex": 1, "startDate": "2014-02-06", "id": "Wet", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-02-06", "id": "Noah Breakfast", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2014-02-06", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 1, "startDate": "2014-02-07", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 2, "startDate": "2014-02-07", "id": "Reputante", "isSubject": 0},
-                                {"billingIndex": 1, "startDate": "2014-02-11", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 1, "startDate": "2014-02-22", "id": "Lawrence Rothman", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-02-22", "id": "Mas Ysa", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2014-02-22", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 1, "startDate": "2014-03-08", "id": "Baby In Vain", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-03-08", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 3, "startDate": "2014-03-08", "id": "Boytoy", "isSubject": 0},
-                                {"billingIndex": 4, "startDate": "2014-03-08", "id": "Threats", "isSubject": 0},
-                                {"billingIndex": 5, "startDate": "2014-03-08", "id": "Organs", "isSubject": 0},
-                                {"billingIndex": 1, "startDate": "2014-04-14", "id": "Mosco Rosco", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-04-14", "id": "$2 Tap Beers", "isSubject": 0},
-                                {"billingIndex": 3, "startDate": "2014-04-14", "id": "$2 Drink Specials", "isSubject": 0},
-                                {"billingIndex": 4, "startDate": "2014-04-14", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 5, "startDate": "2014-04-14", "id": "Y LUV", "isSubject": 0},
-                                {"billingIndex": 6, "startDate": "2014-04-14", "id": "Bones Muhroni", "isSubject": 0},
-                                {"billingIndex": 1, "startDate": "2014-05-10", "id": "Tennis", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-05-10", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 1, "startDate": "2014-05-13", "id": "The Bots", "isSubject": 0},
-                                {"billingIndex": 2, "startDate": "2014-05-13", "id": "Lolawolf", "isSubject": 1},
-                                {"billingIndex": 3, "startDate": "2014-05-13", "id": "Lewis Lazar", "isSubject": 0},
-                                {"billingIndex": 4, "startDate": "2014-05-13", "id": "Jordan Bratton", "isSubject": 0}];
+                    var timeEnd = "2016-04-01";
+                    var indices = 40;
+                    var items = scope.events;
+                    // var items = [{"billingIndex": 1, "startDate": "2013-11-02", "id": "Reputante", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2013-11-02", "id": "Clementine & the Galaxy", "isSubject": 0},
+                    //             {"billingIndex": 3, "startDate": "2013-11-02", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 4, "startDate": "2013-11-02", "id": "Jen Turner", "isSubject": 0},
+                    //             {"billingIndex": 1, "startDate": "2013-11-07", "id": "The Chain Gang of 1974", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2013-11-07", "id": "Reputante", "isSubject": 0},
+                    //             {"billingIndex": 3, "startDate": "2013-11-07", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 1, "startDate": "2013-11-13", "id": "Reputante", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2013-11-13", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 1, "startDate": "2014-01-30", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 2, "startDate": "2014-01-30", "id": "Reputante", "isSubject": 0},
+                    //             {"billingIndex": 3, "startDate": "2014-01-30", "id": "Conway", "isSubject": 0},
+                    //             {"billingIndex": 1, "startDate": "2014-02-06", "id": "Wet", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2014-02-06", "id": "Noah Breakfast", "isSubject": 0},
+                    //             {"billingIndex": 3, "startDate": "2014-02-06", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 1, "startDate": "2014-02-07", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 2, "startDate": "2014-02-07", "id": "Reputante", "isSubject": 0},
+                    //             {"billingIndex": 1, "startDate": "2014-02-11", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 1, "startDate": "2014-02-22", "id": "Lawrence Rothman", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2014-02-22", "id": "Mas Ysa", "isSubject": 0},
+                    //             {"billingIndex": 3, "startDate": "2014-02-22", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 1, "startDate": "2014-03-08", "id": "Baby In Vain", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2014-03-08", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 3, "startDate": "2014-03-08", "id": "Boytoy", "isSubject": 0},
+                    //             {"billingIndex": 4, "startDate": "2014-03-08", "id": "Threats", "isSubject": 0},
+                    //             {"billingIndex": 5, "startDate": "2014-03-08", "id": "Organs", "isSubject": 0},
+                    //             {"billingIndex": 1, "startDate": "2014-04-14", "id": "Mosco Rosco", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2014-04-14", "id": "$2 Tap Beers", "isSubject": 0},
+                    //             {"billingIndex": 3, "startDate": "2014-04-14", "id": "$2 Drink Specials", "isSubject": 0},
+                    //             {"billingIndex": 4, "startDate": "2014-04-14", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 5, "startDate": "2014-04-14", "id": "Y LUV", "isSubject": 0},
+                    //             {"billingIndex": 6, "startDate": "2014-04-14", "id": "Bones Muhroni", "isSubject": 0},
+                    //             {"billingIndex": 1, "startDate": "2014-05-10", "id": "Tennis", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2014-05-10", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 1, "startDate": "2014-05-13", "id": "The Bots", "isSubject": 0},
+                    //             {"billingIndex": 2, "startDate": "2014-05-13", "id": "Lolawolf", "isSubject": 1},
+                    //             {"billingIndex": 3, "startDate": "2014-05-13", "id": "Lewis Lazar", "isSubject": 0},
+                    //             {"billingIndex": 4, "startDate": "2014-05-13", "id": "Jordan Bratton", "isSubject": 0}];
 
                     var m = [20, 15, 15, 120]; //top right bottom left
                     var w = 1200 - m[1] - m[3];
-                    var h = 500 - m[0] - m[2];
+                    var h = 900 - m[0] - m[2];
                     var miniHeight = indices * 12;
                     var mainHeight = h - miniHeight - 50;
 
@@ -100,7 +97,7 @@ angular.module('myApp.directives', ['d3'])
                     var itemRects = main.append("g")
                                             .attr("clip-path", "url(#clip)");
 
-                    scope.render = function() {
+                    scope.render = function(data) {
                         //main lanes and texts
                         // main.append("g").selectAll(".laneLines")
                         //     .data(items)
@@ -145,7 +142,7 @@ angular.module('myApp.directives', ['d3'])
                         
                         //mini item rects
                         mini.append("g").selectAll("miniItems")
-                            .data(items)
+                            .data(data)
                             .enter().append("rect")
                             .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
                             .attr("x", function(d) {return timeScale(new Date(d.startDate));})
@@ -180,7 +177,7 @@ angular.module('myApp.directives', ['d3'])
                             var rects, labels,
                                 minExtent = brush.extent()[0],
                                 maxExtent = brush.extent()[1],
-                                visItems = items.filter(function(d) {return new Date(d.startDate) < maxExtent && new Date(d.startDate) > minExtent;});
+                                visItems = data.filter(function(d) {return new Date(d.startDate) < maxExtent && new Date(d.startDate) > minExtent;});
 
                             mini.select(".brush")
                                 .call(brush.extent([minExtent, maxExtent]));
@@ -218,22 +215,23 @@ angular.module('myApp.directives', ['d3'])
                     };
 
                     // Browser onresize event
-                    window.onresize = function() {
-                        scope.$apply();
-                    };
+                    // window.onresize = function() {
+                    //     scope.$apply();
+                    // };
 
-                    // Watch for resize event
+                    // // Watch for resize event
                     scope.$watch(function() {
                         return angular.element($window)[0].innerWidth;
                     }, function() {
-                        scope.render(null);
+                        //console.log(scope.data[0]);
+                        scope.render(scope.events);
                     });
 
                     // watch for data changes and re-render
-                    // scope.$watch('events', function(newVals, oldVals) {
-                    //     scope.render(newVals);
-                    //     return;
-                    // }, true);
+                    scope.$watch('events', function(newVals, oldVals) {
+                        scope.render(newVals);
+                        return;
+                    }, true);
 
                 });
             }

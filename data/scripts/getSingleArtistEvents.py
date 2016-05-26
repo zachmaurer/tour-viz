@@ -16,10 +16,10 @@ def queryArtist(artist_name):
     for e in events:     
       for p in e['performance']:
         r = dict()
-        r['id'] = p['displayName']
+        r['id'] = p['displayName'].rstrip('\n')
         r['billingIndex'] = p['billingIndex']
         r['startDate'] = e['start']['date']
-        if r['id'] is artist_name:
+        if r['id'] == artist_name.rstrip():
           r['isSubject'] = 1
         else:
           r['isSubject'] = 0
