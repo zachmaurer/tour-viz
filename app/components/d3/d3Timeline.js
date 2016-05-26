@@ -205,12 +205,12 @@ angular.module('myApp.directives', ['d3'])
                             //update the item labels
                             labels = itemRects.selectAll("text")
                                 .data(visItems, function (d) { return d.id; })
-                                .attr("x", function(d) { return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))+5;});
+                                .attr("x", function(d) { return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;});
 
                             labels.enter().append("text")
                                 .text(function(d) {return d.id;})
-                                .attr("x", function(d) {return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))+5;})
-                                .attr("y", function(d) {return y1(d.billingIndex + .5);})
+                                .attr("x", function(d) {return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;})
+                                .attr("y", function(d) {return y1(d.billingIndex +0.1);})
                                 .attr("text-anchor", "start");
 
                             labels.exit().remove();
