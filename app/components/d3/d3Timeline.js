@@ -12,26 +12,9 @@ angular.module('myApp.directives', ['d3'])
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
-                    var timeBegin = 0;
-                    var timeEnd = 2000;
-                    //var lanes = ["Chinese","Japanese","Korean","asdf", "","",""];
+                    var timeBegin = "2012-01-01";
+                    var timeEnd = "2014-08-13";
                     var indices = 6;
-                    // var items = [{"lane": 1, "id": "Bruce", "start": 5, "end": 6},
-                    //             {"lane": 2, "id": "Bruce", "start": 265, "end": 420},
-                    //             {"lane": 3, "id": "Sui", "start": 580, "end": 615},
-                    //             {"lane": 3, "id": "Tang", "start": 620, "end": 900},
-                    //             {"lane": 3, "id": "Song", "start": 960, "end": 1265},
-                    //             {"lane": 3, "id": "Yuan", "start": 1270, "end": 1365},
-                    //             {"lane": 4, "id": "Ming", "start": 1370, "end": 1640},
-                    //             {"lane": 5, "id": "Qing", "start": 1645, "end": 1910},             
-                    //             {"lane": 6, "id": "Heisei", "start": timeBegin, "end": timeEnd},
-                    //             {"lane": 6, "id": "Three Kingdoms", "start": 10, "end": 670},
-                    //             {"lane": 6, "id": "North and South States", "start": 690, "end": 900},
-                    //             {"lane": 2, "id": "Goryeo", "start": 920, "end": 1380},
-                    //             {"lane": 2, "id": "Joseon", "start": 1390, "end": 1890},
-                    //             {"lane": 2, "id": "Korean Empire", "start": 1900, "end": 1945},
-                    //             {"lane": 4, "id": "Korean Empire", "start": 1645, "end": 1910}];
-
                     var items = [{"billingIndex": 1, "startDate": "2013-11-02", "id": "Reputante", "isSubject": 0},
                                 {"billingIndex": 2, "startDate": "2013-11-02", "id": "Clementine & the Galaxy", "isSubject": 0},
                                 {"billingIndex": 3, "startDate": "2013-11-02", "id": "Lolawolf", "isSubject": 0},
@@ -74,20 +57,20 @@ angular.module('myApp.directives', ['d3'])
                     var m = [20, 15, 15, 120]; //top right bottom left
                     var w = 1200 - m[1] - m[3];
                     var h = 500 - m[0] - m[2];
-                    var miniHeight = laneLength * 12;
+                    var miniHeight = indices * 12;
                     var mainHeight = h - miniHeight - 50;
 
                     //scales
-                    var x = d3.scale.linear()
-                            .domain([timeBegin, timeEnd])
+                    var timeScale = d3.time.scale()
+                            .domain([new Date(timeBegin), new Date(timeEnd)])
                             .range([0, w]);
                     var x1 = d3.scale.linear()
                             .range([0, w]);
                     var y1 = d3.scale.linear()
-                            .domain([0, laneLength])
+                            .domain([0, indices])
                             .range([0, mainHeight]);
-                    var y2 = d3.scale.linear()
-                            .domain([0, laneLength])
+                    var miniHeightScale = d3.scale.linear()
+                            .domain([0, indices])
                             .range([0, miniHeight]);
 
                     var chart = d3.select("body")
@@ -113,6 +96,9 @@ angular.module('myApp.directives', ['d3'])
                                 .attr("width", w)
                                 .attr("height", miniHeight)
                                 .attr("class", "mini");
+
+                    var itemRects = main.append("g")
+                                            .attr("clip-path", "url(#clip)");
 
                     scope.render = function() {
                         //main lanes and texts
@@ -155,17 +141,16 @@ angular.module('myApp.directives', ['d3'])
                         //     .attr("text-anchor", "end")
                         //     .attr("class", "laneText");
 
-                        var itemRects = main.append("g")
-                                            .attr("clip-path", "url(#clip)");
+                        
                         
                         //mini item rects
                         mini.append("g").selectAll("miniItems")
                             .data(items)
                             .enter().append("rect")
-                            .attr("class", function(d) {return "miniItem" + d.lane;})
-                            .attr("x", function(d) {return x(d.start);})
-                            .attr("y", function(d) {return y2(d.lane + .5) - 5;})
-                            .attr("width", function(d) {return x(d.end - d.start);})
+                            .attr("class", function(d) {return "miniItem" + d.billingIndex;})
+                            .attr("x", function(d) {return timeScale(new Date(d.startDate));})
+                            .attr("y", function(d) {return miniHeightScale(d.billingIndex + .5) - 5;})
+                            .attr("width", function(d) {return 10;})
                             .attr("height", 10);
 
                         //mini labels
@@ -173,13 +158,13 @@ angular.module('myApp.directives', ['d3'])
                             .data(items)
                             .enter().append("text")
                             .text(function(d) {return d.id;})
-                            .attr("x", function(d) {return x(d.start);})
-                            .attr("y", function(d) {return y2(d.lane + .5);})
+                            .attr("x", function(d) {return timeScale(new Date(d.startDate));})
+                            .attr("y", function(d) {return miniHeightScale(d.billingIndex + .5);})
                             .attr("dy", ".5ex");
 
                         //brush
                         var brush = d3.svg.brush()
-                                            .x(x)
+                                            .x(timeScale)
                                             .on("brush", display);
 
                         mini.append("g")
@@ -189,7 +174,7 @@ angular.module('myApp.directives', ['d3'])
                             .attr("y", 1)
                             .attr("height", miniHeight - 1);
 
-                        display();
+                        //display();
                         
                         function display() {
                             var rects, labels,
@@ -209,9 +194,9 @@ angular.module('myApp.directives', ['d3'])
                                 .attr("width", function(d) {return x1(d.end) - x1(d.start);});
                             
                             rects.enter().append("rect")
-                                .attr("class", function(d) {return "miniItem" + d.lane;})
+                                .attr("class", function(d) {return "miniItem" + d.billingIndex;})
                                 .attr("x", function(d) {return x1(d.start);})
-                                .attr("y", function(d) {return y1(d.lane) + 10;})
+                                .attr("y", function(d) {return y1(d.billingIndex) + 10;})
                                 .attr("width", function(d) {return x1(d.end) - x1(d.start);})
                                 .attr("height", function(d) {return .8 * y1(1);});
 
@@ -225,11 +210,10 @@ angular.module('myApp.directives', ['d3'])
                             labels.enter().append("text")
                                 .text(function(d) {return d.id;})
                                 .attr("x", function(d) {return x1(Math.max(d.start, minExtent));})
-                                .attr("y", function(d) {return y1(d.lane + .5);})
+                                .attr("y", function(d) {return y1(d.billingIndex + .5);})
                                 .attr("text-anchor", "start");
 
                             labels.exit().remove();
-
                         }
                     };
 
