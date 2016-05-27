@@ -18,8 +18,27 @@ angular.module('d3', [])
       }
       scriptTag.onload = onScriptLoad;
  
+        // Create a script tag for hexbin
+      var scriptTagHex = $document[0].createElement('script');
+      scriptTagHex.type = 'text/javascript'; 
+      scriptTagHex.async = true;
+      scriptTagHex.src = 'components/d3/d3.hexbin.min.js';
+      scriptTagHex.onreadystatechange = function () {
+        if (this.readyState == 'complete') onScriptLoad();
+      }
+      scriptTagHex.onload = onScriptLoad;
+
+
+
+
+
+
       var s = $document[0].getElementsByTagName('body')[0];
       s.appendChild(scriptTag);
+      s.appendChild(scriptTagHex);
+
+
+
  
  		// returns a promise with d3 loaded up 
       return {

@@ -1,12 +1,13 @@
 # TODO
 
 Top Priority:
-- how to heatmap here? 
-- heatmap = for decade view 
---- build filter by decade (date of event)
+- finish showing num events/per city
+- go to hex heat map based on cities 
+- fix hover over points 
+
 
 If Possible:
-- hover over tour for specific node info -> possibly show multiple nodes here 
+- go to global map
 
 Later: 
 - figure out a way to show direction/progress

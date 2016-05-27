@@ -39,27 +39,22 @@ angular.module('myApp.view1', ['ngRoute'])
             $scope.decade = 7;
         }
 
-
-        // console.log($scope.decade);
         $scope.decade_events = [];
         for (var century = 19; century < 21; century++) {
             for (var year = 0; year < 10; year++) {
                 var decade = String(century) + String($scope.decade) + String(year);
-                // console.log(decade);
                 if (decade in raw_data) {
                     for (var i in raw_data[decade]) {
                         $scope.decade_events.push(raw_data[decade][i]);
                     }
-
                 }
             }
         }
 
         $scope.routes = getRoutesFromData();
         $scope.city_data = getCitiesFromData();
+        $scope.points = getPointsFromData();
     };
-
-
 
     var getRoutesFromData = function() {
         var paths = [];
@@ -68,8 +63,8 @@ angular.module('myApp.view1', ['ngRoute'])
             paths.push({
                 type: "LineString",
                 coordinates: [
-                    [$scope.decade_events[i].venue.lng, $scope.decade_events[i].venue.lat],
-                    [$scope.decade_events[i + 1].venue.lng, $scope.decade_events[i + 1].venue.lat]
+                    [$scope.decade_events[i].location.lng, $scope.decade_events[i].location.lat],
+                    [$scope.decade_events[i + 1].location.lng, $scope.decade_events[i + 1].location.lat]
                 ]
             });
         }
@@ -77,32 +72,52 @@ angular.module('myApp.view1', ['ngRoute'])
         return paths;
     };
 
+
+    var getPointsFromData = function() {
+        var points = [];
+        for (var i = 0; i < $scope.decade_events.length - 1; i++) {
+            points.push([$scope.decade_events[i].location.lng, $scope.decade_events[i].location.lat]);
+        }
+        return points;
+    };
+
+
+
+
     var getCitiesFromData = function() {
-        var city_data = {};
-        // for(year in raw_data) {
-        // for(event in raw_data[year]) {
+        var city_dictionary = {};
+
         for (var year in $scope.decade_events) {
             var event = $scope.decade_events[year];
             // venue->metro_area->displayName
             var city = event.venue.metroArea.displayName;
-            if (city in city_data) {
-                city_data[city]['events'].push(event);
-                city_data[city]['num_events']++;
+            if (city in city_dictionary) {
+                city_dictionary[city]['events'].push(event);
+                city_dictionary[city]['num_events']++;
             } else {
-                city_data[city] = {
-                    'lat': event.venue.lat,
-                    'lng': event.venue.lng,
+                // lat, lng not working 
+                city_dictionary[city] = {
+                    'lat': event.location.lat,
+                    'lng': event.location.lng,
                     'num_events': 1,
                     'name': city,
                     'events': [event]
                 };
             }
         }
-        // }
-        return city_data;
+
+        return makeCityArray(city_dictionary)
     };
 
+    var makeCityArray = function(city_dictionary) {
+        var city_array = [];
+        for (var city in city_dictionary) {
+            var city_obj = city_dictionary[city];
+            city_array.push(city_obj);
+        }
 
+        return city_array;
+    };
 
 
 
@@ -116,7 +131,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
     // event listener on mouseover nodes
     $scope.showDetailPanel = function(item) {
-        $scope.current_venue = item.displayName;
+        $scope.current_venue = item.name + '--num_events: '+item.num_events;
         $scope.$apply();
     }
 

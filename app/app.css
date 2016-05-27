@@ -40,6 +40,14 @@ path.us-boundary {
     fill: transparent;
 }
 
+path.hexagon {
+/*    opacity: .7;*/
+}
+
+svg {
+  background-color: #333;
+}
+
 .venue {
   fill: #B0171F;
   r: 4;
@@ -48,6 +56,25 @@ path.us-boundary {
 .route {
     fill: transparent;
     stroke: goldenrod;
+    opacity: 0.25;
+    stroke-width: 1.5px;
 }
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.city-label {
+  fill: azure;
+  font-size: 14px;
+  font-weight: bold; 
+}
+
+
+#land {
+    fill: #ddd;
+}
+
+.boundary {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+}
