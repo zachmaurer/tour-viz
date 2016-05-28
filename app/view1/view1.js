@@ -11,17 +11,50 @@ angular.module('myApp.view1', ['ngRoute'])
 
 .controller('View1Ctrl', ['$scope', 'venueInfo', 'mapInfo', function($scope, venueInfo, mapInfo) {
 
+    var raw_data = {};
 
     venueInfo.success(function(data) {
         // $scope.events = data.resultsPage.results.event;
-        $scope.data = data;
+        raw_data = data;
         $scope.setNewDecade();
-        
+
     });
 
     mapInfo.success(function(data) {
         $scope.map = data;
     });
+
+
+    $scope.setNewDecade = function() {
+        $scope.decade_events = [];
+
+        // weirdness to get pagination to start from 1950-2010
+        if ($scope.item < 5) {
+            $scope.decade = Math.floor(5 + $scope.item); // 1950 +page
+        } else {
+            $scope.decade = Math.floor($scope.item - 5); //2000
+        }
+
+        if (!$scope.decade) {
+            $scope.decade = 7;
+        }
+
+        $scope.decade_events = [];
+        for (var century = 19; century < 21; century++) {
+            for (var year = 0; year < 10; year++) {
+                var decade = String(century) + String($scope.decade) + String(year);
+                if (decade in raw_data) {
+                    for (var i in raw_data[decade]) {
+                        $scope.decade_events.push(raw_data[decade][i]);
+                    }
+                }
+            }
+        }
+
+        $scope.routes = getRoutesFromData();
+        $scope.city_data = getCitiesFromData();
+        $scope.points = getPointsFromData();
+    };
 
     var getRoutesFromData = function() {
         var paths = [];
@@ -30,8 +63,8 @@ angular.module('myApp.view1', ['ngRoute'])
             paths.push({
                 type: "LineString",
                 coordinates: [
-                    [$scope.decade_events[i].venue.lng, $scope.decade_events[i].venue.lat],
-                    [$scope.decade_events[i + 1].venue.lng, $scope.decade_events[i + 1].venue.lat]
+                    [$scope.decade_events[i].location.lng, $scope.decade_events[i].location.lat],
+                    [$scope.decade_events[i + 1].location.lng, $scope.decade_events[i + 1].location.lat]
                 ]
             });
         }
@@ -39,66 +72,66 @@ angular.module('myApp.view1', ['ngRoute'])
         return paths;
     };
 
-    var getCitiesFromData = function(events) {
 
+    var getPointsFromData = function() {
+        var points = [];
+        for (var i = 0; i < $scope.decade_events.length - 1; i++) {
+            points.push([$scope.decade_events[i].location.lng, $scope.decade_events[i].location.lat]);
+        }
+        return points;
     };
 
 
-    $scope.setNewDecade = function() {
-		$scope.decade_events = [];
-
-    	// weirdness to get pagination to start from 1950-2010
-    	if ($scope.item < 5) {
-    		$scope.decade = Math.floor(5+$scope.item); // 1950 +page
-    	} else {
-    		$scope.decade = Math.floor($scope.item-5); //2000
-    	}
-
-    	if (!$scope.decade) {
-    		$scope.decade = 7;
-    	}
 
 
-    	console.log($scope.decade);
-    	$scope.decade_events = [];
-        for (var century = 19; century < 21; century++) {
-            for (var year = 0; year < 10; year++) {
-            	var decade = String(century) + String($scope.decade) + String(year);
-            	console.log(decade);
-            	if (decade in $scope.data) {
-            		for(var i in $scope.data[decade]) {
-            			$scope.decade_events.push($scope.data[decade][i]);
-            		}
-            		
-            	}
+    var getCitiesFromData = function() {
+        var city_dictionary = {};
+
+        for (var year in $scope.decade_events) {
+            var event = $scope.decade_events[year];
+            // venue->metro_area->displayName
+            var city = event.venue.metroArea.displayName;
+            if (city in city_dictionary) {
+                city_dictionary[city]['events'].push(event);
+                city_dictionary[city]['num_events']++;
+            } else {
+                // lat, lng not working 
+                city_dictionary[city] = {
+                    'lat': event.location.lat,
+                    'lng': event.location.lng,
+                    'num_events': 1,
+                    'name': city,
+                    'events': [event]
+                };
             }
         }
-       $scope.routes = getRoutesFromData();
+
+        return makeCityArray(city_dictionary)
     };
 
-    $scope.getDecadeName = function(page) {
-    	return 1950 + page*10;
-    	
+    var makeCityArray = function(city_dictionary) {
+        var city_array = [];
+        for (var city in city_dictionary) {
+            var city_obj = city_dictionary[city];
+            city_array.push(city_obj);
+        }
+
+        return city_array;
     };
 
 
 
     // pagination weirdness 
-  $scope.totalItems = 60;
- 
+    $scope.getDecadeName = function(page) {
+        return 1950 + page * 10;
+    };
+
+    $scope.totalItems = 60;
 
 
-    // $scope.onClick = function(item) {
-    //     $scope.$apply(function() {
-    //         if (!$scope.showDetailPanel)
-    //             $scope.showDetailPanel = true;
-    //         $scope.detailItem = item;
-    //     });
-    //     alert(item);
-    // };
-
+    // event listener on mouseover nodes
     $scope.showDetailPanel = function(item) {
-        $scope.current_venue = item.displayName;
+        $scope.current_venue = item.name + '--num_events: '+item.num_events;
         $scope.$apply();
     }
 

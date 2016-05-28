@@ -3,5 +3,5 @@ angular.module('myApp.factories', [])
         return $http.get('client_data/events_dummy_bucketed.json');
     })
     .factory('mapInfo', function($http) {
-        return $http.get('us-states.json');
+        return $http.get('world-50m.json');
     });
