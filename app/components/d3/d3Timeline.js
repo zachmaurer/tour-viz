@@ -8,58 +8,21 @@ angular.module('myApp.directives', ['d3'])
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
-                    var timeBegin = "2013-11-02";
-                    var timeEnd = "2016-04-01";
-                    var indices = 40;
+                    var indices = 10;
                     var items = scope.events;
-                    // var items = [{"billingIndex": 1, "startDate": "2013-11-02", "id": "Reputante", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2013-11-02", "id": "Clementine & the Galaxy", "isSubject": 0},
-                    //             {"billingIndex": 3, "startDate": "2013-11-02", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 4, "startDate": "2013-11-02", "id": "Jen Turner", "isSubject": 0},
-                    //             {"billingIndex": 1, "startDate": "2013-11-07", "id": "The Chain Gang of 1974", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2013-11-07", "id": "Reputante", "isSubject": 0},
-                    //             {"billingIndex": 3, "startDate": "2013-11-07", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 1, "startDate": "2013-11-13", "id": "Reputante", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2013-11-13", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 1, "startDate": "2014-01-30", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 2, "startDate": "2014-01-30", "id": "Reputante", "isSubject": 0},
-                    //             {"billingIndex": 3, "startDate": "2014-01-30", "id": "Conway", "isSubject": 0},
-                    //             {"billingIndex": 1, "startDate": "2014-02-06", "id": "Wet", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2014-02-06", "id": "Noah Breakfast", "isSubject": 0},
-                    //             {"billingIndex": 3, "startDate": "2014-02-06", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 1, "startDate": "2014-02-07", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 2, "startDate": "2014-02-07", "id": "Reputante", "isSubject": 0},
-                    //             {"billingIndex": 1, "startDate": "2014-02-11", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 1, "startDate": "2014-02-22", "id": "Lawrence Rothman", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2014-02-22", "id": "Mas Ysa", "isSubject": 0},
-                    //             {"billingIndex": 3, "startDate": "2014-02-22", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 1, "startDate": "2014-03-08", "id": "Baby In Vain", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2014-03-08", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 3, "startDate": "2014-03-08", "id": "Boytoy", "isSubject": 0},
-                    //             {"billingIndex": 4, "startDate": "2014-03-08", "id": "Threats", "isSubject": 0},
-                    //             {"billingIndex": 5, "startDate": "2014-03-08", "id": "Organs", "isSubject": 0},
-                    //             {"billingIndex": 1, "startDate": "2014-04-14", "id": "Mosco Rosco", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2014-04-14", "id": "$2 Tap Beers", "isSubject": 0},
-                    //             {"billingIndex": 3, "startDate": "2014-04-14", "id": "$2 Drink Specials", "isSubject": 0},
-                    //             {"billingIndex": 4, "startDate": "2014-04-14", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 5, "startDate": "2014-04-14", "id": "Y LUV", "isSubject": 0},
-                    //             {"billingIndex": 6, "startDate": "2014-04-14", "id": "Bones Muhroni", "isSubject": 0},
-                    //             {"billingIndex": 1, "startDate": "2014-05-10", "id": "Tennis", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2014-05-10", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 1, "startDate": "2014-05-13", "id": "The Bots", "isSubject": 0},
-                    //             {"billingIndex": 2, "startDate": "2014-05-13", "id": "Lolawolf", "isSubject": 1},
-                    //             {"billingIndex": 3, "startDate": "2014-05-13", "id": "Lewis Lazar", "isSubject": 0},
-                    //             {"billingIndex": 4, "startDate": "2014-05-13", "id": "Jordan Bratton", "isSubject": 0}];
-
+                    var timeBegin = d3.min(items, function(d){ return new Date(d.startDate); });
+                    var timeEnd = d3.max(items, function(d){ return new Date(d.startDate); });
+                    timeBegin = new Date(timeBegin.getTime() - 86400000);
+                    timeEnd = new Date(timeEnd.getTime() + 86400000*15);
                     var m = [20, 15, 15, 120]; //top right bottom left
                     var w = 1200 - m[1] - m[3];
-                    var h = 900 - m[0] - m[2];
+                    var h = 400 - m[0] - m[2];
                     var miniHeight = indices * 12;
                     var mainHeight = h - miniHeight - 50;
 
                     //scales
                     var timeScale = d3.time.scale()
-                            .domain([new Date(timeBegin), new Date(timeEnd)])
+                            .domain([timeBegin, timeEnd])
                             .range([0, w]);
                     var brushScale = d3.scale.linear()
                             .range([0, w]);
@@ -95,7 +58,7 @@ angular.module('myApp.directives', ['d3'])
                                 .attr("class", "mini");
 
                     var itemRects = main.append("g")
-                                            .attr("clip-path", "url(#clip)");
+                                    //.attr("clip-path", "url(#clip)");
 
                     scope.render = function(data) {
                         //main lanes and texts
@@ -142,13 +105,13 @@ angular.module('myApp.directives', ['d3'])
                         
                         //mini item rects
                         mini.append("g").selectAll("miniItems")
-                            .data(data)
+                            .data(data, function(d) { return d.id; })
                             .enter().append("rect")
                             .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
                             .attr("x", function(d) {return timeScale(new Date(d.startDate));})
                             .attr("y", function(d) {return miniHeightScale(d.billingIndex + .5) - 5;})
-                            .attr("width", function(d) {return 10;})
-                            .attr("height", 10);
+                            .attr("width", function(d) {return 5;})
+                            .attr("height", 5);
 
                         //mini labels
                         // mini.append("g").selectAll(".miniLabels")
@@ -171,17 +134,19 @@ angular.module('myApp.directives', ['d3'])
                             .attr("y", 1)
                             .attr("height", miniHeight - 1);
 
-                        //display();
+                        display();
                         
                         function display() {
                             var rects, labels,
                                 minExtent = brush.extent()[0],
                                 maxExtent = brush.extent()[1],
                                 visItems = data.filter(function(d) {return new Date(d.startDate) < maxExtent && new Date(d.startDate) > minExtent;});
+                            
 
+                            console.log(visItems);
+                            //get scale of the brush to rescale main display
                             mini.select(".brush")
                                 .call(brush.extent([minExtent, maxExtent]));
-
                             brushScale.domain([minExtent, maxExtent]);
 
                             //update main item rects
@@ -190,22 +155,26 @@ angular.module('myApp.directives', ['d3'])
                                 .attr("x", function(d) {return brushScale(new Date(d.startDate));})
                                 .attr("width", function(d) {return 50;});
                             
+                            console.log(minExtent);
+                            console.log(maxExtent);
+                            console.log(visItems.length);
+
                             rects.enter().append("rect")
                                 .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
                                 .attr("x", function(d) {return brushScale(new Date(d.startDate));})
                                 .attr("y", function(d) {return y1(d.billingIndex) + 10;})
                                 .attr("width", function(d) {return 50;})
-                                .attr("height", function(d) {return .8 * y1(1);});
+                                .attr("height", function(d) {return 20;});
 
                             rects.exit().remove();
 
                             //update the item labels
                             labels = itemRects.selectAll("text")
-                                .data(visItems, function (d) { return d.id; })
+                                .data(visItems, function(d) { return d.id; })
                                 .attr("x", function(d) { return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;});
 
                             labels.enter().append("text")
-                                .text(function(d) {return d.id;})
+                                .text(function(d) {return d.name;})
                                 .attr("x", function(d) {return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;})
                                 .attr("y", function(d) {return y1(d.billingIndex +0.1);})
                                 .attr("text-anchor", "start");
@@ -214,10 +183,10 @@ angular.module('myApp.directives', ['d3'])
                         }
                     };
 
-                    // Browser onresize event
-                    // window.onresize = function() {
-                    //     scope.$apply();
-                    // };
+                    //Browser onresize event
+                    window.onresize = function() {
+                        scope.$apply();
+                    };
 
                     // // Watch for resize event
                     scope.$watch(function() {
