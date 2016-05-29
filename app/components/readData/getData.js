@@ -6,5 +6,5 @@ angular.module('myApp.factories', [])
         return $http.get('us-states.json');
     })
     .factory('timelineInfo', function($http) {
-        return $http.get('client_data/lolawolf.json');
+        return $http.get('client_data/BruceSpringsteen.json');
     });

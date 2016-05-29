@@ -4,6 +4,7 @@ import sys
 import pymongo
 import json
 import sys
+import defaultdict
 
 def queryArtist(artist_name):
   OUTFILE = ("{}.txt").format(sys.argv[1])

@@ -32,6 +32,9 @@ angular.module('myApp.directives', ['d3'])
                     var miniHeightScale = d3.scale.linear()
                             .domain([0, indices])
                             .range([0, miniHeight]);
+                    var rectWidthScale = d3.scale.linear()
+                            .domain([0, timeEnd.getTime() - timeBegin.getTime()])
+                            .range([50, 5]);
 
                     var chart = d3.select("body")
                         .append("svg")
@@ -58,7 +61,7 @@ angular.module('myApp.directives', ['d3'])
                                 .attr("class", "mini");
 
                     var itemRects = main.append("g")
-                                    //.attr("clip-path", "url(#clip)");
+                                    .attr("clip-path", "url(#clip)");
 
                     scope.render = function(data) {
                         //main lanes and texts
@@ -153,7 +156,7 @@ angular.module('myApp.directives', ['d3'])
                             rects = itemRects.selectAll("rect")
                                     .data(visItems, function(d) { return d.id; })
                                 .attr("x", function(d) {return brushScale(new Date(d.startDate));})
-                                .attr("width", function(d) {return 50;});
+                                .attr("width", function(d) {return rectWidthScale(maxExtent.getTime() - minExtent.getTime());});
                             
                             console.log(minExtent);
                             console.log(maxExtent);
@@ -163,7 +166,7 @@ angular.module('myApp.directives', ['d3'])
                                 .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
                                 .attr("x", function(d) {return brushScale(new Date(d.startDate));})
                                 .attr("y", function(d) {return y1(d.billingIndex) + 10;})
-                                .attr("width", function(d) {return 50;})
+                                .attr("width", function(d) {return rectWidthScale(maxExtent.getTime() - minExtent.getTime());})
                                 .attr("height", function(d) {return 20;});
 
                             rects.exit().remove();
