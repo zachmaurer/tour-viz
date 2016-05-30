@@ -19,6 +19,7 @@ angular.module('myApp.view3', ['ngRoute'])
         console.log("bubble request success");
         console.log(data[0]);
         $scope.data = data;
+        $scope.aggregate = true;
     });
 
 }]);

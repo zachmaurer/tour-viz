@@ -10,5 +10,5 @@ angular.module('myApp.factories', [])
         return $http.get('client_data/BruceSpringsteen.json');
     })
     .factory('nodesInfo', function($http) {
-        return $http.get('client_data/lolawolf_bubble.json');
+        return $http.get('client_data/Lolawolf_bubble_agg.json');
     });

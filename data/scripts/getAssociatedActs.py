@@ -20,17 +20,36 @@ def getAssociatedActs(artist_name):
     for p in e['performance']:
       performer = p['displayName'].rstrip('\n')
       events_by_year[year][performer] += 1
+  output_list = list()
+  for year, performances in events_by_year.items():
+    for name, count in performances.items():
+      r = dict()
+      r['isSubject'] = 1 if name == artist_name else 0
+      r['year'] = year
+      r['name'] = name
+      r['count'] = count
+      output_list.append(r)
   with open(OUTFILE, 'w') as f:
-    output_list = list()
-    for year, performances in events_by_year.items():
-      for name, count in performances.items():
-        r = dict()
-        r['isSubject'] = 1 if name == artist_name else 0
-        r['year'] = year
-        r['name'] = name
-        r['count'] = count
-        output_list.append(r)
     f.write(json.dumps(output_list))
+
+  agg_output = list()
+  artist_dict = defaultdict(int)
+  for year, performances in events_by_year.items():
+    for name, count in performances.items():
+      artist_dict[name] += count
+  for name, count in artist_dict.items():
+    r = dict()
+    r['isSubject'] = 1 if name == artist_name else 0
+    r['year'] = 1999
+    r['name'] = name
+    r['count'] = count
+    agg_output.append(r)
+  OUTFILE = ("{}_bubble_agg.json").format(artist_name)
+  with open(OUTFILE, 'w') as f:
+    f.write(json.dumps(agg_output))
+
+
+
         
 
 def main():

@@ -1,16 +1,26 @@
 
-
 <style>
 
 svg {
 	background-color: white !important;
 }
 
+circle.subject {
+			fill: darksalmon;
+			stroke-width: 6;	
+		}
+
+		circle.other {
+			fill: slategray;
+			fill-opacity: .7;
+			stroke-width: 6;	
+		}
+
 </style>
 
 
 <h3> view 3 </h3>
 <div class="map-container">
-	<d3-bubble-chart nodes="data">hi </d3-bubble-chart>
+	<d3-bubble-chart nodes="data" aggregate="aggregate">hi </d3-bubble-chart>
 
 </div>

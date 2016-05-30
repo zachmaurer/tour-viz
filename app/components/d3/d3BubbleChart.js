@@ -4,6 +4,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
             restrict: 'EA',
             scope: {
                 nodes: '=', // bi-directional data-binding
+                aggregate: '=', // bi-directional data-binding
                 // label: "@"
             },
             link: function(scope, element, attrs) {
@@ -18,14 +19,14 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                     // These will be set in create_nodes and create_vis
                     var bubbles = null;
 
-                    function charge(d) {
-                        return -Math.pow(d.radius, 2.0) / 8;
+                    function chargeFn(d) {
+                        return -Math.pow(d.radius, 2.0)/12;
                     };
 
                     var force = d3.layout.force()
                         .size([width, height])
-                        .charge(charge)
-                        .gravity(-0.01)
+                        .charge(chargeFn)
+                        .gravity(-0.05)
                         .friction(0.9);
 
                     var radiusScale = d3.scale.pow()
@@ -46,7 +47,6 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                     }
 
                     function createNodes(rawData) {
-                        console.log(rawData);
                         var nodes = rawData.map(function (d) {
                           return {
                             name: d.name,
@@ -54,8 +54,8 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                             year: d.year,
                             isSubject: d.isSubject,
                             radius: radiusScale(+d.count),
-                            x: Math.random() * 900,
-                            y: Math.random() * 800
+                            x: (d.isSubject? center.x : 10000),
+                            y: (d.isSubject? center.y : 10000)
                           };
                         });
 
@@ -65,33 +65,67 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         return nodes;
                       }
            
-                    scope.render = function(data) {
-                        console.log("In render: "+data);
-                        var processed_data = createNodes(data);
 
+                    //   var tip = d3.tip()
+                    //       .attr('class', 'd3-tip')
+                    //       .offset([-10, 0])
+                    //       .html(function(d) {
+                    //         var content = 
+                    //         '<span class="name">Title: </span><span class="value">' +
+                    //         d.name +
+                    //         '</span><br/>' +
+                    //         '<span class="name">Amount: </span><span class="value"># Shows:' +
+                    //         d.count +
+                    //         '</span><br/>' +
+                    //         '<span class="name">Year: </span><span class="value">' +
+                    //         d.year +
+                    //         '</span>';
+                    //         return content;
+                    //       });
+                    // svg.call(tip);
+
+
+                    scope.render = function(data) {
+                        var processed_data = createNodes(data);
+                        force.nodes(processed_data);
                         bubbles = svg.selectAll('.bubble')
                           .data(processed_data);
+                          
+                        bubbles.enter()
+                          .append("g")
+                          .call(force.drag);
 
                         // Create new circle elements each with class `bubble`.
                         // There will be one circle.bubble for each object in the nodes array.
                         // Initially, their radius (r attribute) will be 0.
-                        bubbles.enter().append('circle')
+                        bubbles.append('circle')
                           .classed('bubble', true)
                           .attr('r', 0)
-                          //.attr('fill', function (d) { return fillColor(d.group); })
+                          //.attr('fill', function(d) {return (d.isSubject ? "darksalmon" : "slategray");} )
+                          .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
                           //.attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
                           .attr('stroke-width', 2)
-                          //.on('mouseover', showDetail)
-                          //.on('mouseout', hideDetail);
+                          //.on('mouseover', tip.show)
+                          //.on('mouseout', tip.hide);
 
-                        bubbles.transition()
+                        bubbles.append("text")
+                            .text(function (d) { return d.name; })
+                            .attr("dx", -10)
+                            .attr("dy", ".35em")
+                            .style("stroke", "gray");
+
+                        bubbles.selectAll('circle').transition()
                           .duration(2000)
                           .attr('r', function (d) { return d.radius; });
 
                         force.on('tick', function (e) {
                           bubbles.each(moveToCenter(e.alpha))
-                            .attr('cx', function (d) { return d.x; })
-                            .attr('cy', function (d) { return d.y; });
+                            //.attr('cx', function (d) { return d.x; })
+                            //.attr('cy', function (d) { return d.y; });
+                            .attr("transform", function (d) {
+        var k = "translate(" + d.x + "," + d.y + ")";
+        return k;
+    });
                         });
 
                         force.start();  
@@ -115,8 +149,6 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
 
                     // watch for data changes and re-render
                     scope.$watch('nodes', function(newVals, oldVals) {
-                        console.log("new:" +newVals);
-                        console.log("old:" +oldVals);
                         //scope.render(newVals);
                         return;
                     }, true);
