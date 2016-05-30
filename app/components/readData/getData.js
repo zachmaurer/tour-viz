@@ -4,4 +4,8 @@ angular.module('myApp.factories', [])
     })
     .factory('mapInfo', function($http) {
         return $http.get('world-50m.json');
+
+    })
+    .factory('timelineInfo', function($http) {
+        return $http.get('client_data/BruceSpringsteen.json');
     });

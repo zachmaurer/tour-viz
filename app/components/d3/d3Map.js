@@ -99,7 +99,7 @@ angular.module('myApp.directives', ['d3'])
 
                         var hexbin = d3.hexbin()
                             .size([width, height])
-                            .radius(7); 
+                            .radius(15); 
 
                         var hexes = hex_svg 
                             .selectAll(".hexagon")
@@ -169,6 +169,7 @@ angular.module('myApp.directives', ['d3'])
                             .data(data);
 
                         paths.exit().remove();
+
                         paths.enter()
                             .append('path')
                             .attr("d", path)

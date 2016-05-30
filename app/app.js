@@ -6,6 +6,7 @@ angular.module('myApp', [
   'd3',
   'myApp.view1',
   'myApp.view2',
+  'myApp.view3',
   'myApp.version', 
   'myApp.directives', 
   'myApp.factories',

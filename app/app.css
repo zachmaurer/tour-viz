@@ -41,7 +41,8 @@ path.us-boundary {
 }
 
 path.hexagon {
-/*    opacity: .7;*/
+    stroke: black;
+    stroke-width: .1;
 }
 
 svg {
