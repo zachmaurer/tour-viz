@@ -9,7 +9,7 @@ from collections import defaultdict
 
 
 def getAssociatedActs(artist_name):
-  OUTFILE = ("{}_bubble.csv").format(artist_name)
+  OUTFILE = ("{}_bubble.json").format(artist_name)
   events_by_year = defaultdict(lambda : defaultdict(int))
   client = pymongo.MongoClient()
   db = client.concert_viz
@@ -21,11 +21,17 @@ def getAssociatedActs(artist_name):
       performer = p['displayName'].rstrip('\n')
       events_by_year[year][performer] += 1
   with open(OUTFILE, 'w') as f:
-    f.write("name,year,numShows,isSubject\n")
+    output_list = list()
     for year, performances in events_by_year.items():
       for name, count in performances.items():
-        isSubject = 1 if name is artist_name else 0
-        f.write("{},{},{},{}\n".format(name, str(year), str(count), str(isSubject)))
+        r = dict()
+        r['isSubject'] = 1 if name == artist_name else 0
+        r['year'] = year
+        r['name'] = name
+        r['count'] = count
+        output_list.append(r)
+    f.write(json.dumps(output_list))
+        
 
 def main():
   if not sys.argv[1]:

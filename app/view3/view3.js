@@ -9,8 +9,16 @@ angular.module('myApp.view3', ['ngRoute'])
   });
 }])
 
-.controller('View3Ctrl', ['$scope', 'timelineInfo', function($scope, timelineInfo) {
+.controller('View3Ctrl', ['$scope', 'nodesInfo', function($scope, nodesInfo) {
     console.log("view3 controller initiated");
-
+    $scope.data = [];
+	nodesInfo.success(function(data) {
+        // $scope.events = data.resultsPage.results.event;
+        //$scope.data = data;
+        //$scope.setNewDecade();
+        console.log("bubble request success");
+        console.log(data[0]);
+        $scope.data = data;
+    });
 
 }]);

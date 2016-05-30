@@ -8,4 +8,7 @@ angular.module('myApp.factories', [])
     })
     .factory('timelineInfo', function($http) {
         return $http.get('client_data/BruceSpringsteen.json');
+    })
+    .factory('nodesInfo', function($http) {
+        return $http.get('client_data/lolawolf_bubble.json');
     });
