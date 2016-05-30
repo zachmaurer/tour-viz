@@ -1,4 +1,4 @@
-angular.module('myApp.directives', ['d3'])
+angular.module('myApp.directives.timeline', ['d3'])
     .directive('d3Timeline', ['d3Service', '$window', function(d3Service, $window) {
         return {
             restrict: 'EA',
