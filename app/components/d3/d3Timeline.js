@@ -138,7 +138,7 @@ angular.module('myApp.directives', ['d3'])
                             .attr("height", miniHeight - 1);
 
                         display();
-                        
+                        console.log("rendinger");
                         function display() {
                             var rects, labels,
                                 minExtent = brush.extent()[0],
