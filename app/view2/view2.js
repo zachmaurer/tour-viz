@@ -10,13 +10,24 @@ angular.module('myApp.view2', ['ngRoute'])
 }])
 
 .controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', function($scope, timelineInfo, nodesInfo) {
-	timelineInfo.success(function(data) {
+	$scope.timeline_data = null;
+    $scope.node_data = null;
+    $scope.dateMin = "hi";
+    $scope.dateMax = "hi";
+
+
+    timelineInfo.success(function(data) {
         $scope.timeline_data = data;
     });
 
     nodesInfo.success(function(data) {
         $scope.node_data = data;
     });
+
+    // $scope.timechanged = function(min, max) {
+    //     console.log(min);
+    //     console.log(max);
+    // };
 
 
 }]);
