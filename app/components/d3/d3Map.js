@@ -8,6 +8,8 @@ angular.module('myApp.directives.map', ['d3'])
                 map: '=', // bi-directional data-binding
                 cities: '=',
                 points: '=',
+                chosencity: '=',
+                test: '=',
                 onMouseOver: '&' // parent execution binding
                     // label: "@"
             },
@@ -18,33 +20,18 @@ angular.module('myApp.directives.map', ['d3'])
                     var width = parseInt(attrs.width) || 960,
                         height = parseInt(attrs.height) || 960,
                         margin = { top: 20, right: 20, bottom: 30, left: 40 },
-                        height_hide_antartica = 670;
+                        height_hide_antartica = 670,
+                        hex_bin_size = 10;
 
                     var svg = d3.select(".map-container").append("svg")
                         .attr("width", width)
                         .attr("height", height_hide_antartica);
-
-
 
                     // order matters for event listener priority
                     var map_svg = svg.append('g').attr('id', 'map');
                     var hex_svg = svg.append('g').attr('id', 'hex').attr('clip-path', 'url(#land-clip)');
                     var routes_svg = svg.append('g').attr('id', 'routes');
                     var nodes_svg = svg.append('g').attr('id', 'nodes');
-
-
-                    // USA MAP
-                    // var projection = d3.geo.albers()
-                    //     .rotate([96, 0])
-                    //     .center([-.6, 38.7])
-                    //     .parallels([29.5, 45.5])
-                    //     .scale(1070)
-                    //     .translate([width / 2, height / 2])
-                    //     .precision(.1);
-
-                    // var path = d3.geo.path().projection(projection);
-
-
 
                     var projection = d3.geo.mercator()
                         .scale((width + 1) / 2 / Math.PI)
@@ -60,10 +47,11 @@ angular.module('myApp.directives.map', ['d3'])
                         // renderNodes(scope.events, projection, path);
                         renderHeatHex(scope.points, projection, path);
                         // renderCityNodes(scope.cities, projection, path);
-                        renderRoutes(scope.routes, projection, path);
+                        // renderRoutes(scope.routes, projection, path);
+                        renderSelectedHex(scope.chosencity, projection, path);
                     };
 
-                    
+
                     var renderNodes = function(data, projection, path) {
                         var nodes = nodes_svg.selectAll("circle")
                             .data(data);
@@ -84,6 +72,34 @@ angular.module('myApp.directives.map', ['d3'])
                     };
 
 
+                    var renderSelectedHex = function(city, projection, path) {
+                        if(!city) return;
+
+                        hex_svg.selectAll(".selected-hexagon").remove();
+
+                        var selectedPoint = [projection([city.lng, city.lat]), projection([city.lng, city.lat])];
+
+
+                        var hexbin = d3.hexbin()
+                            .size([width, height])
+                            .radius(hex_bin_size);
+
+                        var hexes = hex_svg
+                            .selectAll(".selected-hexagon")
+                            .data(hexbin(selectedPoint));
+
+                        hexes.enter()
+                            .append("path")
+                            .attr("class", "selected-hexagon")
+                            .attr("d", hexbin.hexagon())
+                            .attr("transform", function(d) {
+                                return "translate(" + d.x + "," + d.y + ")";
+                            });
+
+                        hexes.exit().remove();
+
+                    };
+
                     //  I just need lat longs, no cities here 
                     var renderHeatHex = function(lat_long, projection, path) {
                         var points = [];
@@ -99,9 +115,9 @@ angular.module('myApp.directives.map', ['d3'])
 
                         var hexbin = d3.hexbin()
                             .size([width, height])
-                            .radius(15); 
+                            .radius(hex_bin_size);
 
-                        var hexes = hex_svg 
+                        var hexes = hex_svg
                             .selectAll(".hexagon")
                             .data(hexbin(points))
 
@@ -206,36 +222,36 @@ angular.module('myApp.directives.map', ['d3'])
                     };
 
                     var renderWorldMap = function(world, projection, path) {
-                            // makes clip path 
-                            map_svg
-                                .append("clipPath")
-                                .attr("id", "land-clip") // give the clipPath an ID
-                                .append('path')
-                                .datum(topojson.feature(world, world.objects.land))
-                                .attr("d", path);
+                        // makes clip path 
+                        map_svg
+                            .append("clipPath")
+                            .attr("id", "land-clip") // give the clipPath an ID
+                            .append('path')
+                            .datum(topojson.feature(world, world.objects.land))
+                            .attr("d", path);
 
 
-                            // makes actual land path
-                            map_svg
-                                .append('path')
-                                .datum(topojson.feature(world, world.objects.land))
-                                .attr("id", "land")
-                                .attr("d", path)
-                                .on('mouseover', function(d, i) {
-                                    console.log('land');
-                                });
+                        // makes actual land path
+                        map_svg
+                            .append('path')
+                            .datum(topojson.feature(world, world.objects.land))
+                            .attr("id", "land")
+                            .attr("d", path)
+                            .on('mouseover', function(d, i) {
+                                console.log('land');
+                            });
 
 
-                            // makes country boundaries
-                            map_svg.insert("path", ".graticule")
-                                .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
-                                    return a !== b;
-                                }))
-                                .attr("class", "boundary")
-                                .attr("d", path)
-                                .on('mouseover', function(d, i) {
-                                    console.log('boundary');
-                                });
+                        // makes country boundaries
+                        map_svg.insert("path", ".graticule")
+                            .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
+                                return a !== b;
+                            }))
+                            .attr("class", "boundary")
+                            .attr("d", path)
+                            .on('mouseover', function(d, i) {
+                                console.log('boundary');
+                            });
                     };
                     renderWorldMap(scope.map, projection, path);
                     // renderUSMap(scope.map, projection, path);
@@ -253,11 +269,12 @@ angular.module('myApp.directives.map', ['d3'])
                     });
 
                     // watch for data changes and re-render
-                    scope.$watch('events', function(newVals, oldVals) {
+                    scope.$watch('test', function(newVals, oldVals) {
                         scope.render(newVals);
                         return;
                     }, true);
 
+               
                 });
             }
         };

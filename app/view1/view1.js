@@ -12,18 +12,38 @@ angular.module('myApp.view1', ['ngRoute'])
 .controller('View1Ctrl', ['$scope', 'venueInfo', 'mapInfo', function($scope, venueInfo, mapInfo) {
 
     var raw_data = {};
-
+    // $scope.chosen_city = {city: 'San Francisco'};
     venueInfo.success(function(data) {
         // $scope.events = data.resultsPage.results.event;
         raw_data = data;
         $scope.setNewDecade();
-
+        $scope.city_options = getCityList(raw_data);
     });
 
     mapInfo.success(function(data) {
         $scope.map = data;
     });
 
+
+    // has duplicates, ok for now
+    var getCityList = function(raw_data) {
+        var city_options = new Set();
+        for (var key in raw_data) {
+            for (var item in raw_data[key]) {
+                // raw_data[key][item].location.name = raw_data[key][item].location.city;
+                // console.log(raw_data[key][item].location);
+
+                city_options.add(raw_data[key][item].location)
+            }
+        }
+        return Array.from(city_options);
+    }
+
+    $scope.selectedCity = function($item, $model, $label, $event) {
+        this.$parent.chosen_city = $item; // not sure why I have to do it like this...
+        this.$parent.test = $scope.test == 1 ? 2 : 1;
+        this.$parent.getDataFromCity();
+    };
 
     $scope.setNewDecade = function() {
         $scope.decade_events = [];
@@ -56,6 +76,38 @@ angular.module('myApp.view1', ['ngRoute'])
         $scope.points = getPointsFromData();
     };
 
+
+    $scope.getDataFromCity = function() {
+        var venues = {};
+        var artists = {};
+        for (var i = 0; i < $scope.decade_events.length; i++) {
+
+            // either of them are substrings 
+            if ($scope.decade_events[i].location.city.indexOf($scope.chosen_city.city) > -1 
+            	|| $scope.chosen_city.city.indexOf($scope.decade_events[i].location.city) > -1) {
+
+                var venue = $scope.decade_events[i].venue.displayName;
+                if (venue in venues) {
+                    venues[venue]++;
+                } else {
+                    venues[venue] = 1;
+                }
+                for (var j = 0; j < $scope.decade_events[i].performance.length; j++) {
+                    var artist = $scope.decade_events[i].performance[j].artist.displayName;
+                    if (artist in artists) {
+                        artists[artist]++;
+                    } else {
+                        artists[artist] = 1;
+                    }
+                }
+            }
+        }
+
+        $scope.venues = [3,4,6];
+        $scope.artists = [1,2,2];
+    };
+
+
     var getRoutesFromData = function() {
         var paths = [];
         // var previousEventLatLng = null;
@@ -75,7 +127,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
     var getPointsFromData = function() {
         var points = [];
-        for (var i = 0; i < $scope.decade_events.length - 1; i++) {
+        for (var i = 0; i < $scope.decade_events.length; i++) {
             points.push([$scope.decade_events[i].location.lng, $scope.decade_events[i].location.lat]);
         }
         return points;
@@ -131,7 +183,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
     // event listener on mouseover nodes
     $scope.showDetailPanel = function(item) {
-        $scope.current_venue = item.name + '--num_events: '+item.num_events;
+        $scope.current_venue = item.name + '--num_events: ' + item.num_events;
         $scope.$apply();
     }
 
