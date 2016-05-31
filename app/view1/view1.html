@@ -1,7 +1,18 @@
 
 <h2>{{current_venue || 'hover over nodes'}}</h2>
 <div class="map-container">
-    <d3-map ng-if='routes && map && city_data'  events='decade_events' cities='city_data' routes='routes' points='points' map='map' on-mouse-over="showDetailPanel(item)"></d3-map>
+ <input ng-if='city_options' type="text" ng-model="chosen_city.city" uib-typeahead="city as option.city for option in city_options | filter:{city:$viewValue} | limitTo:8"  class="form-control search-bar" typeahead-on-select = 'selectedCity($item, $model, $label, $event)' >
 
+    <d3-map ng-if='routes && map && city_data'  events='decade_events' cities='city_data' routes='routes' points='points' map='map' chosencity='chosen_city' on-mouse-over="showDetailPanel(item)" test='test'></d3-map>
+</div>
+
+<button ng-click='testButton()'>test</button>
+
+<h1> {{chosen_city.city}} </h1>
+
+<div class="chart">
+	<d3-bar ng-if='artists && venues' artists='artists' venues='venues'></d3-bar>
+	<div class="chart-artists"></div>
+	<div class="chart-venues"></div>
 </div>
 <uib-pagination total-items="totalItems" ng-model="item" ng-change="setNewDecade()" page-label='getDecadeName($page)'></uib-pagination>

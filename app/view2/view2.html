@@ -1,5 +1,48 @@
-<p>This is the partial for view 2.</p>
+<style type="text/css">
+		.chart {
+			shape-rendering: crispEdges;
+		}
+
+		.mini text {
+			font: 9px sans-serif;	
+		}
+
+		.main text {
+			font: 12px sans-serif;	
+		}
+
+		.miniItem0 {
+			fill: darksalmon;
+			stroke-width: 6;	
+		}
+
+		.subject, .miniItem1 {
+			fill: darksalmon;
+			stroke-width: 6;	
+		}
+
+		.other, .miniItem2 {
+			fill: slategray;
+			fill-opacity: .7;
+			stroke-width: 6;	
+		}
+
+		.brush .extent {
+			stroke: gray;
+			fill: dodgerblue;
+			fill-opacity: .365;
+		}
+
+</style>
+
+
+
+
+<p>Displaying test timeline data for Lolawolf.</p>
 <p>
   Showing of 'interpolate' filter:
   {{ 'Current version is v%VERSION%.' | interpolate }}
 </p>
+<div class="timeline-container">
+    <d3-timeline events="data">hi</d3-timeline>
+</div>
