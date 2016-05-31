@@ -92,6 +92,7 @@ angular.module('myApp.view1', ['ngRoute'])
                 } else {
                     venues[venue] = 1;
                 }
+                
                 for (var j = 0; j < $scope.decade_events[i].performance.length; j++) {
                     var artist = $scope.decade_events[i].performance[j].artist.displayName;
                     if (artist in artists) {
@@ -103,8 +104,18 @@ angular.module('myApp.view1', ['ngRoute'])
             }
         }
 
-        $scope.venues = [3,4,6];
-        $scope.artists = [1,2,2];
+        // need to make them arrays, I think this is the fastest way??
+        var venues_arr = [];
+        for (var key in venues) {
+        	venues_arr.push({name: key, total:venues[key]});
+        };
+
+        var artists_arr = [];
+        for (var key1 in artists) {
+        	artists_arr.push({name: key1, total:artists[key1]});
+        }
+        $scope.venues = venues_arr;
+        $scope.artists = artists_arr;
     };
 
 

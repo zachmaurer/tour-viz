@@ -95,12 +95,22 @@ svg {
     stroke-width: 2px;
 }
 
-.chart-artists div, .venue-artists div,{
+.city-header {
+      text-align: center;
+}
+
+.chart-artists div, .chart-venues div{
   font: 10px sans-serif;
   background-color: steelblue;
   text-align: right;
   padding: 3px;
   margin: 1px;
-  color: white;
+  color: white !important;
+  background-color: cadetblue;
+}
+
+
+.graph-label {
+    float: left;
 }
 

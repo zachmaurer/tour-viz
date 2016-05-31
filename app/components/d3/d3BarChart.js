@@ -19,20 +19,24 @@ angular.module('myApp.directives.bar', ['d3'])
 
                     var makeGraph = function(data, data_type) {
                         var x = d3.scale.linear()
-                            .domain([0, d3.max(data)])
-                            .range([0, 200]);
-
+                            .domain([0, d3.max(data, function(d) {return d.total;})])
+                            .range([0, 300]);
 
                         d3.select(data_type)
                             .selectAll("div")
                             .data(data)
                             .enter().append("div")
                             .style("width", function(d) {
-                                return x(d) + "px";
+                                return x(d.total) + "px";
                             })
                             .text(function(d) {
-                                return d;
-                            });
+                                return d.total;
+                            })
+                            .append('div')
+                            .text(function(d) {
+                                return d.name;
+                            })
+                            .attr('class', 'graph-label');
                     };
 
 
