@@ -9,17 +9,25 @@ angular.module('myApp.view2', ['ngRoute'])
   });
 }])
 
-.controller('View2Ctrl', ['$scope', 'timelineInfo', function($scope, timelineInfo) {
-	$scope.data = [];
-	console.log("timeline");
-	timelineInfo.success(function(data) {
-        // $scope.events = data.resultsPage.results.event;
-        //$scope.data = data;
-        //$scope.setNewDecade();
-        console.log("timelineInfo success");
-        console.log(data[0]);
-        $scope.data = data;
+.controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', function($scope, timelineInfo, nodesInfo) {
+	$scope.timeline_data = null;
+    $scope.node_data = null;
+    $scope.dateMin = "hi";
+    $scope.dateMax = "hi";
+
+
+    timelineInfo.success(function(data) {
+        $scope.timeline_data = data;
     });
+
+    nodesInfo.success(function(data) {
+        $scope.node_data = data;
+    });
+
+    // $scope.timechanged = function(min, max) {
+    //     console.log(min);
+    //     console.log(max);
+    // };
 
 
 }]);

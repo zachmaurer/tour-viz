@@ -1,10 +1,12 @@
 angular.module('myApp.directives.timeline', ['d3'])
-    .directive('d3Timeline', ['d3Service', '$window', function(d3Service, $window) {
+    .directive('d3Timeline', ['d3Service', '$window', '$timeout', function(d3Service, $window, $timeout) {
         return {
             restrict: 'EA',
             scope: {
-                events: '=', // bi-directional data-binding
-                // label: "@"
+                events: '=',
+                minDate: '=',
+                maxDate: '=', // bi-directional data-binding
+                //timeChanged: "&"
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
@@ -138,15 +140,24 @@ angular.module('myApp.directives.timeline', ['d3'])
                             .attr("height", miniHeight - 1);
 
                         display();
-                        console.log("rendinger");
+                        //console.log("rendinger");
                         function display() {
                             var rects, labels,
                                 minExtent = brush.extent()[0],
                                 maxExtent = brush.extent()[1],
                                 visItems = data.filter(function(d) {return new Date(d.startDate) < maxExtent && new Date(d.startDate) > minExtent;});
                             
+                            scope.minDate = minExtent;
+                            scope.maxDate = maxExtent;
+                            console.log(minExtent);
+                            console.log(maxExtent);
+                            console.log(scope);
 
-                            console.log(visItems);
+                            $timeout(function() {
+                             scope.$apply();
+                            });
+
+                            //console.log(visItems);
                             //get scale of the brush to rescale main display
                             mini.select(".brush")
                                 .call(brush.extent([minExtent, maxExtent]));
@@ -158,9 +169,9 @@ angular.module('myApp.directives.timeline', ['d3'])
                                 .attr("x", function(d) {return brushScale(new Date(d.startDate));})
                                 .attr("width", function(d) {return rectWidthScale(maxExtent.getTime() - minExtent.getTime());});
                             
-                            console.log(minExtent);
-                            console.log(maxExtent);
-                            console.log(visItems.length);
+                            //console.log(minExtent);
+                            //console.log(maxExtent);
+                            //console.log(visItems.length);
 
                             rects.enter().append("rect")
                                 .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})

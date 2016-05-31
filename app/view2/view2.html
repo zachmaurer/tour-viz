@@ -33,6 +33,21 @@
 			fill-opacity: .365;
 		}
 
+		svg {
+			background-color: white !important;
+		}
+
+		circle.subject {
+			fill: darksalmon;
+			stroke-width: 6;	
+		}
+
+		circle.other {
+			fill: slategray;
+			fill-opacity: .7;
+			stroke-width: 6;	
+		}
+
 </style>
 
 
@@ -44,5 +59,14 @@
   {{ 'Current version is v%VERSION%.' | interpolate }}
 </p>
 <div class="timeline-container">
-    <d3-timeline events="data">hi</d3-timeline>
-</div>
+
+<input ng-model="dateMax"> <i>
+<input ng-model="dateMin"> <i>
+ 
+<d3-timeline events="timeline_data" min-date="dateMin" max-date="dateMax">
+</d3-timeline>
+   
+
+<d3-bubble-chart nodes="node_data" aggregate="aggregate">
+</d3-bubble-chart>
+
