@@ -11,6 +11,7 @@ angular.module('myApp', [
     'myApp.directives.map',
     'myApp.directives.timeline',
     'myApp.directives.bubbleChart',
+    'myApp.directives.bar',
     'myApp.factories',
     'ui.bootstrap'
 ]).
