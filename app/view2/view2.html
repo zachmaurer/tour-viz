@@ -1,72 +1,70 @@
 <style type="text/css">
-		.chart {
-			shape-rendering: crispEdges;
-		}
+.chart {
+    shape-rendering: crispEdges;
+}
 
-		.mini text {
-			font: 9px sans-serif;	
-		}
+.mini text {
+    font: 9px sans-serif;
+}
 
-		.main text {
-			font: 12px sans-serif;	
-		}
+.main text {
+    font: 12px sans-serif;
+}
 
-		.miniItem0 {
-			fill: darksalmon;
-			stroke-width: 6;	
-		}
+.miniItem0 {
+    fill: darksalmon;
+    stroke-width: 6;
+}
 
-		.subject, .miniItem1 {
-			fill: darksalmon;
-			stroke-width: 6;	
-		}
+.subject,
+.miniItem1 {
+    fill: darksalmon;
+    stroke-width: 6;
+}
 
-		.other, .miniItem2 {
-			fill: slategray;
-			fill-opacity: .7;
-			stroke-width: 6;	
-		}
+.other,
+.miniItem2 {
+    fill: slategray;
+    fill-opacity: .7;
+    stroke-width: 6;
+}
 
-		.brush .extent {
-			stroke: gray;
-			fill: dodgerblue;
-			fill-opacity: .365;
-		}
+.brush .extent {
+    stroke: gray;
+    fill: dodgerblue;
+    fill-opacity: .365;
+}
 
-		svg {
-			background-color: white !important;
-		}
+svg {
+    background-color: white !important;
+}
 
-		circle.subject {
-			fill: darksalmon;
-			stroke-width: 6;	
-		}
+circle.subject {
+    fill: darksalmon;
+    stroke-width: 6;
+}
 
-		circle.other {
-			fill: slategray;
-			fill-opacity: .7;
-			stroke-width: 6;	
-		}
+circle.other {
+    fill: slategray;
+    fill-opacity: .7;
+    stroke-width: 6;
+}
 
 </style>
+<h1 class='artist-header'>{{chosen_artist.name}}</h1>
+<input ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
 
 
-
-
-<p>Displaying test timeline data for Lolawolf.</p>
-<p>
-  Showing of 'interpolate' filter:
-  {{ 'Current version is v%VERSION%.' | interpolate }}
-</p>
+<input ng-model="dateMax">
+<input ng-model="dateMin">
 <div class="timeline-container">
 
-<input ng-model="dateMax"> <i>
-<input ng-model="dateMin"> <i>
- 
-<d3-timeline events="timeline_data" min-date="dateMin" max-date="dateMax">
-</d3-timeline>
-   
+    <d3-timeline ng-if='events' events="events" min-date="dateMin" max-date="dateMax">
+    </d3-timeline>
+</div>
+<div class="bubble-container">
+    <d3-bubble-chart ng-if='node_data' nodes="node_data" aggregate="aggregate">
+    </d3-bubble-chart>
+</div>
 
-<d3-bubble-chart nodes="node_data" aggregate="aggregate">
-</d3-bubble-chart>
 

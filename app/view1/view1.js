@@ -9,7 +9,7 @@ angular.module('myApp.view1', ['ngRoute'])
     });
 }])
 
-.controller('View1Ctrl', ['$scope', 'venueInfo', 'mapInfo', function($scope, venueInfo, mapInfo) {
+.controller('View1Ctrl', ['$scope', 'venueInfo', 'mapInfo', 'cityOptions', function($scope, venueInfo, mapInfo, cityOptions) {
 
     var raw_data = {};
     // $scope.chosen_city = {city: 'San Francisco'};
@@ -17,27 +17,16 @@ angular.module('myApp.view1', ['ngRoute'])
         // $scope.events = data.resultsPage.results.event;
         raw_data = data;
         $scope.setNewDecade();
-        $scope.city_options = getCityList(raw_data);
+        // $scope.city_options = getCityList(raw_data);
+    });
+
+    cityOptions.success(function(data) {
+    	$scope.city_options = data;
     });
 
     mapInfo.success(function(data) {
         $scope.map = data;
     });
-
-
-    // has duplicates, ok for now
-    var getCityList = function(raw_data) {
-        var city_options = new Set();
-        for (var key in raw_data) {
-            for (var item in raw_data[key]) {
-                // raw_data[key][item].location.name = raw_data[key][item].location.city;
-                // console.log(raw_data[key][item].location);
-
-                city_options.add(raw_data[key][item].location)
-            }
-        }
-        return Array.from(city_options);
-    }
 
     $scope.selectedCity = function($item, $model, $label, $event) {
         this.$parent.chosen_city = $item; // not sure why I have to do it like this...
@@ -83,8 +72,8 @@ angular.module('myApp.view1', ['ngRoute'])
         for (var i = 0; i < $scope.decade_events.length; i++) {
 
             // either of them are substrings 
-            if ($scope.decade_events[i].location.city.indexOf($scope.chosen_city.city) > -1 
-            	|| $scope.chosen_city.city.indexOf($scope.decade_events[i].location.city) > -1) {
+            if ($scope.decade_events[i].location.city.indexOf($scope.chosen_city.name) > -1 
+            	|| $scope.chosen_city.name.indexOf($scope.decade_events[i].location.city) > -1) {
 
                 var venue = $scope.decade_events[i].venue.displayName;
                 if (venue in venues) {

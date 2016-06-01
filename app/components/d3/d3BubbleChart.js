@@ -33,7 +33,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                       .exponent(0.5)
                       .range([2, 20]);
 
-                    var svg = d3.select('body')
+                    var svg = d3.select('.bubble-container')
                       .append('svg')
                       .attr('width', width)
                       .attr('height', height);
