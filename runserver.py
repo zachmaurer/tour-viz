@@ -14,7 +14,6 @@ db = pymongo.MongoClient().concert_viz
 def index():
   return("API server is running!")
 
-
 # Method: artistEvents
 # -------
 # Gets all the events that an artist particpated in.
@@ -25,7 +24,6 @@ def artistEvents():
   #Get all events for an artist
   events = db.events.find({ "performance": {"$elemMatch": {"artist.id": artist_id}}})
   return dumps(events)
-
 
 # Method: cityEvents
 # ---------
