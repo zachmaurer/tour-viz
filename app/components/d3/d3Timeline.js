@@ -38,7 +38,7 @@ angular.module('myApp.directives.timeline', ['d3'])
                             .domain([0, timeEnd.getTime() - timeBegin.getTime()])
                             .range([50, 5]);
 
-                    var chart = d3.select("body")
+                    var chart = d3.select(".timeline-container")
                         .append("svg")
                         .attr("width", w + m[1] + m[3])
                         .attr("height", h + m[0] + m[2])
