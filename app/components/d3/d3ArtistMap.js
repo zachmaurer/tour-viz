@@ -5,7 +5,8 @@ angular.module('myApp.directives.artistmap', ['d3'])
             scope: {
                 routes: '=', // bi-directional data-binding
                 map: '=', // bi-directional data-binding
-                points: '=',
+                events: '=',
+                timeline: '=',
                 test: '=',
                 onMouseOver: '&' // parent execution binding
                     // label: "@"
@@ -42,19 +43,32 @@ angular.module('myApp.directives.artistmap', ['d3'])
 
                     // hex and routes eliminates map after a couple turns 
                     scope.render = function() {
-                        // renderHeatHex(scope.points, projection, path);
+                        renderHeatHex(scope.events, projection, path);
                         // renderRoutes(scope.routes, projection, path);
                     };
 
-                    var renderHeatHex = function(lat_long, projection, path) {
+
+                    var filterByTime = function(events) {
+                        return events.filter(function(event) {
+                            if(event.timeStamp > scope.timeline.dateMin && event.timeStamp < scope.timeline.dateMax) {
+                                return true;
+                            }
+                        });
+                    };
+
+                    var renderHeatHex = function(events, projection, path) {
                         var points = [];
+
+                        events = filterByTime(events);
+
+
                         // need to go from lat_lng to x_y
-                        for (var i = 0; i < lat_long.length; i++) {
-                            points.push(projection(lat_long[i]));
+                        for (var i = 0; i < events.length; i++) {
+                            points.push(projection([events[i].lng, events[i].lat]));
                         }
 
                         var color = d3.scale.linear()
-                            .domain([0, 20])
+                            .domain([0, 10])
                             .range(["#ddd", "steelblue"])
                             .interpolate(d3.interpolateLab);
 
@@ -75,12 +89,7 @@ angular.module('myApp.directives.artistmap', ['d3'])
                             })
                             .style("fill", function(d) {
                                 return color(d.length);
-                            })
-
-                        .on('mouseover', function(d, i) {
-                            // return scope.onMouseOver({ item: d });
-                            console.log('HEX------' + d);
-                        });
+                            });
 
                         hexes.exit().remove();
                     };

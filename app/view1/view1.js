@@ -13,17 +13,27 @@ angular.module('myApp.view1', ['ngRoute'])
 
     var raw_data = {};
     // $scope.chosen_city = {city: 'San Francisco'};
-    venueInfo.success(function(data) {
-        // $scope.events = data.resultsPage.results.event;
-        raw_data = data;
-        $scope.setNewDecade();
-        // $scope.city_options = getCityList(raw_data);
-    });
+    // venueInfo.success(function(data) {
+    //     // $scope.events = data.resultsPage.results.event;
+    //     raw_data = data;
+
+    //     // $scope.city_options = getCityList(raw_data);
+    // });
 
     cityOptions.success(function(data) {
         $scope.city_options = data;
-
     });
+
+    eventsService.getAllEvents().then(function(response) {
+        if (response.data.length == 0) return;
+        // raw_data = response.data;
+        $rootScope.points = response.data;
+        // $scope.points = getPointsFromData();
+        // $scope.setNewDecade();
+    }, function(error) {
+        console.log(error);
+    });
+
 
     if (!$rootScope.map) {
         mapInfo.success(function(data) {
@@ -75,7 +85,7 @@ angular.module('myApp.view1', ['ngRoute'])
     };
 
     $scope.refreshMap = function() {
-    	// move to root
+        // move to root
         $scope.test = $scope.test == 1 ? 2 : 1;
     };
 
@@ -117,9 +127,11 @@ angular.module('myApp.view1', ['ngRoute'])
             artists_arr.push({ name: key1, total: artists[key1] });
         }
         $scope.venues = venues_arr.sort(function(a, b) {
-            return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0); });
+            return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);
+        });
         $scope.artists = artists_arr.sort(function(a, b) {
-            return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0); });
+            return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);
+        });
         $scope.refreshMap();
     };
 

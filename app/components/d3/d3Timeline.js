@@ -6,7 +6,7 @@ angular.module('myApp.directives.timeline', ['d3'])
                 events: '=',
                 minDate: '=',
                 maxDate: '=', // bi-directional data-binding
-                //timeChanged: "&"
+                timeChanged: "&"
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
@@ -105,7 +105,8 @@ angular.module('myApp.directives.timeline', ['d3'])
                         //brush
                         var brush = d3.svg.brush()
                                             .x(timeScale)
-                                            .on("brush", display);
+                                            .on("brush", display)
+
 
                         mini.append("g")
                             .attr("class", "x brush")
@@ -123,7 +124,8 @@ angular.module('myApp.directives.timeline', ['d3'])
                             
                             scope.minDate = minExtent;
                             scope.maxDate = maxExtent;
-
+                            scope.timeChanged();
+                            
                             $timeout(function() {
                              scope.$apply();
                             });

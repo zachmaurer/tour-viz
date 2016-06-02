@@ -44,7 +44,8 @@ angular.module('myApp.view2', ['ngRoute'])
         this.$parent.test = $scope.test == 1 ? 2 : 1;
         eventsService.getArtistEvents($item.id, $item.name).then(function(response) {
             if (response.data.length == 0) return;
-            $scope.events = response.data;
+            $scope.events = addTimeStampToEvents(response.data);
+
             $timeout(function() {
                 $scope.$apply();
             });
@@ -62,16 +63,22 @@ angular.module('myApp.view2', ['ngRoute'])
         });
     };
 
-    $scope.getDataForArtist = function() {
-        // need mo data 
-        //$scope.chosen_artist 
-        // {id: 2135, name: Bruce}
 
 
 
-        // $scope.events = only events with id == $scope.chosen_artist.id 
-        // $scope.node_data = ??? data doesnt exist...
 
+    //startDate
+    var addTimeStampToEvents = function(events) {
+        return events.map(function(event) {
+            event.timeStamp = new Date(event.startDate);
+            return event;
+        });
     };
+
+    $scope.refreshMap = function() {
+        // move to root
+        $scope.test = $scope.test == 1 ? 2 : 1;
+    };
+
 
 }]);

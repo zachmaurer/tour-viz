@@ -1,6 +1,8 @@
 <h2>{{current_venue || 'hover over nodes'}}</h2>
 <div class="map-container">
     <input ng-if='city_options' type="text" ng-model="chosen_city.name" uib-typeahead="city as option.name for option in city_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedCity($item, $model, $label, $event)'>
+
+    
     <d3-map ng-if='map && points' points='points' map='map' chosencity='chosen_city' test='test'></d3-map>
 </div>
 <h1 class='city-header'> {{chosen_city.name}} </h1>
