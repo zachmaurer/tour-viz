@@ -78,6 +78,7 @@ def associatedArtists():
     x = dict()
     x['name'] = name
     x['events'] = events
+    x['count'] = len(events)
     x['isSubject'] = 1 if artist_name == name else 0
     associated_artists_as_list.append(x)
   return dumps(associated_artists_as_list)

@@ -12,8 +12,8 @@ angular.module('myApp.view2', ['ngRoute'])
 .controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', 'artistsOptions','eventsService','$timeout', function($scope, timelineInfo, nodesInfo, artistsOptions, eventsService, $timeout) {
   $scope.timeline_data = null;
      $scope.node_data = null;
-     $scope.extent = { "dateMin" : "hi",
-                        "dateMax" :"hi" };
+     $scope.extent = { "dateMin" : "",
+                        "dateMax" :"" };
 
  // should look into caching this data so we dont load it ever tab switch
     timelineInfo.success(function(data) {
@@ -25,7 +25,7 @@ angular.module('myApp.view2', ['ngRoute'])
     });
 
     artistsOptions.success(function(data) {
-        $scope.artists_options = data;
+        $scope.artists_options = data;  
     });
 
 
@@ -36,6 +36,15 @@ angular.module('myApp.view2', ['ngRoute'])
         eventsService.getArtistEvents($item.id, $item.name).then(function(response) {
             if (response.data.length == 0) return;
             $scope.events = response.data;
+            $timeout(function() {
+                $scope.$apply();
+            });
+        }, function(error){
+            console.log(error);
+        });
+        eventsService.getAssociatedArtists($item.id, $item.name).then(function(response) {
+            if (response.data.length == 0) return;
+            $scope.node_data = response.data;
             $timeout(function() {
                 $scope.$apply();
             });

@@ -4,12 +4,11 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
             restrict: 'EA',
             scope: {
                 nodes: '=', // bi-directional data-binding
-                aggregate: '=', // bi-directional data-binding
                 // label: "@"
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
-                    console.log(scope);
+
                     // Constants for sizing
                     var width = 940;
                     var height = 600;
@@ -29,9 +28,8 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         .gravity(-0.05)
                         .friction(0.9);
 
-                    var radiusScale = d3.scale.pow()
-                      .exponent(0.5)
-                      .range([2, 20]);
+                    var radiusScale = d3.scale.linear()
+                      .range([2, 100]);
 
                     var svg = d3.select('.bubble-container')
                       .append('svg')
@@ -51,16 +49,16 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                           return {
                             name: d.name,
                             count: d.count,
-                            year: d.year,
+                            events: d.events,
                             isSubject: d.isSubject,
-                            radius: radiusScale(+d.count),
+                            radius: d.isSubject ? 120 : radiusScale(d.count),
                             x: (d.isSubject? center.x : 10000),
                             y: (d.isSubject? center.y : 10000)
                           };
                         });
 
                         // sort them to prevent occlusion of smaller nodes.
-                        nodes.sort(function (a, b) { return b.value - a.value; });
+                        nodes.sort(function (a, b) { return b.count - a.count; });
 
                         return nodes;
                       }
@@ -86,8 +84,14 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
 
 
                     scope.render = function(data) {
+
+                        var maxShows = d3.max(data, function(d){ return d.isSubject ? 0 : d.count; });
+                        radiusScale.domain([1, maxShows]);                      
                         var processed_data = createNodes(data);
                         force.nodes(processed_data);
+
+                        svg.selectAll('g').remove();
+
                         bubbles = svg.selectAll('.bubble')
                           .data(processed_data);
                           
@@ -109,7 +113,8 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                           //.on('mouseout', tip.hide);
 
                         bubbles.append("text")
-                            .text(function (d) { return d.name; })
+                            .classed('bubble', true)
+                            .text(function (d) { return (d.radius < 20) ? "" : d.name; })
                             .attr("dx", -10)
                             .attr("dy", ".35em")
                             .style("stroke", "gray");
@@ -123,9 +128,9 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                             //.attr('cx', function (d) { return d.x; })
                             //.attr('cy', function (d) { return d.y; });
                             .attr("transform", function (d) {
-        var k = "translate(" + d.x + "," + d.y + ")";
-        return k;
-    });
+                                var k = "translate(" + d.x + "," + d.y + ")";
+                                return k;
+                            });
                         });
 
                         force.start();  
@@ -149,7 +154,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
 
                     // watch for data changes and re-render
                     scope.$watch('nodes', function(newVals, oldVals) {
-                        //scope.render(newVals);
+                        scope.render(newVals);
                         return;
                     }, true);
 
