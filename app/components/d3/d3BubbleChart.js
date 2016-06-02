@@ -11,7 +11,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
 
                     // Constants for sizing
                     var width = 940;
-                    var height = 600;
+                    var height = 700;
                     var center = { x: width / 2, y: height / 2 };
                     var damper = 0.102;
 
@@ -33,6 +33,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
 
                     var svg = d3.select('.bubble-container')
                       .append('svg')
+                      .attr('id', 'bubbleChart')
                       .attr('width', width)
                       .attr('height', height);
                     
