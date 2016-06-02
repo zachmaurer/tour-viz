@@ -9,7 +9,7 @@ angular.module('myApp.view1', ['ngRoute'])
     });
 }])
 
-.controller('View1Ctrl', ['$scope', 'venueInfo', 'mapInfo', 'cityOptions', function($scope, venueInfo, mapInfo, cityOptions) {
+.controller('View1Ctrl', ['$scope', 'venueInfo', 'mapInfo', 'cityOptions', 'eventsService', function($scope, venueInfo, mapInfo, cityOptions, eventsService) {
 
     var raw_data = {};
     // $scope.chosen_city = {city: 'San Francisco'};
@@ -22,6 +22,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
     cityOptions.success(function(data) {
     	$scope.city_options = data;
+
     });
 
     mapInfo.success(function(data) {

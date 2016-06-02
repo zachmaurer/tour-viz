@@ -4,6 +4,9 @@ import sys
 import pymongo
 import json
 import sys
+#from bson import Binary, Code
+from bson.json_util import dumps
+
 from collections import defaultdict 
 
 

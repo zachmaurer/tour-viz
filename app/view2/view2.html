@@ -1,4 +1,14 @@
 <style type="text/css">
+
+.bubble-container {
+    height: 700px;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    border:2px solid #000;
+}
+
+
 .chart {
     shape-rendering: crispEdges;
 }
@@ -55,15 +65,17 @@ circle.other {
 <input ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
 
 
-<input ng-model="dateMax">
-<input ng-model="dateMin">
-<div class="timeline-container">
 
-    <d3-timeline ng-if='events' events="events" min-date="dateMin" max-date="dateMax">
+
+<div class="timeline-container">
+    <h3>Displaying events from {{extent.dateMin | date:'fullDate'}} to {{extent.dateMax | date:'fullDate'}} </h3>
+    
+
+    <d3-timeline ng-if='events' events="events" min-date="extent.dateMin" max-date="extent.dateMax">
     </d3-timeline>
 </div>
 <div class="bubble-container">
-    <d3-bubble-chart ng-if='node_data' nodes="node_data" aggregate="aggregate">
+    <d3-bubble-chart ng-if='node_data' nodes="node_data" min-date="extent.dateMin" max-date="extent.dateMax">
     </d3-bubble-chart>
 </div>
 

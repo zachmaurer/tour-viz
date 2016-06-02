@@ -9,36 +9,48 @@ angular.module('myApp.view2', ['ngRoute'])
   });
 }])
 
-.controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', 'artistsOptions', function($scope, timelineInfo, nodesInfo, artistsOptions) {
- // $scope.timeline_data = null;
- //    $scope.node_data = null;
-    // $scope.dateMin = "hi";
-    // $scope.dateMax = "hi";
-
+.controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', 'artistsOptions','eventsService','$timeout', function($scope, timelineInfo, nodesInfo, artistsOptions, eventsService, $timeout) {
+  $scope.timeline_data = null;
+     $scope.node_data = null;
+     $scope.extent = { "dateMin" : "",
+                        "dateMax" :"" };
 
  // should look into caching this data so we dont load it ever tab switch
-    timelineInfo.success(function(data) {
-        $scope.events = data;
-    });
+    // timelineInfo.success(function(data) {
+    //     $scope.events = data;
+    // });
 
-    nodesInfo.success(function(data) {
-        $scope.node_data = data;
-    });
+    // nodesInfo.success(function(data) {
+    //     $scope.node_data = data;
+    // });
 
     artistsOptions.success(function(data) {
-        $scope.artists_options = data;
+        $scope.artists_options = data;  
     });
 
-    // $scope.timechanged = function(min, max) {
-    //     console.log(min);
-    //     console.log(max);
-    // };
 
 
     $scope.selectedArtist = function($item, $model, $label, $event) {
         this.$parent.chosen_artist = $item; // not sure why I have to do it like this...
         this.$parent.test = $scope.test == 1 ? 2 : 1;
-        this.$parent.getDataForArtist();
+        eventsService.getArtistEvents($item.id, $item.name).then(function(response) {
+            if (response.data.length == 0) return;
+            $scope.events = response.data;
+            $timeout(function() {
+                $scope.$apply();
+            });
+        }, function(error){
+            console.log(error);
+        });
+        eventsService.getAssociatedArtists($item.id, $item.name).then(function(response) {
+            if (response.data.length == 0) return;
+            $scope.node_data = response.data;
+            $timeout(function() {
+                $scope.$apply();
+            });
+        }, function(error){
+            console.log(error);
+        });
     };
 
     $scope.getDataForArtist = function() {
