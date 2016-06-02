@@ -55,4 +55,17 @@ angular.module('myApp.factories', [])
             };
             return $http(req);   
         };
+
+        this.getAllEvents = function() {
+            var req = {
+                method: "GET",
+                url: "http://localhost:5000/api/events/all",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            };
+            return $http(req);   
+        };
+
+
     })

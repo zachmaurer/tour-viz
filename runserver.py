@@ -35,6 +35,9 @@ def artistEvents():
       r['billingIndex'] = p['billingIndex']
       r['startDate'] = e['start']['date']
       r['id'] = p['id']
+      r['lat'] = e['location']['lat']
+      r['lng'] = e['location']['lng']
+      r['city'] = e['location']['city']
       if r['name'] == artist_name.rstrip():
         r['isSubject'] = 1
       else:
@@ -49,12 +52,24 @@ def artistEvents():
 def cityEvents():
   # Get city name
   city_name = request.args['city']
-  print(city_name)
   if city_name != "":
     events = db.events.find({"location.city": city_name})
   else:
-    events = db.events.find().limit(1000)  
-  return dumps(events)
+    events = db.events.find().limit(1000) 
+  return dumpts(events)
+  
+
+@app.route("/api/events/all")
+def allEvents():
+  events = db.events.find()
+  concerts = list()
+  for e in events:
+    x = dict()
+    x['lat'] = e['location']['lat']
+    x['lng'] = e['location']['lng']
+    x['date'] = e['start']['date'] 
+    concerts.append(x)
+  return dumps(concerts)
 
 # Method: associatedArtists
 # ---------
