@@ -22,16 +22,23 @@ angular.module('myApp.factories', [])
             var req = {
                 method: "GET",
                 url: "http://localhost:5000/api/events/city",
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 params: {"city": city}
             };
             return $http(req);
         };
 
-        this.getArtistEvents = function(artist_id) {
+        this.getArtistEvents = function(artist_id, artist_name) {
             var req = {
                 method: "GET",
                 url: "http://localhost:5000/api/events/artist",
-                params: {"id": artist_id}
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                params: {"id": artist_id,
+                        "name": artist_name}
             };
             return $http(req);   
         }

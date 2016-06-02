@@ -12,32 +12,15 @@ angular.module('myApp.directives.timeline', ['d3'])
                 d3Service.d3().then(function(d3) {
                     var indices = 10;
                     var items = scope.events;
-                    var timeBegin = d3.min(items, function(d){ return new Date(d.startDate); });
-                    var timeEnd = d3.max(items, function(d){ return new Date(d.startDate); });
-                    timeBegin = new Date(timeBegin.getTime() - 86400000);
-                    timeEnd = new Date(timeEnd.getTime() + 86400000*15);
-                    var m = [20, 15, 15, 120]; //top right bottom left
+                    
+                    
+                    var m = [30, 100, 30, 120]; //top right bottom left
                     var w = 1200 - m[1] - m[3];
                     var h = 400 - m[0] - m[2];
                     var miniHeight = indices * 12;
                     var mainHeight = h - miniHeight - 50;
 
-                    //scales
-                    var timeScale = d3.time.scale()
-                            .domain([timeBegin, timeEnd])
-                            .range([0, w]);
-                    var brushScale = d3.scale.linear()
-                            .range([0, w]);
-                    var y1 = d3.scale.linear()
-                            .domain([0, indices])
-                            .range([0, mainHeight]);
-                    var miniHeightScale = d3.scale.linear()
-                            .domain([0, indices])
-                            .range([0, miniHeight]);
-                    var rectWidthScale = d3.scale.linear()
-                            .domain([0, timeEnd.getTime() - timeBegin.getTime()])
-                            .range([50, 5]);
-
+                    
                     var chart = d3.select(".timeline-container")
                         .append("svg")
                         .attr("width", w + m[1] + m[3])
@@ -106,7 +89,33 @@ angular.module('myApp.directives.timeline', ['d3'])
                         //     .attr("text-anchor", "end")
                         //     .attr("class", "laneText");
 
-                        
+                        var timeBegin = d3.min(data, function(d){ return new Date(d.startDate); });
+                        var timeEnd = d3.max(data, function(d){ return new Date(d.startDate); });
+
+                        console.log(timeBegin);
+                        console.log(timeEnd);
+
+                        timeBegin = new Date(timeBegin.getTime() - 86400000);
+                        timeEnd = new Date(timeEnd.getTime() + 86400000*15);
+
+                            //scales
+                        var timeScale = d3.time.scale()
+                                .domain([timeBegin, timeEnd])
+                                .range([0, w]);
+                        var brushScale = d3.scale.linear()
+                                .range([0, w]);
+                        var y1 = d3.scale.linear()
+                                .domain([0, indices])
+                                .range([0, mainHeight]);
+                        var miniHeightScale = d3.scale.linear()
+                                .domain([0, indices])
+                                .range([0, miniHeight]);
+                        var rectWidthScale = d3.scale.linear()
+                                .domain([0, timeEnd.getTime() - timeBegin.getTime()])
+                                .range([50, 5]);
+
+
+                        mini.selectAll("g").remove();
                         
                         //mini item rects
                         mini.append("g").selectAll("miniItems")

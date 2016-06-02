@@ -6,7 +6,7 @@ import sys
 from ujson import dumps
 from flask import Flask
 from flask import request
-from flask.ext.cors import CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
@@ -23,9 +23,23 @@ def index():
 def artistEvents():
   #Get artist id from request args
   artist_id = int(request.args['id'])
+  artist_name = str(request.args['name'])
   #Get all events for an artist
   events = db.events.find({ "performance": {"$elemMatch": {"artist.id": artist_id}}})
-  return dumps(events)
+  performance_list = list()
+  for e in events:     
+    for p in e['performance']:
+      r = dict()
+      r['name'] = p['displayName'].rstrip('\n')
+      r['billingIndex'] = p['billingIndex']
+      r['startDate'] = e['start']['date']
+      r['id'] = p['id']
+      if r['name'] == artist_name.rstrip():
+        r['isSubject'] = 1
+      else:
+        r['isSubject'] = 0
+      performance_list.append(r)
+  return dumps(performance_list)
 
 # Method: cityEvents
 # ---------

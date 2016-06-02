@@ -9,7 +9,7 @@ angular.module('myApp.view2', ['ngRoute'])
   });
 }])
 
-.controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', 'artistsOptions', function($scope, timelineInfo, nodesInfo, artistsOptions) {
+.controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', 'artistsOptions','eventsService','$timeout', function($scope, timelineInfo, nodesInfo, artistsOptions, eventsService, $timeout) {
   $scope.timeline_data = null;
      $scope.node_data = null;
      $scope.extent = { "dateMin" : "hi",
@@ -33,7 +33,15 @@ angular.module('myApp.view2', ['ngRoute'])
     $scope.selectedArtist = function($item, $model, $label, $event) {
         this.$parent.chosen_artist = $item; // not sure why I have to do it like this...
         this.$parent.test = $scope.test == 1 ? 2 : 1;
-        this.$parent.getDataForArtist();
+        eventsService.getArtistEvents($item.id, $item.name).then(function(response) {
+            if (response.data.length == 0) return;
+            $scope.events = response.data;
+            $timeout(function() {
+                $scope.$apply();
+            });
+        }, function(error){
+            console.log(error);
+        });
     };
 
     $scope.getDataForArtist = function() {
