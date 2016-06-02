@@ -12,6 +12,7 @@ angular.module('myApp', [
     'myApp.directives.artistmap',
     'myApp.directives.timeline',
     'myApp.directives.bubbleChart',
+    'myApp.directives.timeSelector',
     'myApp.directives.bar',
     'myApp.factories',
     'ui.bootstrap'
