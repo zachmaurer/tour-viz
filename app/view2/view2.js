@@ -16,13 +16,13 @@ angular.module('myApp.view2', ['ngRoute'])
                         "dateMax" :"" };
 
  // should look into caching this data so we dont load it ever tab switch
-    timelineInfo.success(function(data) {
-        $scope.events = data;
-    });
+    // timelineInfo.success(function(data) {
+    //     $scope.events = data;
+    // });
 
-    nodesInfo.success(function(data) {
-        $scope.node_data = data;
-    });
+    // nodesInfo.success(function(data) {
+    //     $scope.node_data = data;
+    // });
 
     artistsOptions.success(function(data) {
         $scope.artists_options = data;  
