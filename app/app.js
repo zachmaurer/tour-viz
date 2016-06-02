@@ -9,6 +9,7 @@ angular.module('myApp', [
     'myApp.view3',
     'myApp.version',
     'myApp.directives.map',
+    'myApp.directives.artistmap',
     'myApp.directives.timeline',
     'myApp.directives.bubbleChart',
     'myApp.directives.bar',
