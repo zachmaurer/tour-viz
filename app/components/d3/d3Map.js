@@ -106,11 +106,11 @@ angular.module('myApp.directives.map', ['d3'])
                         var points = [];
                         // need to go from lat_lng to x_y
                         for (var i = 0; i < lat_long.length; i++) {
-                            points.push(projection(lat_long[i]));
+                            points.push(projection([lat_long[i].lng, lat_long[i].lat]));
                         }
 
                         var color = d3.scale.linear()
-                            .domain([0, 20])
+                            .domain([0, 1000])
                             .range(["#ddd", "steelblue"])
                             .interpolate(d3.interpolateLab);
 
@@ -131,12 +131,12 @@ angular.module('myApp.directives.map', ['d3'])
                             })
                             .style("fill", function(d) {
                                 return color(d.length);
-                            })
+                            });
 
-                        .on('mouseover', function(d, i) {
-                            // return scope.onMouseOver({ item: d });
-                            console.log('HEX------' + d);
-                        });
+                        // .on('mouseover', function(d, i) {
+                        //     // return scope.onMouseOver({ item: d });
+                        //     console.log('HEX------' + d);
+                        // });
 
                         hexes.exit().remove();
                     };

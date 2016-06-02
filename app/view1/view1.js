@@ -9,30 +9,43 @@ angular.module('myApp.view1', ['ngRoute'])
     });
 }])
 
-.controller('View1Ctrl', ['$scope', 'venueInfo', 'mapInfo', 'cityOptions', 'eventsService', function($scope, venueInfo, mapInfo, cityOptions, eventsService) {
+.controller('View1Ctrl', ['$rootScope', '$scope', 'venueInfo', 'mapInfo', 'cityOptions', 'eventsService', function($rootScope, $scope, venueInfo, mapInfo, cityOptions, eventsService) {
 
     var raw_data = {};
     // $scope.chosen_city = {city: 'San Francisco'};
-    venueInfo.success(function(data) {
-        // $scope.events = data.resultsPage.results.event;
-        raw_data = data;
-        $scope.setNewDecade();
-        // $scope.city_options = getCityList(raw_data);
-    });
+    // venueInfo.success(function(data) {
+    //     // $scope.events = data.resultsPage.results.event;
+    //     raw_data = data;
+
+    //     // $scope.city_options = getCityList(raw_data);
+    // });
 
     cityOptions.success(function(data) {
-    	$scope.city_options = data;
-
+        $scope.city_options = data;
     });
 
-    mapInfo.success(function(data) {
-        $scope.map = data;
+    eventsService.getAllEvents().then(function(response) {
+        if (response.data.length == 0) return;
+        // raw_data = response.data;
+        $rootScope.points = response.data;
+        // $scope.points = getPointsFromData();
+        // $scope.setNewDecade();
+    }, function(error) {
+        console.log(error);
     });
+
+
+    if (!$rootScope.map) {
+        mapInfo.success(function(data) {
+            $rootScope.map = data;
+        });
+    }
+
 
     $scope.selectedCity = function($item, $model, $label, $event) {
         this.$parent.chosen_city = $item; // not sure why I have to do it like this...
         this.$parent.getDataFromCity();
-		
+
     };
 
     $scope.setNewDecade = function() {
@@ -65,13 +78,14 @@ angular.module('myApp.view1', ['ngRoute'])
         // $scope.city_data = getCitiesFromData();
         $scope.points = getPointsFromData();
         if ($scope.chosen_city) {
-        	$scope.getDataFromCity();
+            $scope.getDataFromCity();
         } else {
-        	$scope.refreshMap();
+            $scope.refreshMap();
         }
     };
 
     $scope.refreshMap = function() {
+        // move to root
         $scope.test = $scope.test == 1 ? 2 : 1;
     };
 
@@ -82,8 +96,7 @@ angular.module('myApp.view1', ['ngRoute'])
         for (var i = 0; i < $scope.decade_events.length; i++) {
 
             // either of them are substrings 
-            if ($scope.decade_events[i].location.city.indexOf($scope.chosen_city.name) > -1 
-            	|| $scope.chosen_city.name.indexOf($scope.decade_events[i].location.city) > -1) {
+            if ($scope.decade_events[i].location.city.indexOf($scope.chosen_city.name) > -1 || $scope.chosen_city.name.indexOf($scope.decade_events[i].location.city) > -1) {
 
                 var venue = $scope.decade_events[i].venue.displayName;
                 if (venue in venues) {
@@ -91,7 +104,7 @@ angular.module('myApp.view1', ['ngRoute'])
                 } else {
                     venues[venue] = 1;
                 }
-                
+
                 for (var j = 0; j < $scope.decade_events[i].performance.length; j++) {
                     var artist = $scope.decade_events[i].performance[j].artist.displayName;
                     if (artist in artists) {
@@ -106,20 +119,24 @@ angular.module('myApp.view1', ['ngRoute'])
         // need to make them arrays, I think this is the fastest way??
         var venues_arr = [];
         for (var key in venues) {
-        	venues_arr.push({name: key, total:venues[key]});
+            venues_arr.push({ name: key, total: venues[key] });
         };
 
         var artists_arr = [];
         for (var key1 in artists) {
-        	artists_arr.push({name: key1, total:artists[key1]});
+            artists_arr.push({ name: key1, total: artists[key1] });
         }
-        $scope.venues = venues_arr.sort(function(a,b) {return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);} ); 
-        $scope.artists = artists_arr.sort(function(a,b) {return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);} ); 
+        $scope.venues = venues_arr.sort(function(a, b) {
+            return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);
+        });
+        $scope.artists = artists_arr.sort(function(a, b) {
+            return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);
+        });
         $scope.refreshMap();
     };
 
 
-   
+
 
     var getPointsFromData = function() {
         var points = [];
@@ -130,7 +147,7 @@ angular.module('myApp.view1', ['ngRoute'])
     };
 
 
- // var getRoutesFromData = function() {
+    // var getRoutesFromData = function() {
     //     var paths = [];
     //     // var previousEventLatLng = null;
     //     for (var i = 0; i < $scope.decade_events.length - 1; i++) {

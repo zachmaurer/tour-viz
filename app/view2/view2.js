@@ -3,19 +3,21 @@
 angular.module('myApp.view2', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view2', {
-    templateUrl: 'view2/view2.html',
-    controller: 'View2Ctrl'
-  });
+    $routeProvider.when('/view2', {
+        templateUrl: 'view2/view2.html',
+        controller: 'View2Ctrl'
+    });
 }])
 
-.controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', 'artistsOptions','eventsService','$timeout', function($scope, timelineInfo, nodesInfo, artistsOptions, eventsService, $timeout) {
-  $scope.timeline_data = null;
-     $scope.node_data = null;
-     $scope.extent = { "dateMin" : "",
-                        "dateMax" :"" };
+.controller('View2Ctrl', ['$rootScope','$scope', 'mapInfo', 'artistsOptions', 'eventsService',  '$timeout', function($rootScope, $scope, mapInfo, artistsOptions, eventsService, $timeout) {
+    $scope.timeline_data = null;
+    $scope.node_data = null;
+    $scope.extent = {
+        "dateMin": "",
+        "dateMax": ""
+    };
 
- // should look into caching this data so we dont load it ever tab switch
+    // should look into caching this data so we dont load it ever tab switch
     // timelineInfo.success(function(data) {
     //     $scope.events = data;
     // });
@@ -24,8 +26,15 @@ angular.module('myApp.view2', ['ngRoute'])
     //     $scope.node_data = data;
     // });
 
+
+    if (!$rootScope.map) {
+        mapInfo.success(function(data) {
+            $rootScope.map = data;
+        });
+    }
+
     artistsOptions.success(function(data) {
-        $scope.artists_options = data;  
+        $scope.artists_options = data;
     });
 
 
@@ -35,11 +44,12 @@ angular.module('myApp.view2', ['ngRoute'])
         this.$parent.test = $scope.test == 1 ? 2 : 1;
         eventsService.getArtistEvents($item.id, $item.name).then(function(response) {
             if (response.data.length == 0) return;
-            $scope.events = response.data;
+            $scope.events = addTimeStampToEvents(response.data);
+
             $timeout(function() {
                 $scope.$apply();
             });
-        }, function(error){
+        }, function(error) {
             console.log(error);
         });
         eventsService.getAssociatedArtists($item.id, $item.name).then(function(response) {
@@ -48,21 +58,27 @@ angular.module('myApp.view2', ['ngRoute'])
             $timeout(function() {
                 $scope.$apply();
             });
-        }, function(error){
+        }, function(error) {
             console.log(error);
         });
     };
 
-    $scope.getDataForArtist = function() {
-        // need mo data 
-         //$scope.chosen_artist 
-            // {id: 2135, name: Bruce}
 
 
 
-        // $scope.events = only events with id == $scope.chosen_artist.id 
-        // $scope.node_data = ??? data doesnt exist...
 
+    //startDate
+    var addTimeStampToEvents = function(events) {
+        return events.map(function(event) {
+            event.timeStamp = new Date(event.startDate);
+            return event;
+        });
     };
+
+    $scope.refreshMap = function() {
+        // move to root
+        $scope.test = $scope.test == 1 ? 2 : 1;
+    };
+
 
 }]);

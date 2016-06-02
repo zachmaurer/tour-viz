@@ -64,14 +64,16 @@ circle.other {
 <h1 class='artist-header'>{{chosen_artist.name}}</h1>
 <input ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
 
-
+<div class="map-container">
+	<d3-artist-map ng-if='map && events' events='events' routes='routes' map='map' test='test' timeline='extent'></d3-artist-map>
+</div>
 
 
 <div class="timeline-container">
     <h3>Displaying events from {{extent.dateMin | date:'fullDate'}} to {{extent.dateMax | date:'fullDate'}} </h3>
     
 
-    <d3-timeline ng-if='events' events="events" min-date="extent.dateMin" max-date="extent.dateMax">
+    <d3-timeline ng-if='events' events="events" min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'>
     </d3-timeline>
 </div>
 <div class="bubble-container">
