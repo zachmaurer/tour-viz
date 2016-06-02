@@ -3,6 +3,7 @@
 import sys
 import pymongo
 import sys
+from collections import defaultdict
 from ujson import dumps
 from flask import Flask
 from flask import request
@@ -54,6 +55,32 @@ def cityEvents():
   else:
     events = db.events.find().limit(1000)  
   return dumps(events)
+
+# Method: associatedArtists
+# ---------
+# Gets all the events that occurred in a given city.
+@app.route("/api/associated/artist")
+def associatedArtists():
+  #Get artist id from request args
+  artist_id = int(request.args['id'])
+  artist_name = str(request.args['name'])
+  events = db.events.find({ "performance": {"$elemMatch": {"artist.id":artist_id}}})
+
+  associated_artists = defaultdict(list)
+  for e in events:
+    date = e['start']['date']
+    for p in e['performance']:
+      performer = p['displayName'].rstrip('\n')
+      associated_artists[performer].append(date)
+      
+  associated_artists_as_list = list()
+  for name, events in associated_artists.items():
+    x = dict()
+    x['name'] = name
+    x['events'] = events
+    x['isSubject'] = 1 if artist_name == name else 0
+    associated_artists_as_list.append(x)
+  return dumps(associated_artists_as_list)
 
 
 if __name__ == "__main__":

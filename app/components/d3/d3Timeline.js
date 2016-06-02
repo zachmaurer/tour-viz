@@ -155,7 +155,7 @@ angular.module('myApp.directives.timeline', ['d3'])
                                 .attr("x", function(d) { return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;});
 
                             labels.enter().append("text")
-                                .text(function(d) {return d.name;})
+                                .text(function(d) { return d.isSubject ? "" : d.name;})
                                 .attr("x", function(d) {return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;})
                                 .attr("y", function(d) {return y1(d.billingIndex +0.1);})
                                 .attr("text-anchor", "start");

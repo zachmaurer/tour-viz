@@ -41,5 +41,18 @@ angular.module('myApp.factories', [])
                         "name": artist_name}
             };
             return $http(req);   
-        }
+        };
+
+        this.getAssociatedArtists = function(artist_id, artist_name) {
+            var req = {
+                method: "GET",
+                url: "http://localhost:5000/api/associated/artist",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                params: {"id": artist_id,
+                        "name": artist_name}
+            };
+            return $http(req);   
+        };
     })
