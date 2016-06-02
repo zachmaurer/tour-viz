@@ -99,18 +99,34 @@ svg {
       text-align: center;
 }
 
-.chart-artists div, .chart-venues div{
-  font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white !important;
-  background-color: cadetblue;
-}
 
+.graph-row {
+    margin: 5px;
+}
 
 .graph-label {
     float: left;
+    text-align: right;
+    width: 150px;
+    margin-right: 10px;
+    /* overflow-wrap: normal; */
+}
+
+.graph-bar {
+    text-align: right;
+    background-color: steelblue;
+    display: inline-block;
+    padding-right: 10px;
+    color: white;
+    padding-left: 3px;
+}
+
+.graph-bar text {
+     font: 10px sans-serif;
+      color: white !important;
+}
+
+.title {
+    text-align: center;
 }
 

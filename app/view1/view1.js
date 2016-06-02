@@ -31,7 +31,6 @@ angular.module('myApp.view1', ['ngRoute'])
 
     $scope.selectedCity = function($item, $model, $label, $event) {
         this.$parent.chosen_city = $item; // not sure why I have to do it like this...
-        // this.$parent.test = $scope.test == 1 ? 2 : 1;
         this.$parent.getDataFromCity();
 		
     };
@@ -114,8 +113,8 @@ angular.module('myApp.view1', ['ngRoute'])
         for (var key1 in artists) {
         	artists_arr.push({name: key1, total:artists[key1]});
         }
-        $scope.venues = venues_arr;
-        $scope.artists = artists_arr;
+        $scope.venues = venues_arr.sort(function(a,b) {return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);} ); 
+        $scope.artists = artists_arr.sort(function(a,b) {return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);} ); 
         $scope.refreshMap();
     };
 
