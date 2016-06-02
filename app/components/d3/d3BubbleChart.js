@@ -3,7 +3,9 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
         return {
             restrict: 'EA',
             scope: {
-                nodes: '=', // bi-directional data-binding
+                nodes: '=',
+                minDate: '=',
+                maxDate: '=', // bi-directional data-binding
                 // label: "@"
             },
             link: function(scope, element, attrs) {
@@ -83,7 +85,6 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                     //       });
                     // svg.call(tip);
 
-
                     scope.render = function(data) {
 
                         var maxShows = d3.max(data, function(d){ return d.isSubject ? 0 : d.count; });
@@ -137,8 +138,12 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         force.start();  
                     };
 
-                    
-
+                   
+                    // scope.filterByTime = function() {
+                    //     bubbles.each(function(d) {
+                    //         for(x )
+                    //     });
+                    // };
 
                     //Browser onresize event
                     window.onresize = function() {
