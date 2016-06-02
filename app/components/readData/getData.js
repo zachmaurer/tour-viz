@@ -16,4 +16,23 @@ angular.module('myApp.factories', [])
     })
     .factory('artistsOptions', function($http) {
         return $http.get('client_data/artists_list.json');
-    });
+    })
+    .service('eventsService', function($http) {
+        this.getEventsByCity = function(city) {
+            var req = {
+                method: "GET",
+                url: "http://localhost:5000/api/events/city",
+                params: {"city": city}
+            };
+            return $http(req);
+        };
+
+        this.getArtistEvents = function(artist_id) {
+            var req = {
+                method: "GET",
+                url: "http://localhost:5000/api/events/artist",
+                params: {"id": artist_id}
+            };
+            return $http(req);   
+        }
+    })
