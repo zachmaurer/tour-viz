@@ -30,8 +30,9 @@ angular.module('myApp.view1', ['ngRoute'])
 
     $scope.selectedCity = function($item, $model, $label, $event) {
         this.$parent.chosen_city = $item; // not sure why I have to do it like this...
-        this.$parent.test = $scope.test == 1 ? 2 : 1;
+        // this.$parent.test = $scope.test == 1 ? 2 : 1;
         this.$parent.getDataFromCity();
+		
     };
 
     $scope.setNewDecade = function() {
@@ -60,9 +61,18 @@ angular.module('myApp.view1', ['ngRoute'])
             }
         }
 
-        $scope.routes = getRoutesFromData();
-        $scope.city_data = getCitiesFromData();
+        // $scope.routes = getRoutesFromData();
+        // $scope.city_data = getCitiesFromData();
         $scope.points = getPointsFromData();
+        if ($scope.chosen_city) {
+        	$scope.getDataFromCity();
+        } else {
+        	$scope.refreshMap();
+        }
+    };
+
+    $scope.refreshMap = function() {
+        $scope.test = $scope.test == 1 ? 2 : 1;
     };
 
 
@@ -105,25 +115,11 @@ angular.module('myApp.view1', ['ngRoute'])
         }
         $scope.venues = venues_arr;
         $scope.artists = artists_arr;
+        $scope.refreshMap();
     };
 
 
-    var getRoutesFromData = function() {
-        var paths = [];
-        // var previousEventLatLng = null;
-        for (var i = 0; i < $scope.decade_events.length - 1; i++) {
-            paths.push({
-                type: "LineString",
-                coordinates: [
-                    [$scope.decade_events[i].location.lng, $scope.decade_events[i].location.lat],
-                    [$scope.decade_events[i + 1].location.lng, $scope.decade_events[i + 1].location.lat]
-                ]
-            });
-        }
-
-        return paths;
-    };
-
+   
 
     var getPointsFromData = function() {
         var points = [];
@@ -134,42 +130,57 @@ angular.module('myApp.view1', ['ngRoute'])
     };
 
 
+ // var getRoutesFromData = function() {
+    //     var paths = [];
+    //     // var previousEventLatLng = null;
+    //     for (var i = 0; i < $scope.decade_events.length - 1; i++) {
+    //         paths.push({
+    //             type: "LineString",
+    //             coordinates: [
+    //                 [$scope.decade_events[i].location.lng, $scope.decade_events[i].location.lat],
+    //                 [$scope.decade_events[i + 1].location.lng, $scope.decade_events[i + 1].location.lat]
+    //             ]
+    //         });
+    //     }
+
+    //     return paths;
+    // };
 
 
-    var getCitiesFromData = function() {
-        var city_dictionary = {};
+    // var getCitiesFromData = function() {
+    //     var city_dictionary = {};
 
-        for (var year in $scope.decade_events) {
-            var event = $scope.decade_events[year];
-            // venue->metro_area->displayName
-            var city = event.venue.metroArea.displayName;
-            if (city in city_dictionary) {
-                city_dictionary[city]['events'].push(event);
-                city_dictionary[city]['num_events']++;
-            } else {
-                // lat, lng not working 
-                city_dictionary[city] = {
-                    'lat': event.location.lat,
-                    'lng': event.location.lng,
-                    'num_events': 1,
-                    'name': city,
-                    'events': [event]
-                };
-            }
-        }
+    //     for (var year in $scope.decade_events) {
+    //         var event = $scope.decade_events[year];
+    //         // venue->metro_area->displayName
+    //         var city = event.venue.metroArea.displayName;
+    //         if (city in city_dictionary) {
+    //             city_dictionary[city]['events'].push(event);
+    //             city_dictionary[city]['num_events']++;
+    //         } else {
+    //             // lat, lng not working 
+    //             city_dictionary[city] = {
+    //                 'lat': event.location.lat,
+    //                 'lng': event.location.lng,
+    //                 'num_events': 1,
+    //                 'name': city,
+    //                 'events': [event]
+    //             };
+    //         }
+    //     }
 
-        return makeCityArray(city_dictionary)
-    };
+    //     return makeCityArray(city_dictionary)
+    // };
 
-    var makeCityArray = function(city_dictionary) {
-        var city_array = [];
-        for (var city in city_dictionary) {
-            var city_obj = city_dictionary[city];
-            city_array.push(city_obj);
-        }
+    // var makeCityArray = function(city_dictionary) {
+    //     var city_array = [];
+    //     for (var city in city_dictionary) {
+    //         var city_obj = city_dictionary[city];
+    //         city_array.push(city_obj);
+    //     }
 
-        return city_array;
-    };
+    //     return city_array;
+    // };
 
 
 
@@ -181,10 +192,10 @@ angular.module('myApp.view1', ['ngRoute'])
     $scope.totalItems = 60;
 
 
-    // event listener on mouseover nodes
-    $scope.showDetailPanel = function(item) {
-        $scope.current_venue = item.name + '--num_events: ' + item.num_events;
-        $scope.$apply();
-    }
+    // // event listener on mouseover nodes
+    // $scope.showDetailPanel = function(item) {
+    //     $scope.current_venue = item.name + '--num_events: ' + item.num_events;
+    //     $scope.$apply();
+    // }
 
 }]);

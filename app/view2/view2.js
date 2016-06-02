@@ -43,6 +43,10 @@ angular.module('myApp.view2', ['ngRoute'])
 
     $scope.getDataForArtist = function() {
         // need mo data 
+         //$scope.chosen_artist 
+            // {id: 2135, name: Bruce}
+
+
 
         // $scope.events = only events with id == $scope.chosen_artist.id 
         // $scope.node_data = ??? data doesnt exist...
