@@ -40,61 +40,18 @@ angular.module('myApp.directives.timeline', ['d3'])
                                 .attr("class", "main");
 
                     var mini = chart.append("g")
-                                .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]) + ")")
+                                .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]+30) + ")")
                                 .attr("width", w)
                                 .attr("height", miniHeight)
                                 .attr("class", "mini");
+
 
                     var itemRects = main.append("g")
                                     .attr("clip-path", "url(#clip)");
 
                     scope.render = function(data) {
-                        //main lanes and texts
-                        // main.append("g").selectAll(".laneLines")
-                        //     .data(items)
-                        //     .enter().append("line")
-                        //     .attr("x1", m[1])
-                        //     .attr("y1", function(d) {return y1(d.lane);})
-                        //     .attr("x2", w)
-                        //     .attr("y2", function(d) {return y1(d.lane);})
-                        //     .attr("stroke", "lightgray")
-
-                        // main.append("g").selectAll(".laneText")
-                        //     .data(items)
-                        //     .enter().append("text")
-                        //     .text(function(d) {return d.id;})
-                        //     .attr("x", -m[1])
-                        //     .attr("y", function(d, i) {return y1(i + .5);})
-                        //     .attr("dy", ".5ex")
-                        //     .attr("text-anchor", "end")
-                        //     .attr("class", "laneText");
-                        
-                        // //mini lanes and texts
-                        // mini.append("g").selectAll(".laneLines")
-                        //     .data(items)
-                        //     .enter().append("line")
-                        //     .attr("x1", m[1])
-                        //     .attr("y1", function(d) {return y2(d.lane);})
-                        //     .attr("x2", w)
-                        //     .attr("y2", function(d) {return y2(d.lane);})
-                        //     .attr("stroke", "lightgray");
-
-                        // mini.append("g").selectAll(".laneText")
-                        //     .data(lanes)
-                        //     .enter().append("text")
-                        //     .text(function(d) {return d;})
-                        //     .attr("x", -m[1])
-                        //     .attr("y", function(d, i) {return y2(i + .5);})
-                        //     .attr("dy", ".5ex")
-                        //     .attr("text-anchor", "end")
-                        //     .attr("class", "laneText");
-
                         var timeBegin = d3.min(data, function(d){ return new Date(d.startDate); });
                         var timeEnd = d3.max(data, function(d){ return new Date(d.startDate); });
-
-                        console.log(timeBegin);
-                        console.log(timeEnd);
-
                         timeBegin = new Date(timeBegin.getTime() - 86400000);
                         timeEnd = new Date(timeEnd.getTime() + 86400000*15);
 
@@ -115,6 +72,24 @@ angular.module('myApp.directives.timeline', ['d3'])
                                 .range([50, 5]);
 
 
+                        chart.selectAll('.xAxis')
+                            .remove();
+
+                        var yearScale = d3.time.scale()
+                                .domain([timeBegin, timeEnd])
+                                .range([0, w])
+                                .nice(d3.time.year);
+
+                        var xAxis = d3.svg.axis()
+                            .scale(yearScale)
+                            .orient('top');
+
+                        chart.append('g')
+                            .attr('class', 'xAxis')
+                            .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]+30) + ")")
+                            .call(xAxis);
+
+
                         mini.selectAll("g").remove();
                         
                         //mini item rects
@@ -126,15 +101,6 @@ angular.module('myApp.directives.timeline', ['d3'])
                             .attr("y", function(d) {return miniHeightScale(d.billingIndex + .5) - 5;})
                             .attr("width", function(d) {return 5;})
                             .attr("height", 5);
-
-                        //mini labels
-                        // mini.append("g").selectAll(".miniLabels")
-                        //     .data(items)
-                        //     .enter().append("text")
-                        //     .text(function(d) {return d.id;})
-                        //     .attr("x", function(d) {return timeScale(new Date(d.startDate));})
-                        //     .attr("y", function(d) {return miniHeightScale(d.billingIndex + .5);})
-                        //     .attr("dy", ".5ex");
 
                         //brush
                         var brush = d3.svg.brush()
@@ -149,7 +115,6 @@ angular.module('myApp.directives.timeline', ['d3'])
                             .attr("height", miniHeight - 1);
 
                         display();
-                        //console.log("rendinger");
                         function display() {
                             var rects, labels,
                                 minExtent = brush.extent()[0],
@@ -174,10 +139,6 @@ angular.module('myApp.directives.timeline', ['d3'])
                                     .data(visItems, function(d) { return d.id; })
                                 .attr("x", function(d) {return brushScale(new Date(d.startDate));})
                                 .attr("width", function(d) {return rectWidthScale(maxExtent.getTime() - minExtent.getTime());});
-                            
-                            //console.log(minExtent);
-                            //console.log(maxExtent);
-                            //console.log(visItems.length);
 
                             rects.enter().append("rect")
                                 .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})

@@ -58,15 +58,15 @@ circle.other {
 
 
 <div class="timeline-container">
-    <input ng-model="extent.dateMax">
-    <input ng-model="extent.dateMin">
+    <h3>Displaying events from {{extent.dateMin | date:'fullDate'}} to {{extent.dateMax | date:'fullDate'}} </h3>
+    
 
     <d3-timeline ng-if='events' events="events" min-date="extent.dateMin" max-date="extent.dateMax">
     </d3-timeline>
 </div>
 <div class="bubble-container">
-    <d3-bubble-chart ng-if='node_data' nodes="node_data" aggregate="aggregate">
-    </d3-bubble-chart>
+   <!--  <d3-bubble-chart ng-if='node_data' nodes="node_data" aggregate="aggregate">
+    </d3-bubble-chart> -->
 </div>
 
 
