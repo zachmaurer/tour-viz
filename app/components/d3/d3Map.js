@@ -30,8 +30,9 @@ angular.module('myApp.directives.map', ['d3'])
                     // order matters for event listener priority
                     var map_svg = svg.append('g').attr('id', 'map');
                     var hex_svg = svg.append('g').attr('id', 'hex').attr('clip-path', 'url(#land-clip)');
-                    var routes_svg = svg.append('g').attr('id', 'routes');
-                    var nodes_svg = svg.append('g').attr('id', 'nodes');
+                    var border_svg = svg.append('g').attr('id', 'border');
+                    // var routes_svg = svg.append('g').attr('id', 'routes');
+                    // var nodes_svg = svg.append('g').attr('id', 'nodes');
 
                     var projection = d3.geo.mercator()
                         .scale((width + 1) / 2 / Math.PI)
@@ -52,24 +53,24 @@ angular.module('myApp.directives.map', ['d3'])
                     };
 
 
-                    var renderNodes = function(data, projection, path) {
-                        var nodes = nodes_svg.selectAll("circle")
-                            .data(data);
+                    // var renderNodes = function(data, projection, path) {
+                    //     var nodes = nodes_svg.selectAll("circle")
+                    //         .data(data);
 
-                        nodes.enter().append("circle")
-                            .attr("cx", function(d, i) {
-                                return projection([d.venue.lng, d.venue.lat])[0];
-                            })
-                            .attr("cy", function(d, i) {
-                                return projection([d.venue.lng, d.venue.lat])[1];
-                            })
-                            .attr("class", 'venue')
-                            .on('mouseover', function(d, i) {
-                                return scope.onMouseOver({ item: d });
-                            });
+                    //     nodes.enter().append("circle")
+                    //         .attr("cx", function(d, i) {
+                    //             return projection([d.venue.lng, d.venue.lat])[0];
+                    //         })
+                    //         .attr("cy", function(d, i) {
+                    //             return projection([d.venue.lng, d.venue.lat])[1];
+                    //         })
+                    //         .attr("class", 'venue')
+                    //         .on('mouseover', function(d, i) {
+                    //             return scope.onMouseOver({ item: d });
+                    //         });
 
-                        nodes.exit().remove();
-                    };
+                    //     nodes.exit().remove();
+                    // };
 
 
                     var renderSelectedHex = function(city, projection, path) {
@@ -141,85 +142,85 @@ angular.module('myApp.directives.map', ['d3'])
                     };
 
 
-                    var renderCityNodes = function(data, projection, path) {
-                        // exit all points
-                        nodes_svg.selectAll("circle").remove();
-                        nodes_svg.selectAll("text").remove();
-                        var nodes = nodes_svg.selectAll("circle")
-                            .data(data);
+                    // var renderCityNodes = function(data, projection, path) {
+                    //     // exit all points
+                    //     nodes_svg.selectAll("circle").remove();
+                    //     nodes_svg.selectAll("text").remove();
+                    //     var nodes = nodes_svg.selectAll("circle")
+                    //         .data(data);
 
-                        nodes.enter().append("circle")
-                            .attr("cx", function(d, i) {
-                                return projection([d.lng, d.lat])[0];
-                            })
-                            .attr("cy", function(d, i) {
-                                return projection([d.lng, d.lat])[1];
-                            })
-                            .attr("r", function(d, i) {
-                                return d.num_events;
-                            })
-                            .attr("class", 'city')
-                            .on('mouseover', function(d, i) {
-                                return scope.onMouseOver({ item: d });
-                            });
+                    //     nodes.enter().append("circle")
+                    //         .attr("cx", function(d, i) {
+                    //             return projection([d.lng, d.lat])[0];
+                    //         })
+                    //         .attr("cy", function(d, i) {
+                    //             return projection([d.lng, d.lat])[1];
+                    //         })
+                    //         .attr("r", function(d, i) {
+                    //             return d.num_events;
+                    //         })
+                    //         .attr("class", 'city')
+                    //         .on('mouseover', function(d, i) {
+                    //             return scope.onMouseOver({ item: d });
+                    //         });
 
-                        /* Create the text for each block */
-                        nodes.enter().append("text")
-                            .attr("dx", function(d) {
-                                return projection([d.lng, d.lat])[0]
-                            })
-                            .attr("dy", function(d) {
-                                return projection([d.lng, d.lat])[1]
-                            })
-                            .attr("class", 'city-label')
-                            .text(function(d) {
-                                return d.num_events
-                            })
+                    //     /* Create the text for each block */
+                    //     nodes.enter().append("text")
+                    //         .attr("dx", function(d) {
+                    //             return projection([d.lng, d.lat])[0]
+                    //         })
+                    //         .attr("dy", function(d) {
+                    //             return projection([d.lng, d.lat])[1]
+                    //         })
+                    //         .attr("class", 'city-label')
+                    //         .text(function(d) {
+                    //             return d.num_events
+                    //         })
 
-                        nodes.exit().remove();
-                    };
+                    //     nodes.exit().remove();
+                    // };
 
 
-                    var renderRoutes = function(data, projection, path) {
-                        var paths = routes_svg.selectAll('path')
-                            .data(data);
+                    // var renderRoutes = function(data, projection, path) {
+                    //     var paths = routes_svg.selectAll('path')
+                    //         .data(data);
 
-                        paths.exit().remove();
+                    //     paths.exit().remove();
 
-                        paths.enter()
-                            .append('path')
-                            .attr("d", path)
-                            .attr('class', 'route')
-                            .on('mouseover', function(d, i) {
-                                console.log('route' + i);
-                            });
+                    //     paths.enter()
+                    //         .append('path')
+                    //         .attr("d", path)
+                    //         .attr('class', 'route')
+                    //         .on('mouseover', function(d, i) {
+                    //             console.log('route' + i);
+                    //         });
 
-                        paths.exit().remove();
-                    };
+                    //     paths.exit().remove();
+                    // };
 
-                    var renderUSMap = function(us, projection, path) {
-                        // interior boundaries
-                        map_svg.append("path")
-                            .datum(topojson.mesh(us, us.objects.subunits, function(a, b) {
-                                return a !== b;
-                            }))
-                            .attr("d", path)
-                            .attr("class", "state-boundary")
-                            .on('mouseover', function() {
-                                console.log('state boundary');
-                            });
+                    // var renderUSMap = function(us, projection, path) {
+                    //     // interior boundaries
+                    //     map_svg.append("path")
+                    //         .datum(topojson.mesh(us, us.objects.subunits, function(a, b) {
+                    //             return a !== b;
+                    //         }))
+                    //         .attr("d", path)
+                    //         .attr("class", "state-boundary")
+                    //         .on('mouseover', function() {
+                    //             console.log('state boundary');
+                    //         });
 
-                        // exterior boundaries
-                        map_svg.append("path")
-                            .datum(topojson.mesh(us, us.objects.subunits, function(a, b) {
-                                return a === b;
-                            }))
-                            .attr("d", path)
-                            .attr("class", "us-boundary")
-                            .on('mouseover', function() {
-                                console.log('us boundry');
-                            });
-                    };
+                    //     // exterior boundaries
+                    //     map_svg.append("path")
+                    //         .datum(topojson.mesh(us, us.objects.subunits, function(a, b) {
+                    //             return a === b;
+                    //         }))
+                    //         .attr("d", path)
+                    //         .attr("class", "us-boundary")
+                    //         .on('mouseover', function() {
+                    //             console.log('us boundry');
+                    //         });
+                    // };
 
                     var renderWorldMap = function(world, projection, path) {
                         // makes clip path 
@@ -243,7 +244,7 @@ angular.module('myApp.directives.map', ['d3'])
 
 
                         // makes country boundaries
-                        map_svg.insert("path", ".graticule")
+                        border_svg.insert("path", ".graticule")
                             .datum(topojson.mesh(world, world.objects.countries, function(a, b) {
                                 return a !== b;
                             }))

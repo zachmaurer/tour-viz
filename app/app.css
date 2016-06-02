@@ -39,10 +39,10 @@ path.us-boundary {
     fill: transparent;
 }
 
-path.hexagon {
+/*path.hexagon {
     stroke: black;
     stroke-width: .1;
-}
+}*/
 
 svg {
     background-color: #333;
