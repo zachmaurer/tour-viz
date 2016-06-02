@@ -149,9 +149,6 @@ angular.module('myApp.directives.timeline', ['d3'])
                             
                             scope.minDate = minExtent;
                             scope.maxDate = maxExtent;
-                            console.log(minExtent);
-                            console.log(maxExtent);
-                            console.log(scope);
 
                             $timeout(function() {
                              scope.$apply();

@@ -55,11 +55,13 @@ circle.other {
 <input ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
 
 
-<input ng-model="dateMax">
-<input ng-model="dateMin">
-<div class="timeline-container">
 
-    <d3-timeline ng-if='events' events="events" min-date="dateMin" max-date="dateMax">
+
+<div class="timeline-container">
+    <input ng-model="extent.dateMax">
+    <input ng-model="extent.dateMin">
+
+    <d3-timeline ng-if='events' events="events" min-date="extent.dateMin" max-date="extent.dateMax">
     </d3-timeline>
 </div>
 <div class="bubble-container">

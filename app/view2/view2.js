@@ -10,11 +10,10 @@ angular.module('myApp.view2', ['ngRoute'])
 }])
 
 .controller('View2Ctrl', ['$scope', 'timelineInfo', 'nodesInfo', 'artistsOptions', function($scope, timelineInfo, nodesInfo, artistsOptions) {
- // $scope.timeline_data = null;
- //    $scope.node_data = null;
-    // $scope.dateMin = "hi";
-    // $scope.dateMax = "hi";
-
+  $scope.timeline_data = null;
+     $scope.node_data = null;
+     $scope.extent = { "dateMin" : "hi",
+                        "dateMax" :"hi" };
 
  // should look into caching this data so we dont load it ever tab switch
     timelineInfo.success(function(data) {
@@ -29,10 +28,6 @@ angular.module('myApp.view2', ['ngRoute'])
         $scope.artists_options = data;
     });
 
-    // $scope.timechanged = function(min, max) {
-    //     console.log(min);
-    //     console.log(max);
-    // };
 
 
     $scope.selectedArtist = function($item, $model, $label, $event) {
