@@ -9,7 +9,10 @@ angular.module('myApp.view1', ['ngRoute'])
     });
 }])
 
+
 .controller('View1Ctrl', ['$rootScope', '$scope', 'venueInfo', 'mapInfo', 'cityOptions', 'eventsService', function($rootScope, $scope, venueInfo, mapInfo, cityOptions, eventsService) {
+     $scope.extent = { "dateMin" : "",
+                        "dateMax" :"" };
 
     var raw_data = {};
     // $scope.chosen_city = {city: 'San Francisco'};
