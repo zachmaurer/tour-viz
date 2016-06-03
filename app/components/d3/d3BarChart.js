@@ -49,7 +49,7 @@ angular.module('myApp.directives.bar', ['d3'])
                             .domain([0, d3.max(data, function(d) {
                                 return d.total;
                             })])
-                            .range([0, 300]);
+                            .range([0, 250]);
 
                         d3.select(data_type).selectAll("div").remove();
                         d3.select(data_type).selectAll("h3").remove();

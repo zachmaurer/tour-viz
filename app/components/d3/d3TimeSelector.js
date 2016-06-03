@@ -18,7 +18,7 @@ angular.module('myApp.directives.timeSelector', ['d3'])
                     var chart = d3.select(".timeline-container")
                         .append("svg")
                         .attr("width", w + m[1] + m[3])
-                        .attr("height", h + m[0] + m[2])
+                        .attr("height", m[0] + m[2])
                         .attr("class", "chart");
 
                         var timeBegin = new Date("1958-01-01");

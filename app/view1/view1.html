@@ -1,5 +1,4 @@
 <style>
-
 svg#timeline-container {
     background-color: #FFF !important;
     margin-left: auto;
@@ -13,8 +12,8 @@ svg#timeline-container {
 }
 
 .chart-container {
- height: 500px;
- overflow: scroll;
+    height: 500px;
+    overflow: scroll;
 }
 
 .red {
@@ -25,54 +24,47 @@ svg#timeline-container {
     height: 250px;
     overflow: scroll;
 }
-
 </style>
-
-
-
 <h2>{{current_venue}}</h2>
 <input ng-if='city_options' type="text" ng-model="chosen_city.name" uib-typeahead="city as option.name for option in city_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedCity($item, $model, $label, $event)' placeholder='Search here for a city name...'>
-<h3 class='city-header' ng-if='!chosen_city'> Type a city name into the search box to see detailed statistics for that city.</br> Use the timeline to filter the events. </h3>
-<h1 class='city-header' ng-if='chosen_city'> You are displaying detailed concert history for: <span class="red">{{chosen_city.name}}</span> </h1>
-
+<h4 class='city-header' ng-if='!chosen_city'> Type a city name into the search box to see detailed statistics for that city.</br> Use the timeline to filter the events. </h4>
+<h2 class='city-header' ng-if='chosen_city'> You are displaying detailed concert history for: <span class="red">{{chosen_city.name}}</span> </h2>
+<div class="row">
+    <div class="map-container col-md-7">
+        <!--         <h3 ng-if='points'> Concert Locations </h3>
+ -->
+        <d3-map ng-if='map' points='points' map='map' chosencity='chosen_city' test='test' timeline='extent'></d3-map>
+        <h1 ng-if='!points'> Loading hella data...  I'm sorry it's so slow.)</h1>
+    </div>
+    <div class="chart col-md-5">
+        <h3 ng-if='points'> City Statistics </h3>
+        <div class="chart-container">
+            <d3-bar ng-if='artists && venues' artists='artists' venues='venues' test='test' timeline='extent'></d3-bar>
+            <div ng-if='chosen_city'>
+                <h3> Artists </h3>
+                <div class="overflow">
+                    <div class="chart-artists" width="200px">
+                        <!-- <div class="title">Artists</div> -->
+                    </div>
+                </div>
+                <h3> Venues </h3>
+                <div class="overflow">
+                    <div class="chart-venues" width="200px">
+                        <!-- <div class="title">Venues</div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
-
-<div class="map-container col-md-6">
-    <h3 ng-if='points'> Concert Locations </h3>
-    <d3-map ng-if='map' points='points' map='map' chosencity='chosen_city' test='test' timeline='extent'></d3-map>
-    <h1 ng-if='!points'> Loading hella data...(I'm sorry it's so slow.)</h1>
-</div>
-
-<div class="chart">
-    <h3 ng-if='points'> City Statistics </h3>
-    <div class="chart-container">
-    <d3-bar ng-if='artists && venues' artists='artists' venues='venues' test='test' timeline='extent'></d3-bar>
-    <div ng-if='chosen_city'>
-        <h3> Artists </h3>
-        <div class="overflow">
-        <div class="chart-artists" width="200px">
-            <!-- <div class="title">Artists</div> -->
-        </div>
-        </div>
-        <h3> Venues </h3>
-        <div class="overflow">
-        <div class="chart-venues" width="200px">
-            <!-- <div class="title">Venues</div> -->
-        </div>
-        </div>
-    </div>
+    <div class="timeline-container col-md-10 col-md-offset-1">
+        <d3-selector min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'> </d3-selector>
+        <h4 class='dateLabel' ng-if='extent.dateMin'>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h4>
     </div>
 </div>
-
-</div>
-<div class="timeline-container">
- <d3-selector min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'> </d3-selector>
-</div>
-
-<h3 ng-if='extent.dateMin != extent.dateMax'>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h3>
-
-
-    <!-- <div class=""></div>
+<!-- <div class=""></div>
 	<div class="chart-venues"></div> -->
-</div>
+<!-- </div>
+ -->

@@ -19,7 +19,7 @@ angular.module('myApp.directives.artistmap', ['d3'])
                         height = parseInt(attrs.height) || 750,
                         margin = { top: 20, right: 20, bottom: 30, left: 40 },
                         height_hide_antartica = 480,
-                        hex_bin_size = 3;
+                        hex_bin_size = 6;
 
                     var svg = d3.select(".map-container").append("svg")
                         .attr("width", width)
