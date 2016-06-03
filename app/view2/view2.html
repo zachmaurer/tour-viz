@@ -1,9 +1,10 @@
 <style type="text/css">
 .bubble-container {
-    height: 700px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    /*width: 40%;*/
+  /* margin-left: auto;*/
+    /*margin-right: auto;*/
+    float: left;
+    margin-left: 80px;
 }
 
 .chart {
@@ -56,18 +57,47 @@ circle.other {
     fill-opacity: .7;
     stroke-width: 6;
 }
+
+.map-container {
+  /*  width: 80%;*/
+  /*  margin-left: auto;*/
+   /* margin-right: auto;*/
+   float: left;
+}
+
+.view-container {
+    margin-left: 10%;
+    margin-right: auto;
+}
+
+.red {
+    color: darksalmon;
+}
+
 </style>
-<h1 class='artist-header'>{{chosen_artist.name}}</h1>
-<input ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
-<div class="timeline-container">
-    <h3>Displaying events from {{extent.dateMin | date:'fullDate'}} to {{extent.dateMax | date:'fullDate'}} </h3>
-    <d3-timeline ng-if='events' events="events" min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'>
-    </d3-timeline>
-</div>
-<div class="map-container">
-    <d3-artist-map ng-if='map && events' events='events' routes='routes' map='map' test='test' timeline='extent'></d3-artist-map>
-</div>
+
+<h1 class='artist-header' ng-if='chosen_artist'>Displaying performing history for: <span class="red">{{chosen_artist.name}} </span></h1>
+<h3 ng-if='chosen_artist'>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h3>
+
+
+<input placeholder="Search an artist's name to visualize their history..." ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
+
+<div class="view-container">
+<h1 ng-if='!chosen_artist' class="red city-header"> Please use the search bar above to select an artist. </h1>
+<h1 ng-if='!events && chosen_artist'> Loading data, please be patient...(localhost is slow.) </h1>
 <div class="bubble-container">
+    <h3 ng-if='chosen_artist'> Associated Performers </h3>
     <d3-bubble-chart ng-if='node_data' nodes="node_data" min-date="extent.dateMin" max-date="extent.dateMax" test='test' timeline='extent'>
     </d3-bubble-chart>
 </div>
+<div class="map-container">
+    <h3 ng-if='chosen_artist'> Concert Locations </h3>
+    <d3-artist-map ng-if='map && events' events='events' routes='routes' map='map' test='test' timeline='extent'></d3-artist-map>
+</div>
+
+<div class="timeline-container">   
+    <d3-timeline ng-if='events' events="events" min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'>
+    </d3-timeline>
+</div>
+</div>
+

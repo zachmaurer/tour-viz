@@ -61,9 +61,27 @@ def cityEvents():
     for p in e['performance']:
       artist_name = p['displayName'].rstrip('\n')
       artist_data[artist_name].append(e['start']['date'])
+  
+  artist_data_as_list = list()
+  for name, dates in artist_data.items():
+    y = dict()
+    y['name'] = name
+    y['total'] = len(dates)
+    y['events'] = dates
+    artist_data_as_list.append(y)
+    
+  venue_data_as_list = list()
+  for name, dates in venue_data.items():
+    y = dict()
+    y['name'] = name
+    y['total'] = len(dates)
+    y['events'] = dates
+    venue_data_as_list.append(y)
+
+
   x = dict()
-  x['venue_data'] = venue_data
-  x['artist_data'] = artist_data
+  x['venue_data'] = venue_data_as_list
+  x['artist_data'] = artist_data_as_list
   return dumps(x)
   
 

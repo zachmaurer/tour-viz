@@ -18,10 +18,10 @@ angular.module('myApp.directives.map', ['d3'])
                 d3Service.d3().then(function(d3) {
 
                     // attributes given in through html
-                    var width = parseInt(attrs.width) || 960,
-                        height = parseInt(attrs.height) || 960,
+                    var width = parseInt(attrs.width) || 700,
+                        height = parseInt(attrs.height) || 700,
                         margin = { top: 20, right: 20, bottom: 30, left: 40 },
-                        height_hide_antartica = 670,
+                        height_hide_antartica = 500,
                         hex_bin_size = 10;
 
                     var svg = d3.select(".map-container").append("svg")
@@ -56,9 +56,10 @@ angular.module('myApp.directives.map', ['d3'])
 
                     var filterByTime = function(events) {
                         return events.filter(function(event) {
-                            if(event.timeStamp > scope.timeline.dateMin && event.timeStamp < scope.timeline.dateMax) {
+                            if(event.timeStamp.getTime() > scope.timeline.dateMin.getTime() && event.timeStamp.getTime() < scope.timeline.dateMax.getTime()) {
                                 return true;
                             }
+                            return false;
                         });
                     };
 
@@ -94,8 +95,14 @@ angular.module('myApp.directives.map', ['d3'])
                     var renderHeatHex = function(lat_long, projection, path) {
                         var points = [];
 
+                        hex_svg
+                            .selectAll(".hexagon").remove();
+
+
                         lat_long = filterByTime(lat_long);
+       
                         // need to go from lat_lng to x_y
+
                         for (var i = 0; i < lat_long.length; i++) {
                             points.push(projection([lat_long[i].lng, lat_long[i].lat]));
                         }
@@ -124,12 +131,6 @@ angular.module('myApp.directives.map', ['d3'])
                                 return color(d.length);
                             });
 
-                        // .on('mouseover', function(d, i) {
-                        //     // return scope.onMouseOver({ item: d });
-                        //     console.log('HEX------' + d);
-                        // });
-
-                        hexes.exit().remove();
                     };
 
 
@@ -281,7 +282,7 @@ angular.module('myApp.directives.map', ['d3'])
                     });
 
                     // watch for data changes and re-render
-                    scope.$watch('test', function(newVals, oldVals) {
+                    scope.$watch('timeline', function(newVals, oldVals) {
                         scope.render(newVals);
                         return;
                     }, true);

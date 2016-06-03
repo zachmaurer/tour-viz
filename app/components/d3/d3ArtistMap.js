@@ -15,10 +15,10 @@ angular.module('myApp.directives.artistmap', ['d3'])
                 d3Service.d3().then(function(d3) {
 
                     // attributes given in through html
-                    var width = parseInt(attrs.width) || 960,
-                        height = parseInt(attrs.height) || 960,
+                    var width = parseInt(attrs.width) || 500,
+                        height = parseInt(attrs.height) || 750,
                         margin = { top: 20, right: 20, bottom: 30, left: 40 },
-                        height_hide_antartica = 670,
+                        height_hide_antartica = 480,
                         hex_bin_size = 10;
 
                     var svg = d3.select(".map-container").append("svg")
@@ -61,6 +61,7 @@ angular.module('myApp.directives.artistmap', ['d3'])
 
                         events = filterByTime(events);
 
+                        hex_svg.selectAll(".hexagon").remove();
 
                         // need to go from lat_lng to x_y
                         for (var i = 0; i < events.length; i++) {
@@ -78,7 +79,7 @@ angular.module('myApp.directives.artistmap', ['d3'])
 
                         var hexes = hex_svg
                             .selectAll(".hexagon")
-                            .data(hexbin(points))
+                            .data(hexbin(points));
 
                         hexes.enter()
                             .append("path")
@@ -91,7 +92,6 @@ angular.module('myApp.directives.artistmap', ['d3'])
                                 return color(d.length);
                             });
 
-                        hexes.exit().remove();
                     };
 
                     var renderRoutes = function(data, projection, path) {
@@ -158,7 +158,12 @@ angular.module('myApp.directives.artistmap', ['d3'])
                     });
 
                     // watch for data changes and re-render
-                    scope.$watch('test', function(newVals, oldVals) {
+                    scope.$watch('timeline', function(newVals, oldVals) {
+                        scope.render(newVals);
+                        return;
+                    }, true);
+
+                    scope.$watch('events', function(newVals, oldVals) {
                         scope.render(newVals);
                         return;
                     }, true);

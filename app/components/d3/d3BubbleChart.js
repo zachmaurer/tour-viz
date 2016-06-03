@@ -14,8 +14,8 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                 d3Service.d3().then(function(d3) {
 
                     // Constants for sizing
-                    var width = 940;
-                    var height = 700;
+                    var width = 500;
+                    var height = 480;
                     var center = { x: width / 2, y: height / 2 };
                     var damper = 0.102;
 
@@ -26,10 +26,6 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         return -Math.pow(d.radius, 2.0) / 12;
                     };
 
-
-
-
-
                     var force = d3.layout.force()
                         .size([width, height])
                         .charge(chargeFn)
@@ -37,7 +33,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         .friction(0.9);
 
                     var radiusScale = d3.scale.linear()
-                        .range([2, 100]);
+                        .range([2, 70]);
 
                     var svg = d3.select('.bubble-container')
                         .append('svg')
@@ -76,25 +72,6 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
 
                         return nodes;
                     }
-
-
-                    //   var tip = d3.tip()
-                    //       .attr('class', 'd3-tip')
-                    //       .offset([-10, 0])
-                    //       .html(function(d) {
-                    //         var content = 
-                    //         '<span class="name">Title: </span><span class="value">' +
-                    //         d.name +
-                    //         '</span><br/>' +
-                    //         '<span class="name">Amount: </span><span class="value"># Shows:' +
-                    //         d.count +
-                    //         '</span><br/>' +
-                    //         '<span class="name">Year: </span><span class="value">' +
-                    //         d.year +
-                    //         '</span>';
-                    //         return content;
-                    //       });
-                    // svg.call(tip);
 
 
                     var filterByTime = function(data) {
@@ -149,7 +126,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         bubbles.append("text")
                             .classed('bubble', true)
                             .text(function(d) {
-                                return (d.radius < 20) ? "" : d.name;
+                                return (d.radius < 10) ? "" : d.name;
                             })
                             .attr("dx", -10)
                             .attr("dy", ".35em")
