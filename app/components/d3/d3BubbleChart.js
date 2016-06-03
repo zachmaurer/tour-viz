@@ -124,6 +124,9 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                             .on('mouseover', function(d) {
                                 return scope.label({ item: d });
                             })
+                            .on('mousemove', function(d) {
+                                return scope.label({ item: d });
+                            })
                             .on('mouseleave', function(d) {
                                 return scope.label({ item: null });
                             });

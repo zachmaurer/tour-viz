@@ -48,6 +48,10 @@ path.us-boundary {
     background-color: #333;
 }*/
 
+.dateLabel {
+    text-align: center;
+}
+
 .venue {
     fill: #B0171F;
     r: 4;

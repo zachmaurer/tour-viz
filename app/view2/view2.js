@@ -68,11 +68,11 @@ angular.module('myApp.view2', ['ngRoute'])
 
     $scope.showLabel = function(item) {
         if (item) {
-            console.log(item);
+            // console.log(item);
             $scope.showItem = item;
             $scope.event = event;
         } else {
-            console.log('no longer');
+            // console.log('no longer');
             $scope.showItem = null;
 
         }
