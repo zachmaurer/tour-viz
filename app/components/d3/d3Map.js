@@ -10,6 +10,7 @@ angular.module('myApp.directives.map', ['d3'])
                 points: '=',
                 chosencity: '=',
                 test: '=',
+                timeline: '=',
                 onMouseOver: '&' // parent execution binding
                     // label: "@"
             },
@@ -53,25 +54,13 @@ angular.module('myApp.directives.map', ['d3'])
                     };
 
 
-                    // var renderNodes = function(data, projection, path) {
-                    //     var nodes = nodes_svg.selectAll("circle")
-                    //         .data(data);
-
-                    //     nodes.enter().append("circle")
-                    //         .attr("cx", function(d, i) {
-                    //             return projection([d.venue.lng, d.venue.lat])[0];
-                    //         })
-                    //         .attr("cy", function(d, i) {
-                    //             return projection([d.venue.lng, d.venue.lat])[1];
-                    //         })
-                    //         .attr("class", 'venue')
-                    //         .on('mouseover', function(d, i) {
-                    //             return scope.onMouseOver({ item: d });
-                    //         });
-
-                    //     nodes.exit().remove();
-                    // };
-
+                    var filterByTime = function(events) {
+                        return events.filter(function(event) {
+                            if(event.timeStamp > scope.timeline.dateMin && event.timeStamp < scope.timeline.dateMax) {
+                                return true;
+                            }
+                        });
+                    };
 
                     var renderSelectedHex = function(city, projection, path) {
                         if(!city) return;
@@ -104,6 +93,8 @@ angular.module('myApp.directives.map', ['d3'])
                     //  I just need lat longs, no cities here 
                     var renderHeatHex = function(lat_long, projection, path) {
                         var points = [];
+
+                        lat_long = filterByTime(lat_long);
                         // need to go from lat_lng to x_y
                         for (var i = 0; i < lat_long.length; i++) {
                             points.push(projection([lat_long[i].lng, lat_long[i].lat]));
@@ -220,6 +211,26 @@ angular.module('myApp.directives.map', ['d3'])
                     //         .on('mouseover', function() {
                     //             console.log('us boundry');
                     //         });
+                    // };
+
+
+                    // var renderNodes = function(data, projection, path) {
+                    //     var nodes = nodes_svg.selectAll("circle")
+                    //         .data(data);
+
+                    //     nodes.enter().append("circle")
+                    //         .attr("cx", function(d, i) {
+                    //             return projection([d.venue.lng, d.venue.lat])[0];
+                    //         })
+                    //         .attr("cy", function(d, i) {
+                    //             return projection([d.venue.lng, d.venue.lat])[1];
+                    //         })
+                    //         .attr("class", 'venue')
+                    //         .on('mouseover', function(d, i) {
+                    //             return scope.onMouseOver({ item: d });
+                    //         });
+
+                    //     nodes.exit().remove();
                     // };
 
                     var renderWorldMap = function(world, projection, path) {

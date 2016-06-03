@@ -5,6 +5,7 @@ angular.module('myApp.directives.timeSelector', ['d3'])
             scope: {
                 minDate: '=',
                 maxDate: '=', // bi-directional data-binding
+                timeChanged: "&"
                 // label: "@"
             },
             link: function(scope, element, attrs) {
@@ -65,11 +66,12 @@ angular.module('myApp.directives.timeSelector', ['d3'])
                             var maxExtent = brush.extent()[1];
                             scope.minDate = minExtent;
                             scope.maxDate = maxExtent;
+                            scope.timeChanged();
+
                             $timeout(function() {
                              scope.$apply();
                             });
-                            console.log(scope.minDate);
-                            console.log(scope.maxDate);
+                         
                         }
 
                    
