@@ -54,7 +54,7 @@ angular.module('myApp.view2', ['ngRoute'])
         });
         eventsService.getAssociatedArtists($item.id, $item.name).then(function(response) {
             if (response.data.length == 0) return;
-            $scope.node_data = response.data;
+            $scope.node_data = addTimeStampToNodes(response.data);
             $timeout(function() {
                 $scope.$apply();
             });
@@ -72,6 +72,15 @@ angular.module('myApp.view2', ['ngRoute'])
         return events.map(function(event) {
             event.timeStamp = new Date(event.startDate);
             return event;
+        });
+    };
+
+    var addTimeStampToNodes = function(artists) {
+        return artists.map(function(artist) {
+            for (var i in artist.events) {
+                artist.events[i] = new Date(artist.events[i]);
+            }
+            return artist;
         });
     };
 
