@@ -14,11 +14,11 @@ angular.module('myApp.directives.timeline', ['d3'])
                     var items = scope.events;
                     
                     
-                    var m = [30, 100, 30, 120]; //top right bottom left
+                    var m = [30, 30, 30, 30]; //top right bottom left
                     var w = 1200 - m[1] - m[3];
                     var h = 400 - m[0] - m[2];
                     var miniHeight = indices * 12;
-                    var mainHeight = h - miniHeight - 50;
+                    //var mainHeight = h - miniHeight - 50;
 
                     
                     var chart = d3.select(".timeline-container")
@@ -27,27 +27,27 @@ angular.module('myApp.directives.timeline', ['d3'])
                         .attr("height", h + m[0] + m[2])
                         .attr("class", "chart");
         
-                    chart.append("defs").append("clipPath")
-                        .attr("id", "clip")
-                        .append("rect")
-                        .attr("width", w)
-                        .attr("height", mainHeight);
+                    // chart.append("defs").append("clipPath")
+                    //     .attr("id", "clip")
+                    //     .append("rect")
+                    //     .attr("width", w)
+                    //     .attr("height", mainHeight);
 
-                    var main = chart.append("g")
-                                .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-                                .attr("width", w)
-                                .attr("height", mainHeight)
-                                .attr("class", "main");
+                    // var main = chart.append("g")
+                    //             .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
+                    //             .attr("width", w)
+                    //             .attr("height", mainHeight)
+                    //             .attr("class", "main");
 
                     var mini = chart.append("g")
-                                .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]+30) + ")")
+                                .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
                                 .attr("width", w)
                                 .attr("height", miniHeight)
                                 .attr("class", "mini");
 
 
-                    var itemRects = main.append("g")
-                                    .attr("clip-path", "url(#clip)");
+                    // var itemRects = main.append("g")
+                    //                 .attr("clip-path", "url(#clip)");
 
                     scope.render = function(data) {
                         var timeBegin = d3.min(data, function(d){ return new Date(d.startDate); });
@@ -61,9 +61,9 @@ angular.module('myApp.directives.timeline', ['d3'])
                                 .range([0, w]);
                         var brushScale = d3.scale.linear()
                                 .range([0, w]);
-                        var y1 = d3.scale.linear()
-                                .domain([0, indices])
-                                .range([0, mainHeight]);
+                        // var y1 = d3.scale.linear()
+                        //         .domain([0, indices])
+                        //         .range([0, mainHeight]);
                         var miniHeightScale = d3.scale.linear()
                                 .domain([0, indices])
                                 .range([0, miniHeight]);
@@ -86,7 +86,7 @@ angular.module('myApp.directives.timeline', ['d3'])
 
                         chart.append('g')
                             .attr('class', 'xAxis')
-                            .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]+30) + ")")
+                            .attr("transform", "translate(" + m[3] + ","  + m[0] + ")")
                             .call(xAxis);
 
 
@@ -137,32 +137,32 @@ angular.module('myApp.directives.timeline', ['d3'])
                             brushScale.domain([minExtent, maxExtent]);
 
                             //update main item rects
-                            rects = itemRects.selectAll("rect")
-                                    .data(visItems, function(d) { return d.id; })
-                                .attr("x", function(d) {return brushScale(new Date(d.startDate));})
-                                .attr("width", function(d) {return rectWidthScale(maxExtent.getTime() - minExtent.getTime());});
+                            // rects = itemRects.selectAll("rect")
+                            //         .data(visItems, function(d) { return d.id; })
+                            //     .attr("x", function(d) {return brushScale(new Date(d.startDate));})
+                            //     .attr("width", function(d) {return rectWidthScale(maxExtent.getTime() - minExtent.getTime());});
 
-                            rects.enter().append("rect")
-                                .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
-                                .attr("x", function(d) {return brushScale(new Date(d.startDate));})
-                                .attr("y", function(d) {return y1(d.billingIndex) + 10;})
-                                .attr("width", function(d) {return rectWidthScale(maxExtent.getTime() - minExtent.getTime());})
-                                .attr("height", function(d) {return 20;});
+                            // rects.enter().append("rect")
+                            //     .attr("class", function(d) {return (d.isSubject ? "subject" : "other");})
+                            //     .attr("x", function(d) {return brushScale(new Date(d.startDate));})
+                            //     .attr("y", function(d) {return y1(d.billingIndex) + 10;})
+                            //     .attr("width", function(d) {return rectWidthScale(maxExtent.getTime() - minExtent.getTime());})
+                            //     .attr("height", function(d) {return 20;});
 
-                            rects.exit().remove();
+                            // rects.exit().remove();
 
                             //update the item labels
-                            labels = itemRects.selectAll("text")
-                                .data(visItems, function(d) { return d.id; })
-                                .attr("x", function(d) { return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;});
+                            // labels = itemRects.selectAll("text")
+                            //     .data(visItems, function(d) { return d.id; })
+                            //     .attr("x", function(d) { return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;});
 
-                            labels.enter().append("text")
-                                .text(function(d) { return d.isSubject ? "" : d.name;})
-                                .attr("x", function(d) {return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;})
-                                .attr("y", function(d) {return y1(d.billingIndex +0.1);})
-                                .attr("text-anchor", "start");
+                            // labels.enter().append("text")
+                            //     .text(function(d) { return d.isSubject ? "" : d.name;})
+                            //     .attr("x", function(d) {return brushScale(new Date(Math.max(new Date(d.startDate).getTime(), minExtent.getTime())))-25;})
+                            //     .attr("y", function(d) {return y1(d.billingIndex +0.1);})
+                            //     .attr("text-anchor", "start");
 
-                            labels.exit().remove();
+                            // labels.exit().remove();
                         }
                     };
 

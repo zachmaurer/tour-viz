@@ -14,8 +14,8 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                 d3Service.d3().then(function(d3) {
 
                     // Constants for sizing
-                    var width = 940;
-                    var height = 700;
+                    var width = 500;
+                    var height = 480;
                     var center = { x: width / 2, y: height / 2 };
                     var damper = 0.102;
 
@@ -37,7 +37,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         .friction(0.9);
 
                     var radiusScale = d3.scale.linear()
-                        .range([2, 100]);
+                        .range([2, 70]);
 
                     var svg = d3.select('.bubble-container')
                         .append('svg')
@@ -149,7 +149,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         bubbles.append("text")
                             .classed('bubble', true)
                             .text(function(d) {
-                                return (d.radius < 20) ? "" : d.name;
+                                return (d.radius < 10) ? "" : d.name;
                             })
                             .attr("dx", -10)
                             .attr("dy", ".35em")

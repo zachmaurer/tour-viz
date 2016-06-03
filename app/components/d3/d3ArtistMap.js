@@ -15,10 +15,10 @@ angular.module('myApp.directives.artistmap', ['d3'])
                 d3Service.d3().then(function(d3) {
 
                     // attributes given in through html
-                    var width = parseInt(attrs.width) || 960,
-                        height = parseInt(attrs.height) || 960,
+                    var width = parseInt(attrs.width) || 500,
+                        height = parseInt(attrs.height) || 750,
                         margin = { top: 20, right: 20, bottom: 30, left: 40 },
-                        height_hide_antartica = 670,
+                        height_hide_antartica = 480,
                         hex_bin_size = 10;
 
                     var svg = d3.select(".map-container").append("svg")
