@@ -108,7 +108,7 @@ angular.module('myApp.directives.map', ['d3'])
                         }
 
                         var color = d3.scale.linear()
-                            .domain([0, 1000])
+                            .domain([0, 100])
                             .range(["#ddd", "steelblue"])
                             .interpolate(d3.interpolateLab);
 
