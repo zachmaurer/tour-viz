@@ -2,6 +2,8 @@
 
 svg#timeline-container {
     background-color: #FFF !important;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .brush .extent {
@@ -10,35 +12,65 @@ svg#timeline-container {
     fill-opacity: .365;
 }
 
+.chart-container {
+ height: 500px;
+ overflow: scroll;
+}
+
+.red {
+    color: darksalmon;
+}
+
+.overflow {
+    height: 250px;
+    overflow: scroll;
+}
+
 </style>
 
 
 
 <h2>{{current_venue}}</h2>
-<input ng-if='city_options' type="text" ng-model="chosen_city.name" uib-typeahead="city as option.name for option in city_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedCity($item, $model, $label, $event)'>
-<div class="timeline-container">
- <d3-selector min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'> </d3-selector>
- </div>
+<input ng-if='city_options' type="text" ng-model="chosen_city.name" uib-typeahead="city as option.name for option in city_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedCity($item, $model, $label, $event)' placeholder='Search here for a city name...'>
+<h3 class='city-header' ng-if='!chosen_city'> Type a city name into the search box to see detailed statistics for that city.</br> Use the timeline to filter the events. </h3>
+<h1 class='city-header' ng-if='chosen_city'> You are displaying detailed concert history for: <span class="red">{{chosen_city.name}}</span> </h1>
+<h3>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h3>
 
-<div class="map-container">
-    
+<div class="row">
 
+<div class="map-container col-md-6">
     <d3-map ng-if='map && points' points='points' map='map' chosencity='chosen_city' test='test' timeline='extent'></d3-map>
     <h1 ng-if='!points'> Loading points... </h1>
-
 </div>
 
-<h1 class='city-header'> {{chosen_city.name}} </h1>
 <div class="chart">
-    <d3-bar ng-if='artists && venues' artists='artists' venues='venues' test='test'></d3-bar>
-    <div ng-if='chosen_city' class="row">
-        <div class="chart-artists col-md-6">
+    
+    <div class="chart-container">
+    <d3-bar ng-if='artists && venues' artists='artists' venues='venues' test='test' timeline='extent'></d3-bar>
+    <div ng-if='chosen_city'>
+        <h3> Artists </h3>
+        <div class="overflow">
+        <div class="chart-artists" width="200px">
             <!-- <div class="title">Artists</div> -->
         </div>
-        <div class="chart-venues col-md-6">
+        </div>
+        <h3> Venues </h3>
+        <div class="overflow">
+        <div class="chart-venues" width="200px">
             <!-- <div class="title">Venues</div> -->
         </div>
+        </div>
     </div>
+    </div>
+</div>
+
+</div>
+<div class="timeline-container">
+ <d3-selector min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'> </d3-selector>
+</div>
+
+
+
     <!-- <div class=""></div>
 	<div class="chart-venues"></div> -->
 </div>

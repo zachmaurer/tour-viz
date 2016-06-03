@@ -3,3 +3,4 @@ Scrapy
 pymongo
 flask
 ujson
+flask_cors

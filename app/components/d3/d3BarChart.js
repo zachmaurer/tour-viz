@@ -6,15 +6,36 @@ angular.module('myApp.directives.bar', ['d3'])
                 artists: '=',
                 venues: '=',
                 test: '=',
+                timeline: '=',
                 onMouseOver: '&' // parent execution binding
                     // label: "@"
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
 
+                    var filterByTime = function(data) {
+                        for (var i in data) {
+                            var artist = data[i];
+                            artist.total = artist.events.length;
+                            for (var j in artist.events) {
+                                var event_time = new Date(artist.events[j]);
+                                if (event_time < scope.timeline.dateMin || event_time > scope.timeline.dateMax) {
+                                    artist.total--;
+                                } 
+                            }
+                        }
+                        return data;
+                    };
+
+                    var sorter = function(a, b) {
+                        return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);
+                    };
+
                     scope.renderGraphs = function() {
-                        makeGraph(scope.artists, '.chart-artists', 'Artists');
-                        makeGraph(scope.venues, '.chart-venues', 'Venues');
+                        var artist_data = filterByTime(scope.artists);
+                        var venue_data = filterByTime(scope.venues);
+                        makeGraph(artist_data, '.chart-artists', 'Artists');
+                        makeGraph(venue_data, '.chart-venues', 'Venues');
                     };
 
                     var makeGraph = function(data, data_type, title) {
@@ -27,9 +48,9 @@ angular.module('myApp.directives.bar', ['d3'])
                         d3.select(data_type).selectAll("div").remove();
                         d3.select(data_type).selectAll("h3").remove();
 
-                        d3.select(data_type).append('h3')
-                        .text(title)
-                        .attr('class', 'title');
+                        // d3.select(data_type).append('h3')
+                        // .text(title)
+                        // .attr('class', 'title');
 
 
 
@@ -60,6 +81,11 @@ angular.module('myApp.directives.bar', ['d3'])
 
                     // watch for data changes and re-render
                     scope.$watch('artists', function(newVals, oldVals) {
+                        scope.renderGraphs();
+                        return;
+                    }, true);
+
+                    scope.$watch('timeline', function(newVals, oldVals) {
                         scope.renderGraphs();
                         return;
                     }, true);

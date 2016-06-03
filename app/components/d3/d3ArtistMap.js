@@ -163,6 +163,11 @@ angular.module('myApp.directives.artistmap', ['d3'])
                         return;
                     }, true);
 
+                    scope.$watch('events', function(newVals, oldVals) {
+                        scope.render(newVals);
+                        return;
+                    }, true);
+
                
                 });
             }
