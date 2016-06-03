@@ -105,7 +105,7 @@ angular.module('myApp.directives.timeline', ['d3'])
                         //brush
                         var brush = d3.svg.brush()
                                             .x(timeScale)
-                                            .on("brush", display)
+                                            .on("brushend", display)
 
 
                         mini.append("g")
