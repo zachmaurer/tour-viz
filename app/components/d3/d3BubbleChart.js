@@ -136,7 +136,11 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         bubbles.append("text")
                             .classed('bubble', true)
                             .text(function(d) {
-                                return (d.radius < 10) ? "" : d.name;
+                                if (d.count > 0) {
+                                    return (d.radius < 10) ? "" : d.name;
+                                } else {
+                                    return "";
+                                }
                             })
                             .attr("dx", -10)
                             .attr("dy", ".35em")
@@ -146,7 +150,12 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                             // .transition()
                             //     .duration(2000)
                             .attr('r', function(d) {
-                                return d.radius;
+                                if (d.count > 0) {
+                                    return d.radius;
+                                } else {
+                                    return 0;
+                                }
+                                
                             });
 
                         force.on('tick', function(e) {
