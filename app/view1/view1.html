@@ -34,14 +34,14 @@ svg#timeline-container {
 <input ng-if='city_options' type="text" ng-model="chosen_city.name" uib-typeahead="city as option.name for option in city_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedCity($item, $model, $label, $event)' placeholder='Search here for a city name...'>
 <h3 class='city-header' ng-if='!chosen_city'> Type a city name into the search box to see detailed statistics for that city.</br> Use the timeline to filter the events. </h3>
 <h1 class='city-header' ng-if='chosen_city'> You are displaying detailed concert history for: <span class="red">{{chosen_city.name}}</span> </h1>
-<h3>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h3>
+
 
 <div class="row">
 
 <div class="map-container col-md-6">
     <h3 ng-if='points'> Concert Locations </h3>
-    <d3-map ng-if='map && points' points='points' map='map' chosencity='chosen_city' test='test' timeline='extent'></d3-map>
-    <h1 ng-if='!points'> Loading map SVG...(I'm sorry it's so slow.)</h1>
+    <d3-map ng-if='map' points='points' map='map' chosencity='chosen_city' test='test' timeline='extent'></d3-map>
+    <h1 ng-if='!points'> Loading hella data...(I'm sorry it's so slow.)</h1>
 </div>
 
 <div class="chart">
@@ -70,6 +70,7 @@ svg#timeline-container {
  <d3-selector min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'> </d3-selector>
 </div>
 
+<h3 ng-if='extent.dateMin != extent.dateMax'>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h3>
 
 
     <!-- <div class=""></div>

@@ -1,5 +1,5 @@
 angular.module('myApp.directives.bubbleChart', ['d3'])
-    .directive('d3BubbleChart', ['d3Service', '$window', function(d3Service, $window) {
+    .directive('d3BubbleChart', ['d3Service', '$window', '$timeout', function(d3Service, $window, $timeout) {
         return {
             restrict: 'EA',
             scope: {
@@ -8,7 +8,8 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                 maxDate: '=', // bi-directional data-binding
                 timeline: '=',
                 test: '=',
-                // label: "@"
+                label: "&",
+                labelartist: '='
             },
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
@@ -59,8 +60,8 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                                 events: d.events,
                                 isSubject: d.isSubject,
                                 radius: d.isSubject ? 120 : (radiusScale(d.count) > 0 ? radiusScale(d.count) : 0),
-                                x: (d.isSubject ? center.x : 500),
-                                y: (d.isSubject ? center.y : 500)
+                                x: (d.isSubject ? center.x : 200),
+                                y: (d.isSubject ? center.y : 200)
                             };
 
                         });
@@ -82,7 +83,7 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                                 var event_time = artist.events[j];
                                 if (event_time < scope.timeline.dateMin || event_time > scope.timeline.dateMax) {
                                     artist.count--;
-                                } 
+                                }
                             }
                         }
                         return data;
@@ -120,8 +121,14 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                             })
                             //.attr('stroke', function (d) { return d3.rgb(fillColor(d.group)).darker(); })
                             .attr('stroke-width', 2)
-                            //.on('mouseover', tip.show)
-                            //.on('mouseout', tip.hide);
+                            .on('mouseover', function(d) {
+                                return scope.label({ item: d });
+                            })
+                            .on('mouseleave', function(d) {
+                                return scope.label({ item: null });
+                            });
+
+                        //.on('mouseout', tip.hide);
 
                         bubbles.append("text")
                             .classed('bubble', true)
@@ -133,8 +140,8 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                             .style("stroke", "gray");
 
                         bubbles.selectAll('circle')
-                        // .transition()
-                        //     .duration(2000)
+                            // .transition()
+                            //     .duration(2000)
                             .attr('r', function(d) {
                                 return d.radius;
                             });

@@ -75,7 +75,7 @@ circle.other {
 }
 
 </style>
-
+{{labelartist}}
 <h1 class='artist-header' ng-if='chosen_artist'>Displaying performing history for: <span class="red">{{chosen_artist.name}} </span></h1>
 <h3 ng-if='chosen_artist'>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h3>
 
@@ -87,8 +87,10 @@ circle.other {
 <h1 ng-if='!events && chosen_artist'> Loading data, please be patient...(localhost is slow.) </h1>
 <div class="bubble-container">
     <h3 ng-if='chosen_artist'> Associated Performers </h3>
-    <d3-bubble-chart ng-if='node_data' nodes="node_data" min-date="extent.dateMin" max-date="extent.dateMax" test='test' timeline='extent'>
+    <d3-bubble-chart ng-if='node_data' nodes="node_data" min-date="extent.dateMin" max-date="extent.dateMax" test='test' timeline='extent' label='showLabel(item)' labelartist='labelartist'>
     </d3-bubble-chart>
+
+    <div ng-if='showItem' class="bubble-label" style="position:absolute; left:{{event.pageX + 10}}px; top:{{event.pageY - 30}}px;" >{{showItem.name}} : {{showItem.events.length}} shared events</div>
 </div>
 <div class="map-container">
     <h3 ng-if='chosen_artist'> Concert Locations </h3>
