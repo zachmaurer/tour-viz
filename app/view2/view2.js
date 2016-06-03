@@ -9,13 +9,14 @@ angular.module('myApp.view2', ['ngRoute'])
     });
 }])
 
-.controller('View2Ctrl', ['$rootScope','$scope', 'mapInfo', 'artistsOptions', 'eventsService',  '$timeout', function($rootScope, $scope, mapInfo, artistsOptions, eventsService, $timeout) {
+.controller('View2Ctrl', ['$rootScope', '$scope', 'mapInfo', 'artistsOptions', 'eventsService', '$timeout', function($rootScope, $scope, mapInfo, artistsOptions, eventsService, $timeout) {
     $scope.timeline_data = null;
     $scope.node_data = null;
     $scope.extent = {
         "dateMin": "",
         "dateMax": ""
     };
+    // $scope.labelartist = '';
 
     // should look into caching this data so we dont load it ever tab switch
     // timelineInfo.success(function(data) {
@@ -65,7 +66,18 @@ angular.module('myApp.view2', ['ngRoute'])
 
 
 
+    $scope.showLabel = function(item) {
+        if (item) {
+            console.log(item);
+            $scope.showItem = item;
+            $scope.event = event;
+        } else {
+            console.log('no longer');
+            $scope.showItem = null;
 
+        }
+        $scope.$apply();
+    };
 
     //startDate
     var addTimeStampToEvents = function(events) {

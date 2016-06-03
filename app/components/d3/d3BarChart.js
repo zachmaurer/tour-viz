@@ -21,7 +21,7 @@ angular.module('myApp.directives.bar', ['d3'])
                                 var event_time = new Date(artist.events[j]);
                                 if (event_time < scope.timeline.dateMin || event_time > scope.timeline.dateMax) {
                                     artist.total--;
-                                } 
+                                }
                             }
                         }
                         return data;
@@ -39,6 +39,12 @@ angular.module('myApp.directives.bar', ['d3'])
                     };
 
                     var makeGraph = function(data, data_type, title) {
+
+                        // too slow
+                        // data.sort(function(a, b) {
+                        //     return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);
+                        // });
+
                         var x = d3.scale.linear()
                             .domain([0, d3.max(data, function(d) {
                                 return d.total;
@@ -58,12 +64,16 @@ angular.module('myApp.directives.bar', ['d3'])
                             .selectAll("div")
                             .data(data)
                             .enter().append("div")
-                            .attr('class', 'graph-row row');  
+                            .filter(function(d) {
+                                return d.total > 0;
+                            })
+                            .attr('class', 'graph-row row');
 
                         // Add the labels
                         var labels = row.append("div")
                             .text(function(d, i) {
-                                return d.name; })
+                                return d.name;
+                            })
                             .attr('class', 'graph-label');
 
                         // add the bars
@@ -74,7 +84,7 @@ angular.module('myApp.directives.bar', ['d3'])
                             .attr('class', 'graph-bar')
                             .style("width", function(d) {
                                 return x(d.total) + "px";
-                            }); 
+                            });
                     };
 
                     scope.renderGraphs();

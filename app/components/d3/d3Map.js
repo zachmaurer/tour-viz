@@ -22,7 +22,7 @@ angular.module('myApp.directives.map', ['d3'])
                         height = parseInt(attrs.height) || 700,
                         margin = { top: 20, right: 20, bottom: 30, left: 40 },
                         height_hide_antartica = 500,
-                        hex_bin_size = 10;
+                        hex_bin_size = 5;
 
                     var svg = d3.select(".map-container").append("svg")
                         .attr("width", width)
@@ -47,10 +47,13 @@ angular.module('myApp.directives.map', ['d3'])
                     // hex and routes eliminates map after a couple turns 
                     scope.render = function() {
                         // renderNodes(scope.events, projection, path);
-                        renderHeatHex(scope.points, projection, path);
+                        if (scope.points) {
+                            renderHeatHex(scope.points, projection, path);
+                            renderSelectedHex(scope.chosencity, projection, path);
+                        }
                         // renderCityNodes(scope.cities, projection, path);
                         // renderRoutes(scope.routes, projection, path);
-                        renderSelectedHex(scope.chosencity, projection, path);
+                        
                     };
 
 
@@ -108,7 +111,7 @@ angular.module('myApp.directives.map', ['d3'])
                         }
 
                         var color = d3.scale.linear()
-                            .domain([0, 1000])
+                            .domain([0, 500])
                             .range(["#ddd", "steelblue"])
                             .interpolate(d3.interpolateLab);
 
