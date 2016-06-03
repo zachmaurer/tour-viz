@@ -26,10 +26,6 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
                         return -Math.pow(d.radius, 2.0) / 12;
                     };
 
-
-
-
-
                     var force = d3.layout.force()
                         .size([width, height])
                         .charge(chargeFn)
@@ -76,25 +72,6 @@ angular.module('myApp.directives.bubbleChart', ['d3'])
 
                         return nodes;
                     }
-
-
-                    //   var tip = d3.tip()
-                    //       .attr('class', 'd3-tip')
-                    //       .offset([-10, 0])
-                    //       .html(function(d) {
-                    //         var content = 
-                    //         '<span class="name">Title: </span><span class="value">' +
-                    //         d.name +
-                    //         '</span><br/>' +
-                    //         '<span class="name">Amount: </span><span class="value"># Shows:' +
-                    //         d.count +
-                    //         '</span><br/>' +
-                    //         '<span class="name">Year: </span><span class="value">' +
-                    //         d.year +
-                    //         '</span>';
-                    //         return content;
-                    //       });
-                    // svg.call(tip);
 
 
                     var filterByTime = function(data) {

@@ -79,6 +79,8 @@ circle.other {
 <input placeholder="Search an artist's name to visualize their history..." ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
 
 <div class="view-container">
+<h1 ng-if='!chosen_artist'> Please use the searchbar above to select an artist. </h1>
+<h1 ng-if='!events && chosen_artist'> Loading data, please be patient...(localhost is slow.) </h1>
 <div class="bubble-container">
     <d3-bubble-chart ng-if='node_data' nodes="node_data" min-date="extent.dateMin" max-date="extent.dateMax" test='test' timeline='extent'>
     </d3-bubble-chart>

@@ -48,7 +48,7 @@ angular.module('myApp.directives.timeSelector', ['d3'])
 
                         var brush = d3.svg.brush()
                             .x(timeScale)
-                            .on("brush", display);
+                            .on("brushend", display);
 
 
                         chart.append("g")

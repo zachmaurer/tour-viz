@@ -124,10 +124,10 @@ angular.module('myApp.directives.timeline', ['d3'])
                             
                             scope.minDate = minExtent;
                             scope.maxDate = maxExtent;
-                            scope.timeChanged();
-                            
+    
                             $timeout(function() {
-                             scope.$apply();
+                                scope.timeChanged();
+                                scope.$apply();
                             });
 
                             //console.log(visItems);

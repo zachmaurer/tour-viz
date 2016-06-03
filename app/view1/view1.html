@@ -23,7 +23,8 @@ svg#timeline-container {
 <div class="map-container">
     
 
-    <d3-map ng-if='map' points='points' map='map' chosencity='chosen_city' test='test' timeline='extent'></d3-map>
+    <d3-map ng-if='map && points' points='points' map='map' chosencity='chosen_city' test='test' timeline='extent'></d3-map>
+    <h1 ng-if='!points'> Loading points... </h1>
 
 </div>
 
