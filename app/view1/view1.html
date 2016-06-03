@@ -39,12 +39,13 @@ svg#timeline-container {
 <div class="row">
 
 <div class="map-container col-md-6">
+    <h3 ng-if='points'> Concert Locations </h3>
     <d3-map ng-if='map && points' points='points' map='map' chosencity='chosen_city' test='test' timeline='extent'></d3-map>
-    <h1 ng-if='!points'> Loading points... </h1>
+    <h1 ng-if='!points'> Loading map SVG...(I'm sorry it's so slow.)</h1>
 </div>
 
 <div class="chart">
-    
+    <h3 ng-if='points'> City Statistics </h3>
     <div class="chart-container">
     <d3-bar ng-if='artists && venues' artists='artists' venues='venues' test='test' timeline='extent'></d3-bar>
     <div ng-if='chosen_city'>
