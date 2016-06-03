@@ -59,7 +59,7 @@ angular.module('myApp.directives.bar', ['d3'])
                     scope.renderGraphs();
 
                     // watch for data changes and re-render
-                    scope.$watch('test', function(newVals, oldVals) {
+                    scope.$watch('artists', function(newVals, oldVals) {
                         scope.renderGraphs();
                         return;
                     }, true);

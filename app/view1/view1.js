@@ -51,9 +51,11 @@ angular.module('myApp.view1', ['ngRoute'])
             $scope.venues = response.data.venue_data.sort(function(a, b) {
                 return (a.total > b.total) ? -1 : ((b.total > a.total) ? 1 : 0);
             });
+            $scope.refreshMap();
         }, function(){
 
         });
+
 
     };
 
