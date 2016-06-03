@@ -52,11 +52,19 @@ def artistEvents():
 def cityEvents():
   # Get city name
   city_name = request.args['city']
-  if city_name != "":
-    events = db.events.find({"location.city": city_name})
-  else:
-    events = db.events.find().limit(1000) 
-  return dumpts(events)
+  events = db.events.find({"location.city": city_name})
+  venue_data = defaultdict(list)
+  artist_data = defaultdict(list)
+  for e in events:
+    venue_name = e['venue']['displayName']
+    venue_data[venue_name].append(e['start']['date'])
+    for p in e['performance']:
+      artist_name = p['displayName'].rstrip('\n')
+      artist_data[artist_name].append(e['start']['date'])
+  x = dict()
+  x['venue_data'] = venue_data
+  x['artist_data'] = artist_data
+  return dumps(x)
   
 
 @app.route("/api/events/all")
