@@ -15,13 +15,6 @@ angular.module('myApp.view1', ['ngRoute'])
                         "dateMax" :"" };
 
     var raw_data = {};
-    // $scope.chosen_city = {city: 'San Francisco'};
-    // venueInfo.success(function(data) {
-    //     // $scope.events = data.resultsPage.results.event;
-    //     raw_data = data;
-
-    //     // $scope.city_options = getCityList(raw_data);
-    // });
 
     cityOptions.success(function(data) {
         $scope.city_options = data;
@@ -29,10 +22,8 @@ angular.module('myApp.view1', ['ngRoute'])
 
     eventsService.getAllEvents().then(function(response) {
         if (response.data.length == 0) return;
-        // raw_data = response.data;
-        $rootScope.points = response.data;
-        // $scope.points = getPointsFromData();
-        // $scope.setNewDecade();
+        $rootScope.points = addTimeStampToEvents(response.data);
+        $scope.refreshMap();
     }, function(error) {
         console.log(error);
     });
@@ -44,47 +35,16 @@ angular.module('myApp.view1', ['ngRoute'])
         });
     }
 
-
+ 	var addTimeStampToEvents = function(events) {
+        return events.map(function(event) {
+            event.timeStamp = new Date(event.date);
+            return event;
+        });
+    };
     $scope.selectedCity = function($item, $model, $label, $event) {
         this.$parent.chosen_city = $item; // not sure why I have to do it like this...
         this.$parent.getDataFromCity();
 
-    };
-
-    $scope.setNewDecade = function() {
-        $scope.decade_events = [];
-
-        // weirdness to get pagination to start from 1950-2010
-        if ($scope.item < 5) {
-            $scope.decade = Math.floor(5 + $scope.item); // 1950 +page
-        } else {
-            $scope.decade = Math.floor($scope.item - 5); //2000
-        }
-
-        if (!$scope.decade) {
-            $scope.decade = 7;
-        }
-
-        $scope.decade_events = [];
-        for (var century = 19; century < 21; century++) {
-            for (var year = 0; year < 10; year++) {
-                var decade = String(century) + String($scope.decade) + String(year);
-                if (decade in raw_data) {
-                    for (var i in raw_data[decade]) {
-                        $scope.decade_events.push(raw_data[decade][i]);
-                    }
-                }
-            }
-        }
-
-        // $scope.routes = getRoutesFromData();
-        // $scope.city_data = getCitiesFromData();
-        $scope.points = getPointsFromData();
-        if ($scope.chosen_city) {
-            $scope.getDataFromCity();
-        } else {
-            $scope.refreshMap();
-        }
     };
 
     $scope.refreshMap = function() {
@@ -137,9 +97,6 @@ angular.module('myApp.view1', ['ngRoute'])
         });
         $scope.refreshMap();
     };
-
-
-
 
     var getPointsFromData = function() {
         var points = [];
@@ -201,7 +158,41 @@ angular.module('myApp.view1', ['ngRoute'])
 
     //     return city_array;
     // };
+    // $scope.setNewDecade = function() {
+    //     $scope.decade_events = [];
 
+    //     // weirdness to get pagination to start from 1950-2010
+    //     if ($scope.item < 5) {
+    //         $scope.decade = Math.floor(5 + $scope.item); // 1950 +page
+    //     } else {
+    //         $scope.decade = Math.floor($scope.item - 5); //2000
+    //     }
+
+    //     if (!$scope.decade) {
+    //         $scope.decade = 7;
+    //     }
+
+    //     $scope.decade_events = [];
+    //     for (var century = 19; century < 21; century++) {
+    //         for (var year = 0; year < 10; year++) {
+    //             var decade = String(century) + String($scope.decade) + String(year);
+    //             if (decade in raw_data) {
+    //                 for (var i in raw_data[decade]) {
+    //                     $scope.decade_events.push(raw_data[decade][i]);
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     // $scope.routes = getRoutesFromData();
+    //     // $scope.city_data = getCitiesFromData();
+    //     $scope.points = getPointsFromData();
+    //     if ($scope.chosen_city) {
+    //         $scope.getDataFromCity();
+    //     } else {
+    //         $scope.refreshMap();
+    //     }
+    // };
 
 
     // pagination weirdness 
