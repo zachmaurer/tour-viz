@@ -52,8 +52,8 @@ angular.module('myApp.directives.timeline', ['d3'])
                     scope.render = function(data) {
                         var timeBegin = d3.min(data, function(d){ return new Date(d.startDate); });
                         var timeEnd = d3.max(data, function(d){ return new Date(d.startDate); });
-                        timeBegin = new Date(timeBegin.getTime() - 86400000);
-                        timeEnd = new Date(timeEnd.getTime() + 86400000*15);
+                        //timeBegin = new Date(timeBegin.getTime() - 86400000);
+                        //timeEnd = new Date(timeEnd.getTime() + 86400000*15);
 
                             //scales
                         var timeScale = d3.time.scale()
@@ -80,6 +80,7 @@ angular.module('myApp.directives.timeline', ['d3'])
                                 .range([0, w])
                                 .nice(d3.time.year);
 
+
                         var xAxis = d3.svg.axis()
                             .scale(yearScale)
                             .orient('top');
@@ -87,6 +88,7 @@ angular.module('myApp.directives.timeline', ['d3'])
                         chart.append('g')
                             .attr('class', 'xAxis')
                             .attr("transform", "translate(" + m[3] + ","  + m[0] + ")")
+                            .attr("width", w)
                             .call(xAxis);
 
 

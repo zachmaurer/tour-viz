@@ -70,10 +70,14 @@ circle.other {
     margin-right: auto;
 }
 
+.red {
+    color: darksalmon;
+}
+
 </style>
 
-<h1 class='artist-header'>Displaying performing history for: {{chosen_artist.name}}</h1>
-<h3>Displaying events from {{extent.dateMin | date:'fullDate'}} to {{extent.dateMax | date:'fullDate'}} </h3>
+<h1 class='artist-header'>Displaying performing history for: <span class="red">{{chosen_artist.name}} </span></h1>
+<h3>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h3>
 
 
 <input placeholder="Search an artist's name to visualize their history..." ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
