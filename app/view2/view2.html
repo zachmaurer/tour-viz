@@ -67,7 +67,7 @@ circle.other {
 
 .view-container {
     margin-left: 10%;
-    margin-right: auto;
+   /* margin-right: auto;*/
 }
 
 .red {
@@ -77,7 +77,9 @@ circle.other {
 {{labelartist}}
 <h1 class='artist-header dateLabel' ng-if='chosen_artist'>Displaying performing history for: <span class="red">{{chosen_artist.name}} </span></h1>
 <input placeholder="Search an artist's name to visualize their history..." ng-if='artists_options' type="text" ng-model="chosen_artist.name" uib-typeahead="artist as option.name for option in artists_options | filter:{name:$viewValue} | limitTo:8" class="form-control search-bar" typeahead-on-select='selectedArtist($item, $model, $label, $event)'>
+<h4 class='dateLabel' ng-if='chosen_artist'>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h4>
 <div class="view-container">
+<div class='row'>
     <h1 ng-if='!chosen_artist' class="red city-header"> Please use the search bar above to select an artist. </h1>
     <h1 ng-if='!events && chosen_artist'> Loading data, please be patient...(localhost is slow.) </h1>
     <div class="bubble-container">
@@ -87,13 +89,20 @@ circle.other {
         <div ng-if='showItem' class="bubble-label" style="position:absolute; left:{{event.pageX + 10}}px; top:{{event.pageY - 30}}px;">{{showItem.name}} : {{showItem.count}} shared events
         </div>
     </div>
+   
+   
+
     <div class="map-container">
         <h3 ng-if='chosen_artist'> Concert Locations </h3>
         <d3-artist-map ng-if='map && events' events='events' routes='routes' map='map' test='test' timeline='extent'></d3-artist-map>
     </div>
-    <div class="timeline-container">
-        <h4 class='dateLabel' ng-if='chosen_artist'>Displaying events from <span class="red">{{extent.dateMin | date:'fullDate'}}</span> to <span class="red">{{extent.dateMax | date:'fullDate'}}</span> </h4>
+     </div>
+       <div class='row'>
+
+
+    <div class="timeline-container">  
         <d3-timeline ng-if='events' events="events" min-date="extent.dateMin" max-date="extent.dateMax" time-changed='refreshMap()'>
         </d3-timeline>
     </div>
+</div>
 </div>
