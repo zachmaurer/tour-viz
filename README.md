@@ -6,6 +6,11 @@
 * See which artists played together at concerts
 * Filter by time and city
 
+(Demos below.)
+
+## Poster
+![Viz Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/poster.jpg)
+
 ## Demos
 
 ### Search w/ Autocomplete
@@ -27,7 +32,6 @@
 ### See the most popular venues in a city by time period
 ![Viz Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/city.gif)
 
-## Poster
-![Viz Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/poster.jpg)
+
 
 
