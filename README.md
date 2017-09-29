@@ -13,7 +13,7 @@
 
 
 ## Sparkline of overall performance history
-![Sparkline Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/timline.gif)
+![Sparkline Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/timeline.gif)
 
 ### Visualize artists' performance histories
 ![Viz Gif ](https://github.com/zachmaurer/tour-viz/raw/master/assets/filter.gif)
