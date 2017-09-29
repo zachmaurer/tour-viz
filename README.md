@@ -9,25 +9,25 @@
 ## Demos
 
 ### Search w/ Autocomplete
-![Alt Text](https://github.com/zachmaurer/tour-viz/raw/master/path/to/search.gif)
+![Search Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/search.gif)
 
 
 ## Sparkline of overall performance history
-![Alt Text](https://github.com/zachmaurer/tour-viz/raw/master/path/to/timline.gif)
+![Sparkline Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/timline.gif)
 
 ### Visualize artists' performance histories
-![Alt Text](https://github.com/zachmaurer/tour-viz/raw/master/path/to/filter.gif)
+![Viz Gif ](https://github.com/zachmaurer/tour-viz/raw/master/assets/filter.gif)
 
 ### Visualize geographic density of concerts
-![Alt Text](https://github.com/zachmaurer/tour-viz/raw/master/path/to/stones.gif)
+![Viz Gif ](https://github.com/zachmaurer/tour-viz/raw/master/assets/stones.gif)
 
 ### See global geographic touring patterns
-![Alt Text](https://github.com/zachmaurer/tour-viz/raw/master/path/to/aggregate.gif)
+![Viz Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/aggregate.gif)
 
 ### See the most popular venues in a city by time period
-![Alt Text](https://github.com/zachmaurer/tour-viz/raw/master/path/to/city.gif)
+![Viz Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/city.gif)
 
 ## Poster
-![Alt Text](https://github.com/zachmaurer/tour-viz/raw/master/path/to/poster.jpg)
+![Viz Gif](https://github.com/zachmaurer/tour-viz/raw/master/assets/poster.jpg)
 
 
